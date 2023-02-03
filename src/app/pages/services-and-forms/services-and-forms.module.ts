@@ -15,39 +15,21 @@ import { ServicesAndFormsRoutingModule } from './services-and-forms-routing.modu
 
 import { ServicesAndFormsComponent } from './services-and-forms.component';
 import { RopForm2Component } from './registration-of-persons/rop-form2/rop-form2.component';
-import { RopForm1Component } from './registration-of-persons/rop-form1/rop-form1.component';
-import { RopForm11Component } from './registration-of-persons/rop-form11/rop-form11.component';
-import { BirthsForm3Component } from './births/births-form3/births-form3.component';
-import { BirthsForm6Component } from './births/births-form6/births-form6.component';
-import { BirthsForm7Component } from './births/births-form7/births-form7.component';
 import { BirthsForm8Component } from './births/births-form8/births-form8.component';
-import { DeathsForm11Component } from './deaths/deaths-form11/deaths-form11.component';
-import { DeathsForm12Component } from './deaths/deaths-form12/deaths-form12.component';
-import { DeathsForm13Component } from './deaths/deaths-form13/deaths-form13.component';
-import { DeathsForm15Component } from './deaths/deaths-form15/deaths-form15.component';
 import { DeathsForm16Component } from './deaths/deaths-form16/deaths-form16.component';
 import { RopForm3Component } from './registration-of-persons/rop-form3/rop-form3.component';
-import { BirthsForm5Component } from './births/births-form5/births-form5.component';
-import { RopFormXComponent } from './registration-of-persons/rop-form-x/rop-form-x.component';
+import { RopForm3SpouseDetailsDialogComponent } from 'src/app/dialogs/rop-form3-spouse-details-dialog/rop-form3-spouse-details-dialog.component';
+import { RopForm3ChildDetailsDialogComponent } from 'src/app/dialogs/rop-form3-child-details-dialog/rop-form3-child-details-dialog.component';
 
 @NgModule({
     declarations: [
         ServicesAndFormsComponent,
-        RopForm1Component,
         RopForm2Component,
         RopForm3Component,
-        RopForm11Component,
-        BirthsForm3Component,
-        BirthsForm6Component,
-        BirthsForm7Component,
         BirthsForm8Component,
-        DeathsForm11Component,
-        DeathsForm12Component,
-        DeathsForm13Component,
-        DeathsForm15Component,
         DeathsForm16Component,
-        BirthsForm5Component,
-        RopFormXComponent,
+        RopForm3SpouseDetailsDialogComponent,
+        RopForm3ChildDetailsDialogComponent,  
     ],
     imports: [
         CommonModule,
@@ -62,6 +44,8 @@ import { RopFormXComponent } from './registration-of-persons/rop-form-x/rop-form
         NgxMatTimepickerModule
     ],
     entryComponents: [
+        RopForm3SpouseDetailsDialogComponent,
+        RopForm3ChildDetailsDialogComponent,        
     ],
     providers: [
         DatePipe

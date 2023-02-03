@@ -14,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'registration-of-persons-form-1',
+        redirectTo: 'registration-of-persons-form-3',
         pathMatch: 'full',
       },
       {

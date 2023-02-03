@@ -8,8 +8,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
-import { RopForm3ChildDetailsDialogComponent } from 'src/app/dialogs/rop-form3-child-details-dialog/rop-form3-child-details-dialog.component';
-import { RopForm3SpouseDetailsDialogComponent } from 'src/app/dialogs/rop-form3-spouse-details-dialog/rop-form3-spouse-details-dialog.component';
 import { ApiEndpointsService } from 'src/app/services/api-endpoints.service';
 import { ApiPayload, Country, County, Disability, District, SubCounty } from 'src/app/services/api.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -853,76 +851,76 @@ export class RopForm3Component implements OnInit {
   }
 
   onAddASpouse(): void {
-    this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
-      panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    // });
 
-    this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
-      if (result.status) {
-        console.log('row:', result.row);
-          let found = false;
-          this.Spouses.filter((spouse) => {
-            if ((spouse.NIN === result.row.NIN && result.row.Surname === result.row.Surname && spouse.GivenName === result.row.GivenName)
-              || spouse.DateOfMarriage === result.row.DateOfMarriage) {
-              found = true;
-            }
-          });
+    // this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
+    //   if (result.status) {
+    //     console.log('row:', result.row);
+    //       let found = false;
+    //       this.Spouses.filter((spouse) => {
+    //         if ((spouse.NIN === result.row.NIN && result.row.Surname === result.row.Surname && spouse.GivenName === result.row.GivenName)
+    //           || spouse.DateOfMarriage === result.row.DateOfMarriage) {
+    //           found = true;
+    //         }
+    //       });
 
-          if (found) {
-            this.service.openSnackBar('Sorry, this record already exists', 'error-lg');
-          } else {
-            this.Spouses.push(result.row);
-          }
+    //       if (found) {
+    //         this.service.openSnackBar('Sorry, this record already exists', 'error-lg');
+    //       } else {
+    //         this.Spouses.push(result.row);
+    //       }
         
-        this.spouseDataSource = new MatTableDataSource(this.Spouses);
+    //     this.spouseDataSource = new MatTableDataSource(this.Spouses);
     
-        setTimeout(() => {
-          this.spouseDataSource.paginator = this.spousesPaginator;
-          this.spouseDataSource.sort = this.spousesMatSort;
-        });
-      }
-    });      
+    //     setTimeout(() => {
+    //       this.spouseDataSource.paginator = this.spousesPaginator;
+    //       this.spouseDataSource.sort = this.spousesMatSort;
+    //     });
+    //   }
+    // });      
   }
 
   onChangeSpouseInformation(row: Spouse): void {
-    this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
-      panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
-      disableClose: true,
-      data: { row }
-    });
+    // this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    //   data: { row }
+    // });
 
-    this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
-      if (result.status) {
-        this.Spouses[this.Spouses.indexOf(row)] = {
-          Surname: result.row.Surname,
-          GivenName: result.row.GivenName,
-          OtherName: result.row.OtherName,
-          MaidenName: result.row.MaidenName,
-          PreviousName: result.row.PreviousName,
-          NIN: result.row.NIN,
-          NINCardNumber: result.row.NINCardNumber,
-          ApplicationID: result.row.ApplicationID,
-          CitizenshipType: result.row.CitizenshipType,
-          CitizenshipTypeName: result.row.CitizenshipTypeName,
-          CitizenshipCertificateNumber: result.row.CitizenshipCertificateNumber,
-          OtherCitizenship: result.row.OtherCitizenship,
-          PlaceOfMarriage: result.row.PlaceOfMarriage,
-          DateOfMarriage: result.row.DateOfMarriage,
-          TypeOfMarriage: result.row.TypeOfMarriage,
-          TypeOfMarriageName: result.row.TypeOfMarriageName
-        }
+    // this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
+    //   if (result.status) {
+    //     this.Spouses[this.Spouses.indexOf(row)] = {
+    //       Surname: result.row.Surname,
+    //       GivenName: result.row.GivenName,
+    //       OtherName: result.row.OtherName,
+    //       MaidenName: result.row.MaidenName,
+    //       PreviousName: result.row.PreviousName,
+    //       NIN: result.row.NIN,
+    //       NINCardNumber: result.row.NINCardNumber,
+    //       ApplicationID: result.row.ApplicationID,
+    //       CitizenshipType: result.row.CitizenshipType,
+    //       CitizenshipTypeName: result.row.CitizenshipTypeName,
+    //       CitizenshipCertificateNumber: result.row.CitizenshipCertificateNumber,
+    //       OtherCitizenship: result.row.OtherCitizenship,
+    //       PlaceOfMarriage: result.row.PlaceOfMarriage,
+    //       DateOfMarriage: result.row.DateOfMarriage,
+    //       TypeOfMarriage: result.row.TypeOfMarriage,
+    //       TypeOfMarriageName: result.row.TypeOfMarriageName
+    //     }
 
-        // this.changeDetector.detectChanges();
+    //     // this.changeDetector.detectChanges();
 
-        this.spouseDataSource = new MatTableDataSource(this.Spouses);
+    //     this.spouseDataSource = new MatTableDataSource(this.Spouses);
     
-        setTimeout(() => {
-          this.spouseDataSource.paginator = this.spousesPaginator;
-          this.spouseDataSource.sort = this.spousesMatSort;
-        });        
-      }
-    });  
+    //     setTimeout(() => {
+    //       this.spouseDataSource.paginator = this.spousesPaginator;
+    //       this.spouseDataSource.sort = this.spousesMatSort;
+    //     });        
+    //   }
+    // });  
   }
 
   onRemoveSpouse(row: Spouse): void {
@@ -937,10 +935,10 @@ export class RopForm3Component implements OnInit {
   }
 
   onAddAChild(): void {
-    this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
-      panelClass: ['rop-form3-child-details-dialog', 'dialogs'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-child-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    // });
 
     this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Child }) => {
       if (result.status) {
@@ -968,11 +966,11 @@ export class RopForm3Component implements OnInit {
   }
 
   onChangeChildInformation(row: Child): void {
-    this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
-      panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
-      disableClose: true,
-      data: { row }
-    });
+    // this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    //   data: { row }
+    // });
 
     this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Child }) => {
       if (result.status) {

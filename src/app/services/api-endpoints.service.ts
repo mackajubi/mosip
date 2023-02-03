@@ -8,13 +8,8 @@ export class ApiEndpointsService {
 
   /* Wordpress: Content Management System End Points */
   news = environment.cmsBaseUrlProxy + 'news?_embed';
-  tenders = environment.cmsBaseUrlProxy + 'tenders?_embed';
-  boardOfDirectors = environment.cmsBaseUrlProxy + 'board-of-directors?_embed';
-  edzMessage = environment.cmsBaseUrlProxy + 'eds-message?_embed';
+  tenders = environment.cmsBaseUrlProxy + 'tenders?_embed';  
   publications = environment.cmsBaseUrlProxy + 'publications?_embed';
-  careers = environment.cmsBaseUrlProxy + 'careers?_embed';
-  chairmansMessage = environment.cmsBaseUrlProxy + 'chairmans-message?_embed';
-  gallery = environment.cmsBaseUrlProxy + 'gallery?_embed';
 
   /* API ENDPOINTS */
   get_application_status = environment.pythonApi + 'get_application_status/re-capture'; 

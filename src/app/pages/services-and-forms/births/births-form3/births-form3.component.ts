@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
-import { BirthNotificationRecordDialogComponent } from 'src/app/dialogs/key-services/birth-notification-record-dialog/birth-notification-record-dialog.component';
 import { ApiEndpointsService } from 'src/app/services/api-endpoints.service';
 import { ApiPayload, Country, County, District, HealthFacility, Occupation, Parish, SubCounty, Village } from 'src/app/services/api.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -1368,17 +1367,17 @@ export class BirthsForm3Component implements OnInit, OnDestroy {
   }
 
   onGenerateBirthNotificationRecord(): void {
-    this.dialogRef = this.dialog.open(BirthNotificationRecordDialogComponent, {
-      panelClass: ['confirmation-of-information-dialog', 'dialogs', 'scrollbar'],
-      disableClose: true,
-      data: {
-        row: this.NotificationLetter
-      }
-    });    
+    // this.dialogRef = this.dialog.open(BirthNotificationRecordDialogComponent, {
+    //   panelClass: ['confirmation-of-information-dialog', 'dialogs', 'scrollbar'],
+    //   disableClose: true,
+    //   data: {
+    //     row: this.NotificationLetter
+    //   }
+    // });    
 
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.NotificationLetter = null;
-    });
+    // this.dialogRef.afterClosed().subscribe(() => {
+    //   this.NotificationLetter = null;
+    // });
   }
   
   ngOnDestroy(): void {

@@ -8,7 +8,6 @@ import { MatHorizontalStepper } from '@angular/material/stepper';
 import { MatTableDataSource } from '@angular/material/table';
 import { forkJoin, Observable, Subscription } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
-import { UploadDocumentDialogComponent } from 'src/app/dialogs/upload-document-dialog/upload-document-dialog.component';
 import { ApiEndpointsService } from 'src/app/services/api-endpoints.service';
 import { ApiPayload, County, District, DocumentUpload, NINDetail, Parish, PRN, Process, ROPForm3Category, ROPRequiredAttachment, SubCounty, Village } from 'src/app/services/api.model';
 import { ApiService } from 'src/app/services/api.service';
@@ -924,23 +923,23 @@ export class RopForm1Component implements OnInit {
   }
 
   onBrowseForDocument(row: ROPRequiredAttachment): void {
-    this.dialogRef = this.dialog.open(UploadDocumentDialogComponent, {
-      panelClass: ['upload-document-dialog', 'dialogs'],
-      disableClose: true,
-      data: { 
-        multiple: false,
-        title: row.Name
-      }
-    });
+    // this.dialogRef = this.dialog.open(UploadDocumentDialogComponent, {
+    //   panelClass: ['upload-document-dialog', 'dialogs'],
+    //   disableClose: true,
+    //   data: { 
+    //     multiple: false,
+    //     title: row.Name
+    //   }
+    // });
 
-    this.dialogRef.afterClosed().subscribe((result: DocumentUpload) => {
-      if (result) {
-        row.File = result;
+    // this.dialogRef.afterClosed().subscribe((result: DocumentUpload) => {
+    //   if (result) {
+    //     row.File = result;
         
-        // Check if all documents are attached.
-        this.checkIfAllDocumentsAreAttached();
-      }
-    });      
+    //     // Check if all documents are attached.
+    //     this.checkIfAllDocumentsAreAttached();
+    //   }
+    // });      
   }
 
   onReplaceAttachment(row: ROPRequiredAttachment): void {

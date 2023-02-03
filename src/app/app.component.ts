@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { SwUpdate } from '@angular/service-worker';
 import { Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AnouncementDialogComponent } from './dialogs/anouncement-dialog/anouncement-dialog.component';
 import { ApiEndpointsService } from './services/api-endpoints.service';
 import { ApiPayload } from './services/api.model';
 import { ApiService } from './services/api.service';
@@ -92,10 +91,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private showAnnouncement(): void {
 
-    this.dialogRef = this.dialog.open(AnouncementDialogComponent, {
-      panelClass: ['announcement-dialog', 'dialogs', 'scrollbar'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(AnouncementDialogComponent, {
+    //   panelClass: ['announcement-dialog', 'dialogs', 'scrollbar'],
+    //   disableClose: true,
+    // });
   }
 
   ngOnDestroy(): void {

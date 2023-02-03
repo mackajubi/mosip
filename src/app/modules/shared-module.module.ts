@@ -11,8 +11,6 @@ import { ResourceSanitizerPipe } from '../pipes/resource-sanitizer.pipe';
 import { TextShortnerPipe } from '../pipes/text-shortner.pipe';
 import { TelephoneFormaterDirective } from '../directives/telephone-formater.directive';
 import { SnackbarComponent } from '../components/snackbar/snackbar.component';
-import { PageCarouselComponent } from '../components/page-carousel/page-carousel.component';
-import { PdfReaderComponent } from '../components/pdf-reader/pdf-reader.component';
 import { PageBannerComponent } from '../components/page-banner/page-banner.component';
 import { CurrencyDirective } from '../directives/currency.directive';
 import { LowercaseDirective } from '../directives/lowercase.directive';
@@ -21,9 +19,6 @@ import { NumbersOnlyDirective } from '../directives/numbers-only.directive';
 import { InlineMatSpinnerComponent } from '../components/inline-mat-spinner/inline-mat-spinner.component';
 import { AutoMoveToNextInputDirective } from '../directives/autoMoveToNextInput';
 import { UppercaseDirective } from '../directives/uppercase.directive';
-import { UploadDocumentDialogComponent } from '../dialogs/upload-document-dialog/upload-document-dialog.component';
-import { AnouncementDialogComponent } from '../dialogs/anouncement-dialog/anouncement-dialog.component';
-import { BirthSongDialogComponent } from '../dialogs/key-services/birth-song-dialog/birth-song-dialog.component';
 
 @NgModule({
     declarations: [
@@ -31,8 +26,6 @@ import { BirthSongDialogComponent } from '../dialogs/key-services/birth-song-dia
         ResourceSanitizerPipe,
         TextShortnerPipe,
         TelephoneFormaterDirective,
-        PageCarouselComponent,
-        PdfReaderComponent,
         PageBannerComponent,
         CurrencyDirective,
         LowercaseDirective,
@@ -41,9 +34,6 @@ import { BirthSongDialogComponent } from '../dialogs/key-services/birth-song-dia
         InlineMatSpinnerComponent,
         AutoMoveToNextInputDirective,
         NumbersOnlyDirective,
-        UploadDocumentDialogComponent,
-        AnouncementDialogComponent,
-        BirthSongDialogComponent,
     ],
     imports: [
         CommonModule,
@@ -57,8 +47,6 @@ import { BirthSongDialogComponent } from '../dialogs/key-services/birth-song-dia
         ResourceSanitizerPipe,
         TextShortnerPipe,
         TelephoneFormaterDirective,
-        PageCarouselComponent,
-        PdfReaderComponent,
         PageBannerComponent,
         CurrencyDirective,
         LowercaseDirective,
@@ -67,12 +55,9 @@ import { BirthSongDialogComponent } from '../dialogs/key-services/birth-song-dia
         NumbersOnlyDirective,
         InlineMatSpinnerComponent,     
         AutoMoveToNextInputDirective,
-        AnouncementDialogComponent,
-        BirthSongDialogComponent,
     ],
     entryComponents: [
         SnackbarComponent,
-        UploadDocumentDialogComponent
     ],
     providers: [
         ResourceSanitizerPipe,

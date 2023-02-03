@@ -27,12 +27,8 @@ import { DeathsForm13Component } from './deaths/deaths-form13/deaths-form13.comp
 import { DeathsForm15Component } from './deaths/deaths-form15/deaths-form15.component';
 import { DeathsForm16Component } from './deaths/deaths-form16/deaths-form16.component';
 import { RopForm3Component } from './registration-of-persons/rop-form3/rop-form3.component';
-import { RopForm3SpouseDetailsDialogComponent } from 'src/app/dialogs/rop-form3-spouse-details-dialog/rop-form3-spouse-details-dialog.component';
-import { RopForm3ChildDetailsDialogComponent } from 'src/app/dialogs/rop-form3-child-details-dialog/rop-form3-child-details-dialog.component';
 import { BirthsForm5Component } from './births/births-form5/births-form5.component';
-import { RopForm1NotificationOfChangeComponent } from 'src/app/dialogs/rop-form1-notification-of-change/rop-form1-notification-of-change.component';
 import { RopFormXComponent } from './registration-of-persons/rop-form-x/rop-form-x.component';
-import { BirthNotificationRecordDialogComponent } from 'src/app/dialogs/key-services/birth-notification-record-dialog/birth-notification-record-dialog.component';
 
 @NgModule({
     declarations: [
@@ -50,12 +46,8 @@ import { BirthNotificationRecordDialogComponent } from 'src/app/dialogs/key-serv
         DeathsForm13Component,
         DeathsForm15Component,
         DeathsForm16Component,
-        RopForm3SpouseDetailsDialogComponent,
-        RopForm3ChildDetailsDialogComponent,
         BirthsForm5Component,
-        RopForm1NotificationOfChangeComponent,
         RopFormXComponent,
-        BirthNotificationRecordDialogComponent
     ],
     imports: [
         CommonModule,
@@ -70,10 +62,6 @@ import { BirthNotificationRecordDialogComponent } from 'src/app/dialogs/key-serv
         NgxMatTimepickerModule
     ],
     entryComponents: [
-        RopForm3SpouseDetailsDialogComponent,
-        RopForm3ChildDetailsDialogComponent,
-        RopForm1NotificationOfChangeComponent,
-        BirthNotificationRecordDialogComponent
     ],
     providers: [
         DatePipe

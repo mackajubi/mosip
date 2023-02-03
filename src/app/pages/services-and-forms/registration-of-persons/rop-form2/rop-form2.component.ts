@@ -5,7 +5,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { RopForm1NotificationOfChangeComponent } from 'src/app/dialogs/rop-form1-notification-of-change/rop-form1-notification-of-change.component';
 import { NotificationOfChange } from '../../services-and-forms.model';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -108,17 +107,17 @@ export class RopForm2Component implements OnInit {
   }
 
   onAddItem(): void {
-    this.dialogRef = this.dialog.open(RopForm1NotificationOfChangeComponent, {
-      panelClass: ['rop-form1-notification-of-change-details-dialog', 'dialogs'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(RopForm1NotificationOfChangeComponent, {
+    //   panelClass: ['rop-form1-notification-of-change-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    // });
 
-    this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: NotificationOfChange }) => {
-      if (result.status) {
-        // Update the Spouses object variable
-        this.items.push(result.row);
-      }
-    });      
+    // this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: NotificationOfChange }) => {
+    //   if (result.status) {
+    //     // Update the Spouses object variable
+    //     this.items.push(result.row);
+    //   }
+    // });      
   }
 
   onChangeItem(row: NotificationOfChange): void {

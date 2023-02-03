@@ -7,9 +7,6 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Child, NotificationOfChange, Spouse } from '../../services-and-forms.model';
 import { ApiService } from 'src/app/services/api.service';
-import { RopForm3ChildDetailsDialogComponent } from 'src/app/dialogs/rop-form3-child-details-dialog/rop-form3-child-details-dialog.component';
-import { RopForm3SpouseDetailsDialogComponent } from 'src/app/dialogs/rop-form3-spouse-details-dialog/rop-form3-spouse-details-dialog.component';
-
 @Component({
   selector: 'app-rop-form11',
   templateUrl: './rop-form11.component.html',
@@ -199,10 +196,10 @@ export class RopForm11Component implements OnInit {
   }
 
   onAddASpouse(): void {
-    this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
-      panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(RopForm3SpouseDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-Spouse-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    // });
 
     this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
       if (result.status) {
@@ -221,10 +218,10 @@ export class RopForm11Component implements OnInit {
   }
 
   onAddAChild(): void {
-    this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
-      panelClass: ['rop-form3-child-details-dialog', 'dialogs'],
-      disableClose: true,
-    });
+    // this.dialogRef = this.dialog.open(RopForm3ChildDetailsDialogComponent, {
+    //   panelClass: ['rop-form3-child-details-dialog', 'dialogs'],
+    //   disableClose: true,
+    // });
 
     this.dialogRef.afterClosed().subscribe((result: { status: boolean, row: Spouse }) => {
       if (result.status) {

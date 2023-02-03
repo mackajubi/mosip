@@ -1,0 +1,242 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                Ask for your previously captured form information.
+                <!-- Ask for your previously captured partial form information. -->
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to register PRESUMED DEATH. 
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper [linear]="isLinear" labelPosition="bottom" #stepper>
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>PARENT / NEXT OF KIN</h3>
+                <p>Personal Information</p>                
+            </ng-template>
+
+            <form [formGroup]="formParent">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentOtherName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentNIN">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number<span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentCardNumber">
+                </mat-form-field>              
+                
+                <h3 class="margin-bottom-20">Place of Residence (Where do you stay ?) </h3>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Country <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="ParentCountryOfResidence">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="ParentDistrictOfResidence">
+                        <mat-option value="1">Kampala</mat-option>
+                        <mat-option value="2">Wakiso</mat-option>
+                        <mat-option value="3">Entebbe</mat-option>
+                        <mat-option value="4">Jinja</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="ParentCountyOfResidence">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="ParentSubCountyOfResidence">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="ParentParishOfResidence">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>            
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ParentVillageOfResidence">
+                </mat-form-field>  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>THE DECEASED</h3>
+                <p>Information about the Deceased</p>                
+            </ng-template>
+
+            <form [formGroup]="formDeceased">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedOtherName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Birth <span class="required-field">required</span></mat-label>
+                    <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="DeceasedDateOfBirth" [max]="maxDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #picker [showSpinners]="true" [touchUi]="touchUi" [color]="color" [enableMeridian]="true"></ngx-mat-datetime-picker>
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedNIN">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number<span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedCardNumber">
+                </mat-form-field>    
+
+                <h3 class="margin-bottom-20">What is your Relationship with the Deceased ?</h3>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Relationship <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="RelationshipWithTheDeceased">
+                        <mat-option value="1">Mother</mat-option>
+                        <mat-option value="2">Father</mat-option>
+                        <mat-option value="3">Sister</mat-option>
+                        <mat-option value="4">Brother</mat-option>
+                        <mat-option value="5">Auntie</mat-option>
+                        <mat-option value="6">Uncle</mat-option>
+                    </mat-select>
+                </mat-form-field>      
+                
+                <p>
+                    Allow user to <b>upload copy of order</b>.
+                </p>
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>                
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>WITNESS</h3>
+                <p>Information about the witness.</p> 
+            </ng-template>
+
+            <form [formGroup]="formWitness">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="WitnessSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="WitnessGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="WitnessOtherName">
+                </mat-form-field>    
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="WitnessNIN">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number<span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="WitnessCardNumber">
+                </mat-form-field>                   
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>                
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>            
+        </mat-step>
+
+    </mat-horizontal-stepper>          
+
+</main>

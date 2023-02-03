@@ -1,0 +1,127 @@
+main {
+    position: relative;
+    z-index: 1;
+
+    h3 {
+        font-size: 20px;
+        font-weight: 400;
+        color: rgb(5, 5, 5);
+        line-height: 1; 
+        
+        &::after {
+            content: '';
+            display: block;
+            width: 70px;
+            height: 3px;
+            background: #d21e2b;
+            margin-top: 12px;                
+        }
+    }
+
+    section {
+        padding: 14px 20px 8px 20px;
+        background: #ffffff !important;
+        box-shadow: 0px 2px 2px -2px #00000052;
+        transition: all 500ms ease-in-out;
+        margin-bottom: 15px;
+        border: 3px solid transparent;
+
+        h2 {
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.4;
+            margin-bottom: 14px;
+            // color: #3f3f3f;
+            color: #4A4646;
+            word-break: break-word;
+            text-transform: capitalize;
+        }
+
+        div {
+            display: flex;
+            align-items: center;
+
+            mat-icon {
+                font-size: 20px !important;
+                height: 20px;                
+            }
+            
+            p {
+                line-height: normal !important;
+                padding: 5px 5px 5px 0;
+                display: inline-block;
+                text-transform: capitalize;
+                color: #666;
+                font-size: 12px;
+                margin: 0px;
+            }
+        }
+
+        &:last-child {
+            margin-bottom: 0px;
+        }
+
+        &:hover {
+            box-shadow: 0px 4px 15px -1px #00000052;
+            cursor: pointer;
+        }
+    }
+
+    div.trigger-button-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+
+        button {
+            color: #fff;
+            background-color: #BF212F;
+            border-radius: 0px;
+            padding-right: 0px;
+            transition: all 430ms ease-in-out;
+
+            .btn-label {
+                display: flex;
+                flex-direction: row;
+                gap: 16px;
+
+                span {
+                    line-height: 40px;
+                }
+
+                mat-icon {
+                    width: 44px;
+                    height: 42px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 20px !important;
+                    background-color: #F91C24;
+                }
+            }
+
+            &:hover {
+
+                .btn-label {
+
+                    mat-icon {
+                        color: #000;
+                        animation-name: flash;
+                        animation-duration: 1400ms;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* 
+
+    MEDIA QUERIES 
+
+*/
+@media(max-width: 500px) {
+    main {
+        width: calc(100vw - 30px);
+    }
+}

@@ -1,0 +1,237 @@
+@font-face {
+    font-family: 'Carnas-BlackIt';
+    src: url('./assets/fonts/Carnas-BlackIt.eot');
+    src: local('Carnas-BlackIt'), local('Carnas-BlackIt'),
+        url('./assets/fonts/Carnas-BlackIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-BlackIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-BlackIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-BlackIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-BlackIt.svg#Carnas-BlackIt') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Black.eot');
+    src: local('Carnas-Black'), local('Carnas-Black'),
+        url('./assets/fonts/Carnas-Black.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Black.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Black.woff') format('woff'),
+        url('./assets/fonts/Carnas-Black.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Black.svg#Carnas-Black') format('svg');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-BoldIt';
+    src: url('./assets/fonts/Carnas-BoldIt.eot');
+    src: local('Carnas-BoldIt'), local('Carnas-BoldIt'),
+        url('./assets/fonts/Carnas-BoldIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-BoldIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-BoldIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-BoldIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-BoldIt.svg#Carnas-BoldIt') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Bold.eot');
+    src: local('Carnas-Bold'), local('Carnas-Bold'),
+        url('./assets/fonts/Carnas-Bold.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Bold.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Bold.woff') format('woff'),
+        url('./assets/fonts/Carnas-Bold.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Bold.svg#Carnas-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-ExtraBold.eot');
+    src: local('Carnas-ExtraBold'), local('Carnas-ExtraBold'),
+        url('./assets/fonts/Carnas-ExtraBold.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-ExtraBold.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-ExtraBold.woff') format('woff'),
+        url('./assets/fonts/Carnas-ExtraBold.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-ExtraBold.svg#Carnas-ExtraBold') format('svg');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-ExtraBoldIt';
+    src: url('./assets/fonts/Carnas-ExtraBoldIt.eot');
+    src: local('Carnas-ExtraBoldIt'), local('Carnas-ExtraBoldIt'),
+        url('./assets/fonts/Carnas-ExtraBoldIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-ExtraBoldIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-ExtraBoldIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-ExtraBoldIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-ExtraBoldIt.svg#Carnas-ExtraBoldIt') format('svg');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-ExtraLightIt';
+    src: url('./assets/fonts/Carnas-ExtraLightIt.eot');
+    src: local('Carnas-ExtraLightIt'), local('Carnas-ExtraLightIt'),
+        url('./assets/fonts/Carnas-ExtraLightIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-ExtraLightIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-ExtraLightIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-ExtraLightIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-ExtraLightIt.svg#Carnas-ExtraLightIt') format('svg');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Italic.eot');
+    src: local('Carnas-Italic'), local('Carnas-Italic'),
+        url('./assets/fonts/Carnas-Italic.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Italic.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Italic.woff') format('woff'),
+        url('./assets/fonts/Carnas-Italic.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Italic.svg#Carnas-Italic') format('svg');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-ExtraLight.eot');
+    src: local('Carnas-ExtraLight'), local('Carnas-ExtraLight'),
+        url('./assets/fonts/Carnas-ExtraLight.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-ExtraLight.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-ExtraLight.woff') format('woff'),
+        url('./assets/fonts/Carnas-ExtraLight.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-ExtraLight.svg#Carnas-ExtraLight') format('svg');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-LightIt';
+    src: url('./assets/fonts/Carnas-LightIt.eot');
+    src: local('Carnas-LightIt'), local('Carnas-LightIt'),
+        url('./assets/fonts/Carnas-LightIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-LightIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-LightIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-LightIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-LightIt.svg#Carnas-LightIt') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Light.eot');
+    src: local('Carnas-Light'), local('Carnas-Light'),
+        url('./assets/fonts/Carnas-Light.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Light.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Light.woff') format('woff'),
+        url('./assets/fonts/Carnas-Light.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Light.svg#Carnas-Light') format('svg');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-MediumIt';
+    src: url('./assets/fonts/Carnas-MediumIt.eot');
+    src: local('Carnas-MediumIt'), local('Carnas-MediumIt'),
+        url('./assets/fonts/Carnas-MediumIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-MediumIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-MediumIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-MediumIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-MediumIt.svg#Carnas-MediumIt') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Medium.eot');
+    src: local('Carnas-Medium'), local('Carnas-Medium'),
+        url('./assets/fonts/Carnas-Medium.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Medium.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Medium.woff') format('woff'),
+        url('./assets/fonts/Carnas-Medium.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Medium.svg#Carnas-Medium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas-ThinIt';
+    src: url('./assets/fonts/Carnas-ThinIt.eot');
+    src: local('Carnas-ThinIt'), local('Carnas-ThinIt'),
+        url('./assets/fonts/Carnas-ThinIt.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-ThinIt.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-ThinIt.woff') format('woff'),
+        url('./assets/fonts/Carnas-ThinIt.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-ThinIt.svg#Carnas-ThinIt') format('svg');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Regular.eot');
+    src: local('Carnas-Regular'), local('Carnas-Regular'),
+        url('./assets/fonts/Carnas-Regular.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Regular.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Regular.woff') format('woff'),
+        url('./assets/fonts/Carnas-Regular.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Regular.svg#Carnas-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Carnas';
+    src: url('./assets/fonts/Carnas-Thin.eot');
+    src: local('Carnas-Thin'), local('Carnas-Thin'),
+        url('./assets/fonts/Carnas-Thin.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Carnas-Thin.woff2') format('woff2'),
+        url('./assets/fonts/Carnas-Thin.woff') format('woff'),
+        url('./assets/fonts/Carnas-Thin.ttf') format('truetype'),
+        url('./assets/fonts/Carnas-Thin.svg#Carnas-Thin') format('svg');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Courgette';
+    src: url('./assets/fonts/Courgette-Regular.eot');
+    src: local('Courgette Regular'), local('Courgette-Regular'),
+        url('./assets/fonts/Courgette-Regular.eot?#iefix') format('embedded-opentype'),
+        url('./assets/fonts/Courgette-Regular.woff2') format('woff2'),
+        url('./assets/fonts/Courgette-Regular.woff') format('woff'),
+        url('./assets/fonts/Courgette-Regular.ttf') format('truetype'),
+        url('./assets/fonts/Courgette-Regular.svg#Courgette-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

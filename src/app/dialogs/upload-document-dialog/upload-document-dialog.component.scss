@@ -1,0 +1,152 @@
+main {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // height: 56px;
+        // margin-bottom: -10px;
+        // margin-top: 10px;
+        padding: 40px 34px 25px;
+        text-transform: capitalize;
+        
+        h1 {
+            font-size: 20px;
+            margin: 0px;
+            font-weight: 500;  
+            text-align: justify;
+        }
+
+        button {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            border-radius: 0px;
+            width: 44px;
+            height: 44px;
+            min-width: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0px;            
+        }
+    }
+
+    .step-form-fields {
+        display: grid;
+        grid-template-columns: auto;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));      
+        grid-gap: 20px 50px;
+        margin-bottom: 10px;
+
+        .mat-form-field {
+            height: fit-content;
+        }
+
+        textarea {
+            height: 80px;
+            max-height: 80px;
+            resize: none;
+            line-height: 20px;
+        } 
+        
+        .full-width {
+            grid-column: 1/-1;
+        }        
+    }    
+
+    .last-step-btn-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0px;
+        
+        button {
+            border-radius: 30px;
+            padding: 0px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100px;            
+            border-radius: 30px;
+            width: 140px;
+        }    
+    }    
+
+    form.attach-document-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        margin: 13px 0px;
+
+        button {
+            width: fit-content;
+            border-radius: 30px;
+            line-height: 46px;           
+        }
+
+        .upload-document-input {
+
+            input {
+                display: none;
+                visibility: hidden;
+            }
+
+            .error-msg {
+                color: #191919;
+                font-size: 11px;
+                opacity: 0.9;
+                font-style: italic;
+            }
+        }  
+        
+        article {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px 50px;
+            padding: 20px;
+            width: calc(100% - 60px);            
+
+            div {
+                background: #f6f6f6;
+                padding: 5px 10px;
+                box-shadow: 0px 3px 4px -4px #2d2b2bc7;
+                min-height: 32px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                gap: 10px;
+
+                span {
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+                button {
+                    background-color: #e3e3e3;
+                    width: 34px;
+                    height: 38px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-height: 38px;
+                    min-width: 38px !important;
+                    line-height: 38px;
+                    padding: 4px 0px 0px 0px;
+                    
+                    mat-icon {
+                        font-size: 18px !important;
+                    }
+                }                
+            }
+        }
+    }
+}

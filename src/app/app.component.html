@@ -1,0 +1,17 @@
+<div class="loading-wrapper" *ngIf="loading">
+  <img src="./assets/loaders/loader.gif" alt="loading..."/>
+</div>  
+
+<main id="main-content-wrapper" [ngClass]="{'scrolling-up': scrollingUp}" (scroll)="onScroll()">
+
+  <app-header></app-header>
+
+  <article>
+
+    <router-outlet></router-outlet>
+    
+  </article>
+
+  <app-footer></app-footer>
+
+</main>

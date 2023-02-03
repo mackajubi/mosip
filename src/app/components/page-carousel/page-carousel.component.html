@@ -1,0 +1,37 @@
+<main>
+
+  <section class="skitter-large-box" *ngIf="!loading" [ngStyle]="{'background-color': backgroundColor}">
+    
+    <div class="skitter skitter-large with-dots">
+      
+      <ul>
+
+        <li *ngFor="let image of imageSources">
+          
+          <a [href]="image.url ? image.url : image.slug" class="nira-carousel-url">
+            <img [src]="image.img" [class]="image.className" />
+          </a>
+        
+          <div class="label_text" *ngIf="image.title || image.caption">
+            <h1 class="slideInLeft _delay8ms" *ngIf="image.title" [innerHTML]="image.title | textShortner : size"></h1>
+
+            <!-- <p class="label-text-paragraph slideInLeft _delay13ms" *ngIf="image.caption" [innerHTML]="image.caption"></p> -->
+          </div>
+        </li>
+
+      </ul>
+  
+      <button mat-button class="on-read-more-btn" *ngIf="readMore" (click)="onReadMore()">
+        <span class="text fadeIn _delay4ms">READ MORE</span>
+      </button>
+
+
+      <!-- <div class="navigation-buttons">
+
+      </div> -->
+
+    </div>  
+
+  </section> 
+
+</main>

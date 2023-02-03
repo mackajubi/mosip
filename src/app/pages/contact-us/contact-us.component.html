@@ -1,0 +1,79 @@
+<app-page-banner [title]="title"></app-page-banner> 
+
+<main>
+
+
+    <section class="form">
+        <h3>Talk To Us</h3>
+
+        <form [formGroup]="form">
+            <mat-form-field appearance="outline">
+                <mat-label>Name <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput formControlName="name">
+                <mat-error *ngIf="form.get('name').invalid">{{ getNameErrorMessage() }}</mat-error>        
+            </mat-form-field>
+            
+            <mat-form-field appearance="outline">
+                <mat-label>E-mail <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput formControlName="email">
+                <mat-error *ngIf="form.get('email').invalid">{{ getEmailErrorMessage() }}</mat-error>  
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Subject <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput formControlName="subject">
+                <mat-error *ngIf="form.get('subject').invalid">{{ getSubjectErrorMessage() }}</mat-error>       
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Message <span class="required-field">optional</span></mat-label>
+                <textarea #MessageInput matInput formControlName="message" placeholder="Enter the message here" maxlength="1000"></textarea>
+                <mat-hint align="end">{{ MessageInput.value.length }} / 1000</mat-hint>
+                <mat-error *ngIf="form.get('message').invalid">{{ getMessageErrorMessage() }}</mat-error>    
+            </mat-form-field>   
+            
+            <div class="btn-wrapper full-width">
+                <button 
+                    mat-raised-button 
+                    (click)="onSend()"
+                    [disabled]="form.invalid">
+                    Send
+                </button>
+            </div>
+        </form>
+    </section>
+
+    <section class="info">
+        
+        <h3>NIRA Headquarters</h3>
+
+        <p>National Independence Grounds, Kololo Airstrip.</p>
+
+        <p>P.O.Box 26529, Kampala-Uganda </p>
+
+        <p><a href="tel:0800211700">(Toll Free) 0800 211700</a></p>
+
+        <p><a href="tel:+256312119600">(Reception) +256 312119600</a></p>
+
+        <h2>For Inquiries on National Identification Registration</h2>
+        
+        
+        <p class="bottom-margin"><a href="tel:+256312119631">+256 312119631</a></p>
+
+        <p class="bottom-margin"><a href="tel:+256312119639">+256 312119639</a></p>
+
+        <h2>For Inquiries on Birth, Death and Adoption Order Registration </h2>
+        
+        <p><a href="tel:+256312119601">+256 312119601</a></p>
+
+        <h2>For Inquiries on Public Relations</h2>
+        
+        <p><a href="tel:+256312119605">+256312119605</a></p>
+
+    </section>
+
+    <!-- <section class="map">
+        map
+    </section> -->
+
+</main>

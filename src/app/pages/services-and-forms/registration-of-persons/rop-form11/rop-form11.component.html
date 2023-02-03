@@ -1,0 +1,1014 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                <!-- Ask for your previously captured partial form information. -->
+                Ask for your previously captured form information.
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to submit an APPLICATION FOR REPLACEMENT OF LOST, DEFACED OR DAMAGED*NATIONAL IDENTIFICATION CARD.
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear" 
+        labelPosition="bottom" #stepper>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>APPLICANT</h3>
+                <p>Information about <br /> the Applicant</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart1">
+                <mat-form-field appearance="outline" hintLabel="Choose one.">
+                    <mat-label>What happend <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="TypeOfRequest">
+                        <mat-option value="1">Lost my ID</mat-option>
+                        <mat-option value="2">ID was Defaced</mat-option>
+                        <mat-option value="3">ID was Damaged</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="NIN">
+                </mat-form-field>     
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="CardNumber">
+                </mat-form-field>                  
+                
+                <p>
+                    Add an option to upload an attachment.
+                </p>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="Surname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="GivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="OtherName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="PreviousName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MaidenName">
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline" hintLabel="Choose one.">
+                    <mat-label>Sex <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="SexOfApplicant">
+                        <mat-option value="1">Male</mat-option>
+                        <mat-option value="2">Female</mat-option>
+                    </mat-select>
+                </mat-form-field>                                            
+                
+                <mat-form-field appearance="outline" hintLabel="Choose one.">
+                    <mat-label>Blood Group <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="BloodGroupOfApplicant">
+                        <mat-option value="1">A+</mat-option>
+                        <mat-option value="1">A-</mat-option>
+                        <mat-option value="2">B+</mat-option>
+                        <mat-option value="2">B-</mat-option>
+                        <mat-option value="3">AB+</mat-option>
+                        <mat-option value="3">AB-</mat-option>
+                        <mat-option value="4">O+</mat-option>
+                        <mat-option value="4">O-</mat-option>
+                    </mat-select>
+                </mat-form-field>                                            
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Birth <span class="required-field">required</span></mat-label>
+                    <input color="accent" matInput [max]="maxDate" placeholder="Enter the date of birth" formControlName="DateOfBirth" [matDatepicker]="dob">
+                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                    <mat-datepicker #dob disabled="false"></mat-datepicker>
+                    <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>         
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Marital Status <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="MaritalStatus">
+                        <mat-option value="1">Married</mat-option>
+                        <mat-option value="2">Single</mat-option>
+                        <mat-option value="3">Divorced</mat-option>
+                        <mat-option value="4">Widowed</mat-option>
+                        <mat-option value="5">Separeted</mat-option>
+                    </mat-select>
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline" hintLabel="Choose an option.">
+                    <mat-label>Highest Level of Education <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HighestLevelOfEducation">
+                        <mat-option value="1">primary</mat-option>
+                        <mat-option value="2">secondary</mat-option>
+                        <mat-option value="3">tertiary</mat-option>
+                    </mat-select>
+                </mat-form-field>     
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Tax Identification Number <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="TaxIdentificationNumber">
+                </mat-form-field>                
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Driving License Number <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DrivingLicenseNumber">
+                </mat-form-field>                
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Profession <span class="optional-field">optional</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="Profession" placeholder="For Example: Doctor" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>                 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Occupation <span class="optional-field">optional</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="Occupation" placeholder="For Example: Surgeon" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>  
+                
+                <header 
+                    matRipple
+                    (click)="showPlaceOfBirth = !showPlaceOfBirth"
+                    [ngClass]="{'expand-section': showPlaceOfBirth }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Place of Birth (<span>Which place were you born ?</span>)</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfBirth }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountryOfBirth">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="DistrictOfBirth">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountyOfBirth">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="SubCountyOfBirth">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ParishOfBirth">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfBirth">
+                    </mat-form-field>   
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Height of Applicant <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="HeightOfApplicant">
+                    </mat-form-field>    
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Color of Eyes <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ColorOfEyes">
+                    </mat-form-field>    
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Color of Hair <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ColorOfHair">
+                    </mat-form-field>    
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showPlaceOfOrigin = !showPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfOrigin }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountryOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="DistrictOfOrigin">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="SubCountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ParishOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfOrigin">
+                    </mat-form-field>       
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Indigenous Community / Tribe <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="IndigenousCommunityOrTribe">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Clan <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="Clan">
+                    </mat-form-field>                                           
+                </section>  
+
+                <header
+                    matRipple
+                    (click)="showPlaceOfResidence = !showPlaceOfResidence"
+                    [ngClass]="{'expand-section': showPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3 class="section-divider">Place of Residence</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfResidence }">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountryOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="DistrictOfResidence">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountyOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="SubCountyOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ParishOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfResidence">
+                    </mat-form-field>  
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Postal Address <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PostalAddress">
+                    </mat-form-field>                       
+                </section>    
+                
+                <header 
+                    matRipple
+                    (click)="showPassportInformation = !showPassportInformation"
+                    [ngClass]="{'expand-section': showPassportInformation }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Passport Information</h3>
+                </header>
+
+                <section class="no-bottom-border" [ngClass]="{'expand-section': showPassportInformation }">             
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Passport Number <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PassportNumber">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Place of Issue <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PassportPlaceOfIssue">
+                    </mat-form-field> 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date of Issue <span class="optional-field">optional</span></mat-label>
+                        <input color="accent" matInput [max]="maxDate" placeholder="Enter the date of birth" formControlName="PassportDateOfIssue" [matDatepicker]="doi">
+                        <mat-datepicker-toggle matSuffix [for]="doi"></mat-datepicker-toggle>
+                        <mat-datepicker #doi disabled="false"></mat-datepicker>
+                        <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                        <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                    </mat-form-field>  
+                    
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Issuing Authority <span class="optional-field">optional</span></mat-label>
+                        <textarea #CaseTitleInput matInput formControlName="PassportIssuingAuthority" placeholder="For Example: Ministry of Internal Affairs" maxlength="1000"></textarea>
+                        <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                        <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                    </mat-form-field>                       
+                                          
+                </section>             
+                
+                <header 
+                    matRipple
+                    (click)="showContemporaryDescendants = !showContemporaryDescendants"
+                    [ngClass]="{'expand-section': showContemporaryDescendants }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Two Contemporary Descendants</h3>
+                </header>
+
+                <section class="no-bottom-border" [ngClass]="{'expand-section': showContemporaryDescendants }">             
+                    <h3 class="margin-bottom-20">1st Descendant</h3>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FirstDescendantSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FirstDescendantGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FirstDescendantOtherName">
+                    </mat-form-field>   
+
+                    <h3 class="margin-bottom-20">2st Descendant</h3>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="SecondDescendantSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="SecondDescendantGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="SecondDescendantOtherName">
+                    </mat-form-field>                   
+                                          
+                </section>                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>SPOUSE(S)</h3>
+                <!-- <p>Information about the Spouse(s).</p>                 -->
+            </ng-template>
+
+            <form>                
+                <section class="expand-section reduced-properties table-wrapper">
+                    <button 
+                        mat-raised-button
+                        class="add-item-button"
+                        (click)="onAddASpouse()">
+                        <div class="button-label">
+                            <mat-icon>add</mat-icon>                            
+                            <span>Add A Spouse</span>
+                        </div>
+                    </button>
+                    
+                    <div class="table-wrapper">
+                        <table 
+                            mat-table 
+                            matSortDisableClear="true"
+                            [dataSource]="spouseDataSource"
+                            matSort>
+            
+                            <ng-container matColumnDef="Count">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let row"> <b>
+                                    {{ row.Surname }} &nbsp; 
+                                    {{ row.GivenName ? ' ' + row.GivenName : '' }} 
+                                    {{ row.OtherName ? ' ' + row.OtherName : '' }} 
+                                    {{ row.MaidenName ? ' ' + row.MaidenName : '' }} 
+                                </b> </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PreviousName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Previous Name </th>
+                                <td mat-cell *matCellDef="let row">{{ row.PreviousName }}</td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="NIN">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> NIN / Applcation ID </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.NIN ? row.NIN : row.ApplicationID }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="CitizenshipType">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Citizenship </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.CitizenshipType }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="CitizenshipCertificateNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Citizenship Cert. No. </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.CitizenshipCertificateNumber }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="OtherCitizenship">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Other Citizenship</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.OtherCitizenship }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PlaceOfMarriage">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Place Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.PlaceOfMarriage }} </td>
+                            </ng-container>       
+            
+                            <ng-container matColumnDef="DateOfMarriage">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.DateOfMarriage | date : 'EEE, MMM d, y' }} </td>
+                            </ng-container>       
+            
+                            <ng-container matColumnDef="TypeOfMarriage">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.TypeOfMarriage }} </td>
+                            </ng-container>       
+            
+                            <!-- Actions Column -->
+                            <ng-container matColumnDef="Actions">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button 
+                                        mat-button 
+                                        class="action-btn"
+                                        [matMenuTriggerFor]="menu" 
+                                        (click)="$event.stopPropagation()"
+                                        matTooltip="See more options">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+            
+                                    <mat-menu yPosition="below" #menu="matMenu" class="more-options-mat-menu">
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onChangeSpouseInformation(row)">
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Make Changes</span>
+                                        </button>
+                                              
+                                        <hr />
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onRemoveSpouse(row)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Remove</span>
+                                        </button>
+            
+                                    </mat-menu>                                                  
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="spouseDisplayedColumns"></tr>
+                            <!-- <tr mat-row *matRowDef="let row; columns: spouseDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedCaseFile === row}" class="mat-data-row"></tr> -->
+                            <tr mat-row *matRowDef="let row; columns: spouseDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedSpouse === row}" class="mat-data-row"></tr>
+                        </table>
+
+                        <mat-paginator 
+                            [pageSize]="10"
+                            showFirstLastButtons
+                            [pageSizeOptions]="[5, 10, 25, 100]">
+                        </mat-paginator>                    
+                    </div>                
+                </section>                    
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>CHILDREN</h3>
+                <!-- <p>Information about the Spouse(s).</p>                 -->
+            </ng-template>
+
+            <form>                
+                <section class="expand-section reduced-properties table-wrapper">
+                    
+                    <button 
+                        mat-raised-button
+                        class="add-item-button"
+                        (click)="onAddAChild()">
+                        <div class="button-label">
+                            <mat-icon>add</mat-icon>                            
+                            <span>Add A Child</span>
+                        </div>
+                    </button>
+                    
+                    <div class="table-wrapper">
+                        <table 
+                            mat-table 
+                            matSortDisableClear="true"
+                            [dataSource]="childrenDataSource"
+                            matSort>
+            
+                            <ng-container matColumnDef="Count">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let row"> <b>
+                                    {{ row.Surname }} &nbsp; 
+                                    {{ row.GivenName ? ' ' + row.GivenName : '' }} 
+                                    {{ row.OtherName ? ' ' + row.OtherName : '' }} 
+                                    {{ row.MaidenName ? ' ' + row.MaidenName : '' }} 
+                                </b> </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PreviousName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Previous Name </th>
+                                <td mat-cell *matCellDef="let row">{{ row.PreviousName }}</td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="ApplicationID">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Applcation ID </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.ApplicationID }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="Sex">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Sex </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.Sex }} </td>
+                            </ng-container>          
+
+                            <ng-container matColumnDef="DateOfBirth">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Birth</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.DateOfBirth | date : 'EEE, MMM d, y' }} </td>
+                            </ng-container>                             
+            
+                            <ng-container matColumnDef="PlaceOfBirth">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Place of Birth </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.PlaceOfBirth }} </td>
+                            </ng-container>          
+            
+                            <!-- Actions Column -->
+                            <ng-container matColumnDef="Actions">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button 
+                                        mat-button 
+                                        class="action-btn"
+                                        [matMenuTriggerFor]="menu" 
+                                        (click)="$event.stopPropagation()"
+                                        matTooltip="See more options">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+            
+                                    <mat-menu yPosition="below" #menu="matMenu" class="more-options-mat-menu">
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onChangeChildInformation(row)">
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Make Changes</span>
+                                        </button>
+                                              
+                                        <hr />
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onRemoveChild(row)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Remove</span>
+                                        </button>
+            
+                                    </mat-menu>                                                  
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="childrenDisplayedColumns"></tr>
+                            <!-- <tr mat-row *matRowDef="let row; columns: childrenDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedCaseFile === row}" class="mat-data-row"></tr> -->
+                            <tr mat-row *matRowDef="let row; columns: childrenDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedSpouse === row}" class="mat-data-row"></tr>
+                        </table>
+
+                        <mat-paginator 
+                            [pageSize]="10"
+                            showFirstLastButtons
+                            [pageSizeOptions]="[5, 10, 25, 100]">
+                        </mat-paginator>                    
+                    </div>                     
+                                    
+                </section>                     
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>PARENTS</h3>
+                <p>Information about your <br /> Father & Mother.</p>
+            </ng-template>
+
+            <form [formGroup]="formPart2">                
+                <header 
+                    class="no-top-margin"
+                    matRipple
+                    (click)="showFathersDetails = !showFathersDetails"
+                    [ngClass]="{'expand-section': showFathersDetails }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Father's Details</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showFathersDetails }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzOtherName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput placeholder="" formControlName="FatherzNIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Card Number <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput placeholder="" formControlName="FatherzCardNumber">
+                    </mat-form-field>                                           
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showFatherzPlaceOfOrigin = !showFatherzPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showFatherzPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Father's Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showFatherzPlaceOfOrigin }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzCountryOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzDistrictOfOrigin">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzCountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzSubCountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzParishOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzVillageOfOrigin">
+                    </mat-form-field>                                                   
+                </section>
+
+                <header
+                    matRipple
+                    (click)="showMotherzDetails = !showMotherzDetails"
+                    [ngClass]="{'expand-section': showMotherzDetails }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Mother's Details</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showMotherzDetails }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzOtherName">
+                    </mat-form-field>  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput placeholder="" formControlName="MotherzNIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Card Number <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput placeholder="" formControlName="MotherzCardNumber">
+                    </mat-form-field>                                        
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showMotherzPlaceOfOrigin = !showMotherzPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showMotherzPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Mother's Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showMotherzPlaceOfOrigin }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzCountryOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzDistrictOfOrigin">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzCountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzSubCountyOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzParishOfOrigin">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzVillageOfOrigin">
+                    </mat-form-field>                                 
+                </section>
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>             
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>DECLARATION</h3>
+                <p>The Last Step</p>                
+            </ng-template>
+
+            <form [formGroup]="formDeclaration">
+
+                <mat-checkbox
+                    [ngStyle]="{'margin': '8px 15px 0px'}"
+                    class="full-width"
+                    color="primary"
+                    [required]="'true'"
+                    formControlName="DeclarationCheckbox">
+                    Click this box if you declare that the information given in this application is true and correct to the best of my 
+                    knowledge and belief and that I have not lost my status as a citizen of Uganda.
+                </mat-checkbox>                
+    
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>              
+        </mat-step>        
+    </mat-horizontal-stepper>          
+
+</main>

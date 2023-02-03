@@ -1,0 +1,120 @@
+<main>
+    <header>
+        <h1>{{ spouse === null ? 'Add A Spouse' : 'Make Changes To The Information' }}</h1>
+
+        <button mat-button (click)="onCloseDialog()">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </header>
+
+    <form [formGroup]="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Surname <span class="required-field">required</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseSurname">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseGivenName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseOtherName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseMaidenName">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpousePreviousName">
+        </mat-form-field>  
+        
+        <mat-form-field appearance="outline">
+            <mat-label>NIN<span class="required-field">required</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseNIN">
+        </mat-form-field>                      
+        
+        <mat-form-field appearance="outline" *ngIf="this.form.get('SpouseNIN').value">
+            <mat-label>NIN Card Number<span class="required-field">required</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseNINCardNumber">
+        </mat-form-field>                      
+        
+        <mat-form-field appearance="outline" *ngIf="!this.form.get('SpouseNIN').value">
+            <mat-label>Application ID<span class="required-field">required</span></mat-label>
+            <input appRemoveSpaces matInput formControlName="SpouseApplicationID">
+        </mat-form-field>                      
+                 
+        <mat-form-field appearance="outline">
+            <mat-label>Citizenship Type<span class="required-field">required</span></mat-label>
+            <mat-select formControlName="SpouseCitizenshipType">
+                <mat-option *ngFor="let type of citizenshipTypes" [value]="type.CitizenshipTypeID" (click)="citizenshipTypeName = type.CitizenshipTypeName">
+                    {{ type.CitizenshipTypeName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field> 
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Citizenship Certificate Number <span class="optional-field">optional</span></mat-label>
+            <input matInput formControlName="SpouseCitizenshipCertificateNumber">
+        </mat-form-field>                      
+        
+        <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+            <mat-label>State Other CitizenShip <span class="optional-field">optional</span></mat-label>
+            <input matInput formControlName="SpouseStateOtherCitizenShip">
+        </mat-form-field>    
+        
+        <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+            <mat-label>Place of Marriage <span class="optional-field">optional</span></mat-label>
+            <input matInput formControlName="PlaceOfMarriage">
+        </mat-form-field>     
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Date of Marriage <span class="required-field">required</span></mat-label>
+            <input color="accent" matInput [max]="today" placeholder="Enter your date of marriage" formControlName="DateOfMarriage" [matDatepicker]="dob">
+            <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+            <mat-datepicker #dob disabled="false"></mat-datepicker>
+            <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+            <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+        </mat-form-field> 
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Type of Marraige<span class="required-field">required</span></mat-label>
+            <mat-select formControlName="TypeOfMarraige">
+                <mat-option *ngFor="let type of typesOfMarriage" [value]="type.TypeOfMarriageID" (click)="typeOfMarriageName = type.TypeOfMarriageName">
+                    {{ type.TypeOfMarriageName }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>       
+    </form>
+
+    <section>
+        <button color="warn" mat-button (click)="form.reset()" [disabled]="processing">
+            Clear Form
+        </button>
+
+        <button 
+            [ngClass]="{'inline-processing-btn': processing}" 
+            color="primary" 
+            mat-raised-button 
+            (click)="onSave()" 
+            [disabled]="form.invalid || processing">
+            <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+            <span> {{ spouse === null ? 'Save' : 'Save  Changes'  }} </span>
+        </button>
+
+        <!-- <button 
+            [ngClass]="{'inline-processing-btn': processing}"
+            *ngIf="spouse !== null" 
+            color="primary" 
+            mat-raised-button 
+            (click)="onSaveChanges()" 
+            [disabled]="form.invalid || processing">
+            <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>             
+            <span></span>
+        </button> -->
+    </section>
+</main>

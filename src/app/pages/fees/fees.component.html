@@ -1,0 +1,158 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <!-- <p>
+        FEES UNDER THE REGISTRATION OF PERSONS REGULATIONS,2015,SI NO.67 OF 2015
+    </p> -->
+
+    <h3>Identification Cards</h3>
+
+    <section class="expand-section">
+        
+        <div class="table-wrapper">
+            <table 
+                mat-table 
+                matSortDisableClear="true"
+                [dataSource]="idDataSource"
+                matSort>
+
+                <ng-container matColumnDef="Count">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                </ng-container>      
+
+                <ng-container matColumnDef="SubCategory">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Category </th>
+                    <td mat-cell *matCellDef="let row">{{ row.SubCategory }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="TaxHead">
+                    <th mat-header-cell *matHeaderCellDef> Tax Head </th>
+                    <td mat-cell *matCellDef="let row">
+                        <ol>
+                            <!-- <li *ngFor="let taxHead of row.SubCategoryDetails" [ngClass]="{'hide-item': !taxHead.TaxHead }"> -->
+                            <li *ngFor="let taxHead of row.SubCategoryDetails" [ngStyle]="{'padding-top': !taxHead.TaxHead ? '2px' : taxHead.Fee ? '0px' : 'inherit'}">
+                                <span *ngIf="taxHead.TaxHead">{{ taxHead.TaxHead }}</span>
+                                
+                                <div *ngIf="taxHead.Fee">
+                                    <b>{{ taxHead.Fee | currency : taxHead.Currency :'symbol':'1.0-0'}}</b>
+                                </div>
+                            </li>
+                        </ol>
+                    </td>
+                </ng-container>          
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'selected-mat-data-row': selectedRow === row}" class="mat-data-row"></tr>
+            </table>
+        </div>         
+
+        <!-- <mat-paginator 
+            [pageSize]="10"
+            showFirstLastButtons
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>  -->
+
+    </section>    
+
+    <h3>Births</h3>
+
+    <section class="expand-section">     
+
+        <div class="table-wrapper">
+            <table 
+                mat-table 
+                matSortDisableClear="true"
+                [dataSource]="birthDataSource"
+                matSort>
+
+                <ng-container matColumnDef="Count">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                </ng-container>      
+
+                <ng-container matColumnDef="SubCategory">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Category </th>
+                    <td mat-cell *matCellDef="let row">{{ row.SubCategory }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="TaxHead">
+                    <th mat-header-cell *matHeaderCellDef> Tax Head </th>
+                    <td mat-cell *matCellDef="let row">
+                        <ol>
+                            <!-- <li *ngFor="let taxHead of row.SubCategoryDetails" [ngClass]="{'hide-item': !taxHead.TaxHead }"> -->
+                            <li *ngFor="let taxHead of row.SubCategoryDetails" [ngStyle]="{'padding-top': !taxHead.TaxHead ? '2px' : taxHead.Fee ? '0px' : 'inherit'}">
+                                <span *ngIf="taxHead.TaxHead">{{ taxHead.TaxHead }}</span>
+                                
+                                <div *ngIf="taxHead.Fee">
+                                    <b>{{ taxHead.Fee | currency : taxHead.Currency :'symbol':'1.0-0'}}</b>
+                                </div>
+                            </li>
+                        </ol>
+                    </td>
+                </ng-container>          
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'selected-mat-data-row': selectedRow === row}" class="mat-data-row"></tr>
+            </table>
+        </div>         
+
+        <!-- <mat-paginator 
+            [pageSize]="10"
+            showFirstLastButtons
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>  -->
+
+    </section>        
+
+    <h3>Deaths</h3>
+
+    <section class="expand-section">
+                               
+        <div class="table-wrapper">
+            <table 
+                mat-table 
+                matSortDisableClear="true"
+                [dataSource]="deathDataSource"
+                matSort>
+
+                <ng-container matColumnDef="Count">
+                    <th mat-header-cell *matHeaderCellDef> # </th>
+                    <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                </ng-container>      
+
+                <ng-container matColumnDef="SubCategory">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sub Category </th>
+                    <td mat-cell *matCellDef="let row">{{ row.SubCategory }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="TaxHead">
+                    <th mat-header-cell *matHeaderCellDef> Tax Head </th>
+                    <td mat-cell *matCellDef="let row">
+                        <ol>
+                            <!-- <li *ngFor="let taxHead of row.SubCategoryDetails" [ngClass]="{'hide-item': !taxHead.TaxHead }"> -->
+                            <li *ngFor="let taxHead of row.SubCategoryDetails" [ngStyle]="{'padding-top': !taxHead.TaxHead ? '2px' : taxHead.Fee ? '0px' : 'inherit'}">
+                                <span *ngIf="taxHead.TaxHead">{{ taxHead.TaxHead }}</span>
+                                
+                                <div *ngIf="taxHead.Fee">
+                                    <b>{{ taxHead.Fee === "Not Stated" ? taxHead.Fee : (taxHead.Fee | currency : taxHead.Currency :'symbol':'1.0-0') }}</b>
+                                </div>
+                            </li>
+                        </ol>
+                    </td>
+                </ng-container>          
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'selected-mat-data-row': selectedRow === row}" class="mat-data-row"></tr>
+            </table>
+        </div>         
+
+        <!-- <mat-paginator 
+            [pageSize]="10"
+            showFirstLastButtons
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>  -->
+
+    </section>        
+</main>

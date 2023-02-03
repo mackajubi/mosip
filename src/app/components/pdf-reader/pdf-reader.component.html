@@ -1,0 +1,126 @@
+<div #pdfReaderContainer class="pdf-reader-container fadeInLeft _delay3ms" [ngClass]="{'unsetPosition': unsetPosition}">
+  <div class="pdf-mat-spinner-wrapper" *ngIf="visibility">
+    <mat-progress-spinner
+      class="inline-mat-spinner"
+      [mode]="mode">
+    </mat-progress-spinner>    
+  </div>
+
+  <div *ngIf="isLoaded" class="pdfControlsContainer">
+    <div *ngIf="showPageCount" class="paginator-display">
+      <b>{{ totalPages }}</b> 
+      page<span>{{ totalPages > 1 ? 's': '' }}</span>
+    </div>
+        
+    <div class="action-btn-wrapper">
+      <button mat-button *ngIf="showCloseBtn" matTooltip="Close" class="fadeInDown _delay1ms pdfCloseBtn" (click)="_close()">
+        <mat-icon color='warn'>close</mat-icon>
+      </button>  
+
+      <button mat-button matTooltip="rotate" class="fadeInDown _delay2ms" (click)="_rotate()">
+        <mat-icon>rotate_right</mat-icon>
+      </button>
+
+      <button mat-button matTooltip="zoom in" class="fadeInDown _delay3ms" (click)="_zoomIn()">
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+
+      <button mat-button matTooltip="zoom out" class="fadeInDown _delay4ms" (click)="_zoomOut()">
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+
+      <a
+        [href]="src" 
+        target="_blank"
+        mat-button
+        class="fadeInDown _delay5ms"
+        matTooltip="Download the document"
+        [download]="'Download ' + src">
+          <mat-icon>cloud_download</mat-icon>
+      </a>    
+      
+      <button mat-button class="fadeInDown _delay6ms" (click)="onToggleFullscreen()" matTooltip="{{ fullscreen ? 'Restore' : 'Fullscreen' }}">
+        <mat-icon>{{ fullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button>  
+    </div>
+    
+    <div class="small-device-options">
+      <!-- <a
+        [href]="src" 
+        target="_blank"
+        mat-button
+        class="fadeInDown _delay5ms"
+        matTooltip="Download the document"
+        [download]="'Download ' + src">
+          <mat-icon>cloud_download</mat-icon>
+      </a>  -->
+
+      <button mat-button class="fadeInDown _delay3ms" (click)="onToggleFullscreen()" matTooltip="{{ fullscreen ? 'Restore' : 'Fullscreen' }}">
+        <mat-icon>{{ fullscreen ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button> 
+
+      <button mat-button [matMenuTriggerFor]="controlsMenu" class="fadeInDown _delay2ms options-trigger-btn">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <mat-menu #controlsMenu="matMenu" class="pdf-reader-mat-menu" yPosition="below" xPosition="after" [overlapTrigger]="false">
+    <a [href]="src" target="_blank" mat-menu-item class="fadeInLeft _delay1ms" [download]="'Download ' + src">
+      <mat-icon>cloud_download</mat-icon>
+      <span>Download</span>
+    </a> 
+    
+    <button mat-menu-item (click)="_close();$event.stopPropagation()" class="fadeInLeft _delay2ms" *ngIf="showCloseBtn">
+      <mat-icon>close</mat-icon>
+      <span>Close</span>
+    </button>
+
+    <button mat-menu-item (click)="_rotate();$event.stopPropagation()" class="fadeInLeft _delay3ms">
+      <mat-icon>rotate_right</mat-icon>
+      <span>Clockwise</span>
+    </button>
+
+    <hr />
+
+    <button mat-menu-item [disabled]="pdfPage === 1" (click)="_prevPage();$event.stopPropagation()" class="fadeInLeft _delay4ms">
+      <mat-icon>remove</mat-icon>
+      <span>Previous page</span>
+    </button>
+
+    <button mat-menu-item [disabled]="pdfPage === totalPages" (click)="_nextPage();$event.stopPropagation()" class="fadeInLeft _delay5ms">
+      <mat-icon>add</mat-icon>
+      <span>Next page</span>
+    </button>
+
+    <hr />
+
+    <button mat-menu-item (click)="_zoomIn();$event.stopPropagation()" class="fadeInLeft _delay6ms">
+      <mat-icon>zoom_in</mat-icon>
+      <span>Zoom In</span>
+    </button>
+    
+    <button mat-menu-item (click)="_zoomOut();$event.stopPropagation()" class="fadeInLeft _delay7ms">
+      <mat-icon>zoom_out</mat-icon>
+      <span>Zoom Out</span>
+    </button>
+  </mat-menu>    
+
+  <div class="pdfViewerContainer scrollbar">
+    <pdf-viewer
+      *ngIf="src"
+      [src]="src" 
+      [page]="pdfPage"
+      [render-text]="true"
+      [rotation]="rotationValue"
+      [show-all]="showAllPages"
+      [zoom]="zoom"
+      [original-size]="originalSize"
+      [autoresize]="autoResize"
+      style="display: block;margin-left:auto;margin-right:auto;max-width: 100%"
+      (on-progress)="_handleOnProgress($event)"
+      (page-rendered)="_handlePageRendered($event)"
+      (after-load-complete)="_handleLoadComplete($event)"
+    ></pdf-viewer>
+  </div>
+</div>

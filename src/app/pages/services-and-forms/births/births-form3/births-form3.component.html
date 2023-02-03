@@ -1,0 +1,925 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section"></section>
+
+    <header class="main-header">
+
+        <!-- <button
+            mat-raised-button
+            color="primary"
+            (click)="onGenerateBirthNotificationRecord()">
+            Generate Birth Notification Record
+        </button> -->
+
+        <p>
+            Please use the form below to register a notice of Birth of a Child. 
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear"
+        [selectedIndex]="selectedIndex"
+        labelPosition="bottom" #stepper>
+
+        <mat-step [stepControl]="formNotifier">
+            <ng-template matStepLabel>
+                <h3>PERSON DECLARING</h3>
+                <p>Person Declaring The Birth</p>   
+            </ng-template>
+
+            <form [formGroup]="formNotifier">
+                <mat-form-field appearance="outline" hintLabel="In what Capacity do you give this information">
+                    <mat-label>Your Capacity <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="NotifierDeclarationCapacity">
+                        <mat-option value="1">Mother</mat-option>
+                        <mat-option value="2">Father</mat-option>
+                        <mat-option value="3">Person Present at Birth</mat-option>
+                        <mat-option value="4">Person having charge of the Child</mat-option>
+                        <mat-option value="5">Person having knowledge of the Birth</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formNotifier.get('NotifierDeclarationCapacity').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Nationality <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierNationality" [matAutocomplete]="autoNotifierNationality">
+                    <mat-autocomplete #autoNotifierNationality="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierNationality | async" [value]="item.Nationality" (click)="NotifierNationalityID = item.CountryID">
+                            {{ item.Nationality }} - {{ item.CountryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                    <mat-error *ngIf="formNotifier.get('NotifierNationality').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                    
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID === 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="NotifierTypeOfID">
+                        <mat-option value="1">National ID Number (NIN)</mat-option>
+                        <mat-option value="2">Application ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formNotifier.get('NotifierTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID === 259 && formNotifier.get('NotifierTypeOfID').value === '1'">
+                    <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="NotifierNIN">
+                    <mat-error *ngIf="formNotifier.get('NotifierNIN').invalid">{{ getNINErrorMessage() }}</mat-error>                                
+                </mat-form-field>                     
+
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID === 259 && formNotifier.get('NotifierTypeOfID').value === '2'">
+                    <mat-label>Application ID Number <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput placeholder="" maxlength="13" formControlName="NotifierAID">
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="NotifierTypeOfID">
+                        <mat-option value="3">Passport Number</mat-option>
+                        <mat-option value="4">Refugee ID Number</mat-option>
+                        <mat-option value="5">Alien ID Number</mat-option>
+                        <mat-option value="6">National ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formNotifier.get('NotifierTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>Enter ID Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput maxlength="15" placeholder="" formControlName="NotifierIDNumber">
+                    <mat-error *ngIf="formNotifier.get('NotifierIDNumber').invalid">{{ getIDNumberErrorMessage() }}</mat-error>
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Your Occupation <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierOccupation" [matAutocomplete]="autoOccupation">
+                    <mat-autocomplete #autoOccupation="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierOccupation | async" [value]="item.Occupation" (click)="NotifierOccupationID = item.OccupationID">
+                            {{ item.Occupation }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>      
+                    <mat-error *ngIf="formNotifier.get('NotifierOccupation').invalid">{{ getSelectErrorMessage() }}</mat-error>                                       
+                </mat-form-field>                                           
+                
+                <!-- <h3 class="margin-bottom-20">Contact Information</h3>     -->
+
+                <mat-form-field appearance="outline">
+                    <span matPrefix>+256 &nbsp;</span>
+                    <mat-label>Phone Number <span class="required-field">required</span></mat-label>
+                    <input appTelephoneFormaterDirective maxlength="11" matInput formControlName="NotifierPhoneNumber">
+                    <mat-error *ngIf="formNotifier.get('NotifierPhoneNumber').invalid">{{ getTelephoneNumberErrorMessage() }}</mat-error>            
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="NotifierEmailAddress">
+                    <mat-error *ngIf="formNotifier.get('NotifierEmailAddress').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                </mat-form-field>  
+                
+                <h3 class="margin-bottom-20" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">Place of Residence</h3>               
+
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierDistrictOfResidence" [matAutocomplete]="autoNotifierDistrictOfResidence">
+                    <mat-autocomplete #autoNotifierDistrictOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierDistrict | async" [value]="item.DistrictName" (click)="onNotifierDistrictOfResidence(item.DistrictID); NotifierDistrictID = item.DistrictID">
+                            {{ item.DistrictName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formNotifier.get('NotifierDistrictOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>      
+                </mat-form-field>                  
+
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierCountyOfResidence" [matAutocomplete]="autoNotifierCountyOfResidence">
+                    <mat-autocomplete #autoNotifierCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierCounty | async" [value]="item.CountyName" (click)="onNotifierCountyOfResidence(item.CountyID); NotifierCountyID = item.CountyID">
+                            {{ item.CountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon> 
+                    <mat-error *ngIf="formNotifier.get('NotifierCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>                              
+                </mat-form-field>                                 
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierSubCountyOfResidence" [matAutocomplete]="autoNotifierSubCountyOfResidence">
+                    <mat-autocomplete #autoNotifierSubCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierSubCounty | async" [value]="item.SubCountyName" (click)="onNotifierSubCountyOfResidence(item.SubCountyID); NotifierSubCountyID = item.SubCountyID">
+                            {{ item.SubCountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>    
+                    <mat-error *ngIf="formNotifier.get('NotifierSubCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>                                                   
+                </mat-form-field>                    
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>Parish <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierParishOfResidence" [matAutocomplete]="autoNotifierParishOfResidence">
+                    <mat-autocomplete #autoNotifierParishOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierParish | async" [value]="item.ParishName" (click)="onNotifierParishOfResidence(item.ParishID); NotifierParishID = item.ParishID">
+                            {{ item.ParishName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formNotifier.get('NotifierParishOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline" *ngIf="formNotifier.get('NotifierNationality').value && NotifierNationalityID !== 259">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="NotifierVillageOfResidence" [matAutocomplete]="autoNotifierVillageOfResidence">
+                    <mat-autocomplete #autoNotifierVillageOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredNotifierVillage | async" [value]="item.VillageName" (click)="NotifierVillageID = item.VillageID">
+                            {{ item.VillageName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formNotifier.get('NotifierVillageOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>                    
+                </mat-form-field>                  
+            </form>
+
+            <div class="button-wrapper single-button">       
+                <!-- <button mat-button class="back-btn" matStepperPrevious>Back</button> -->
+
+                <button 
+                    [disabled]="formNotifier.invalid"
+                    mat-button 
+                    class="next-btn" 
+                    color="primary" 
+                    matStepperNext>
+                    Next
+                </button>
+            </div>             
+        </mat-step>
+
+        <mat-step [stepControl]="formChild">
+            <ng-template matStepLabel>
+                <h3>CHILD</h3>
+                <p>Information about the child</p>                
+            </ng-template>
+
+            <form [formGroup]="formChild">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname  <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="SurnameOfChild">
+                    <mat-error *ngIf="formChild.get('SurnameOfChild').invalid">{{ getErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="GivenNameOfChild">
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="OtherNameOfChild">
+                </mat-form-field>      
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Date & Time of Birth <span class="required-field">required</span></mat-label>
+                    <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" formControlName="DatetimeOfBirth" [max]="maxDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <ngx-mat-datetime-picker #picker [showSpinners]="true" [touchUi]="touchUi" [color]="color" [enableMeridian]="true"></ngx-mat-datetime-picker>
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                    <mat-error *ngIf="formChild.get('DatetimeOfBirth').invalid">Click the button in the field to choose the date & time.</mat-error>
+                </mat-form-field>                 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Sex of Child<span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="SexOfChild">
+                        <mat-option value="Male">Male</mat-option>
+                        <mat-option value="Female">Female</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formChild.get('SexOfChild').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>    
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Weight at Birth <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput maxlength="8" formControlName="WeightOfChild">
+                    <mat-error *ngIf="formChild.get('WeightOfChild').invalid">{{ getWeightAtBrithErrorMessage() }}</mat-error>
+                </mat-form-field>             
+
+                <mat-form-field appearance="outline" [hintLabel]="'According to the Mother'">
+                    <mat-label>Position of Child<span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="MotherzParity">
+                        <mat-option value="1">1st Born</mat-option>
+                        <mat-option value="2">2nd Born</mat-option>
+                        <mat-option value="3">3rd Born</mat-option>
+                        <mat-option value="4">4th Born</mat-option>
+                        <mat-option value="5">5th Born</mat-option>
+                        <mat-option value="6">6th Born</mat-option>
+                        <mat-option value="7">7th Born</mat-option>
+                        <mat-option value="8">8th Born</mat-option>
+                        <mat-option value="9">9th Born</mat-option>
+                        <mat-option value="10">10th Born</mat-option>
+                        <mat-option value="11">11th Born</mat-option>
+                        <mat-option value="12">12th Born</mat-option>
+                        <mat-option value="13">13th Born</mat-option>
+                        <mat-option value="14">14th Born</mat-option>
+                        <mat-option value="15">15th Born</mat-option>
+                        <mat-option value="16">16th Born</mat-option>
+                        <mat-option value="17">17th Born</mat-option>
+                        <mat-option value="18">18th Born</mat-option>
+                        <mat-option value="19">19th Born</mat-option>
+                        <mat-option value="20">20th Born</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formChild.get('MotherzParity').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>     
+                
+                <mat-checkbox
+                    [ngStyle]="{'margin': '-36px 4px 0px', 'grid-column': 'span 1'}"
+                    color="primary"
+                    [required]="'false'"
+                    formControlName="GaveBirthFromHealthFacility">
+                    Did you give birth from a Health Facility / Hospital ?
+                </mat-checkbox>                 
+
+                <h3 class="margin-bottom-20">Place of Birth</h3>     
+
+                <mat-form-field appearance="outline">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="District" [matAutocomplete]="autoDistrict">
+                    <mat-autocomplete #autoDistrict="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildDistrict | async" [value]="item.DistrictName" (click)="onChildDistrictOfBirth(item.DistrictID);ChildDistrictID = item.DistrictID">
+                            {{ item.DistrictName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formChild.get('District').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="County" [matAutocomplete]="autoCounty">
+                    <mat-autocomplete #autoCounty="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildCounty | async" [value]="item.CountyName" (click)="onChildCounty(item.CountyID); ChildCountyID = item.CountyID">
+                            {{ item.CountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon> 
+                    <mat-error *ngIf="formChild.get('County').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                                     
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Municipality / Sub County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="Municipality" [matAutocomplete]="autoMunicipality">
+                    <mat-autocomplete #autoMunicipality="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildSubCounty | async" [value]="item.SubCountyName" (click)="onChildSubCountyOfBirth(item.SubCountyID); ChildSubCountyID = item.SubCountyID">
+                            {{ item.SubCountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formChild.get('Municipality').invalid">{{ getSelectErrorMessage() }}</mat-error>                    
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Parish <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="Parish" [matAutocomplete]="autoParish">
+                    <mat-autocomplete #autoParish="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildParish | async" [value]="item.ParishName" (click)="onChildParishOfBirth(item.ParishID); ChildParishID = item.ParishID">
+                            {{ item.ParishName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    <mat-error *ngIf="formChild.get('Parish').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="Village" [matAutocomplete]="autoVillage">
+                    <mat-autocomplete #autoVillage="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildVillage | async" [value]="item.VillageName" (click)="ChildVillageID = item.VillageID">
+                            {{ item.VillageName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formChild.get('Village').invalid">{{ getSelectErrorMessage() }}</mat-error>                       
+                </mat-form-field>     
+
+                <mat-form-field appearance="outline" *ngIf="formChild.get('GaveBirthFromHealthFacility').value === true">
+                    <mat-label>Health Facility <span class="optional-field">optional</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="HealthFacility" [matAutocomplete]="autoHealthFacility">
+                    <mat-autocomplete #autoHealthFacility="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredChildHealthFacility | async" [value]="item.Name" (click)="ChildHealthFacilityID = item.ID">
+                            {{ item.Name }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                </mat-form-field>                   
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-button 
+                    [disabled]="formChild.invalid || (formChild.get('GaveBirthFromHealthFacility').value === true && !formChild.get('HealthFacility').value)" 
+                    class="next-btn" 
+                    color="primary" 
+                    matStepperNext>
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="formMother" *ngIf="formNotifier.get('NotifierDeclarationCapacity').value && formNotifier.get('NotifierDeclarationCapacity').value !== '1'">
+            <ng-template matStepLabel>
+                <h3>MOTHER</h3>
+                <p>Mother's information</p>   
+            </ng-template>
+
+            <form [formGroup]="formMother">
+                <div class="grouped-items" *ngIf="formNotifier.get('NotifierDeclarationCapacity').value && formNotifier.get('NotifierDeclarationCapacity').value !== '1'">
+                    <h3>Mother's Living Status</h3>
+    
+                    <mat-radio-group color="primary" aria-label="Pick one" formControlName="MothersLivingStatus">
+                        <mat-radio-button value="Alive">Alive</mat-radio-button>
+                        <mat-radio-button value="Deceased">Deceased</mat-radio-button>
+                    </mat-radio-group>        
+                </div>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Nationality <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzNationality" [matAutocomplete]="autoMotherzNationality">
+                    <mat-autocomplete #autoMotherzNationality="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherNationality | async" [value]="item.Nationality" (click)="MotherzNationalityID = item.CountryID">
+                            {{ item.Nationality }} - {{ item.CountryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formMother.get('MotherzNationality').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                    
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID === 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="MotherzTypeOfID">
+                        <mat-option value="1">National ID Number (NIN)</mat-option>
+                        <mat-option value="2">Application ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formMother.get('MotherzTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID === 259 && formMother.get('MotherzTypeOfID').value === '1'">
+                    <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="MotherzNIN">
+                    <mat-error *ngIf="formMother.get('MotherzNIN').invalid">{{ getNINErrorMessage() }}</mat-error>
+                </mat-form-field>                     
+
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID === 259 && formMother.get('MotherzTypeOfID').value === '2'">
+                    <mat-label>Application ID Number <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="13" formControlName="MotherzAIN">
+                </mat-form-field>               
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="MotherzTypeOfID">
+                        <mat-option value="3">Passport Number</mat-option>
+                        <mat-option value="4">Refugee ID Number</mat-option>
+                        <mat-option value="5">Alien ID Number</mat-option>
+                        <mat-option value="6">National ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formMother.get('MotherzTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>Enter ID Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput maxlength="15" placeholder="" formControlName="MotherzIDNumber">
+                    <mat-error *ngIf="formMother.get('MotherzIDNumber').invalid">{{ getIDNumberErrorMessage() }}</mat-error>
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Occupation <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzOccupation" [matAutocomplete]="autoMotherzOccupation">
+                    <mat-autocomplete #autoMotherzOccupation="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherOccupation | async" [value]="item.Occupation" (click)="MotherzOccupationID = item.OccupationID">
+                            {{ item.Occupation }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formMother.get('MotherzOccupation').invalid">{{ getSelectErrorMessage() }}</mat-error>                                        
+                </mat-form-field>                     
+
+                <!-- <h3 class="margin-bottom-20">Contact Information</h3>     -->
+
+                <mat-form-field appearance="outline">
+                    <span matPrefix>+256 &nbsp;</span>
+                    <mat-label>Phone Number <span class="required-field">required</span></mat-label>
+                    <input appTelephoneFormaterDirective matInput maxlength="11" formControlName="MotherzPhoneNumber">
+                    <mat-error *ngIf="formMother.get('MotherzPhoneNumber').invalid">{{ getMotherzTelephoneNumberErrorMessage() }}</mat-error>                      
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="MotherzEmailAddress">
+                    <mat-error *ngIf="formMother.get('MotherzEmailAddress').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                </mat-form-field>  
+
+                <h3 class="margin-bottom-20" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">Place of Residence</h3>
+
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzDistrictOfResidence" [matAutocomplete]="autoMotherzDistrictOfResidence">
+                    <mat-autocomplete #autoMotherzDistrictOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherDistrictOfResidence | async" [value]="item.DistrictName" (click)="onMotherzDistrictOfResidence(item.DistrictID); MotherzDistrictOfResidenceID = item.DistrictID">
+                            {{ item.DistrictName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formMother.get('MotherzDistrictOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzCountyOfResidence" [matAutocomplete]="autoMotherzCountyOfResidence">
+                    <mat-autocomplete #autoMotherzCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherCountyOfResidence | async" [value]="item.CountyName" (click)="onMotherzCountyOfResidence(item.CountyID); MotherzCountyOfResidenceID = item.CountyID">
+                            {{ item.CountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon> 
+                    <mat-error *ngIf="formMother.get('MotherzCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                                
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzSubCountyOfResidence" [matAutocomplete]="autoMotherzSubCountyOfResidence">
+                    <mat-autocomplete #autoMotherzSubCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="onMotherzSubCountyOfResidence(item.SubCountyID); MotherzSubCountyOfResidenceID = item.SubCountyID">
+                            {{ item.SubCountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon> 
+                    <mat-error *ngIf="formMother.get('MotherzSubCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>Parish <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzParishOfResidence" [matAutocomplete]="autoMotherzParishOfResidence">
+                    <mat-autocomplete #autoMotherzParishOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherParish | async" [value]="item.ParishName" (click)="onMotherzParishOfResidence(item.ParishID); MotherzParishOfResidenceID = item.ParishID">
+                            {{ item.ParishName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                    <mat-error *ngIf="formMother.get('MotherzParishOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline" *ngIf="formMother.get('MotherzNationality').value && MotherzNationalityID !== 259">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="MotherzVillageOfResidence" [matAutocomplete]="autoMotherzVillageOfResidence">
+                    <mat-autocomplete #autoMotherzVillageOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredMotherVillage | async" [value]="item.VillageName" (click)="MotherzVillageOfResidenceID = item.VillageID">
+                            {{ item.VillageName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                    <mat-error *ngIf="formMother.get('MotherzVillageOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>                      
+                </mat-form-field>    
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-button
+                    [disabled]="formMother.invalid 
+                    || (formMother.get('MotherzNationality').value && MotherzNationalityID !== 259 && (!MotherzDistrictOfResidenceID || !MotherzCountyOfResidenceID
+                    || !MotherzSubCountyOfResidenceID || !MotherzParishOfResidenceID || !MotherzVillageOfResidenceID))"                     
+                    class="next-btn" 
+                    color="primary" 
+                    matStepperNext>Next</button>
+            </div>             
+        </mat-step>
+
+        <mat-step [stepControl]="formFather" *ngIf="formNotifier.get('NotifierDeclarationCapacity').value && formNotifier.get('NotifierDeclarationCapacity').value !== '2'">
+            <ng-template matStepLabel>
+                <h3>FATHER</h3>
+                <p>Father's information</p>                
+            </ng-template>
+
+            <form [formGroup]="formFather">
+                <div class="grouped-items">
+                    <h3>Is the Father Known?</h3>
+    
+                    <mat-radio-group color="primary" aria-label="Pick one" formControlName="FatherIsKnown">
+                        <mat-radio-button value="Yes">Yes</mat-radio-button>
+                        <mat-radio-button value="No">No</mat-radio-button>
+                    </mat-radio-group>        
+                </div>
+                
+                <div class="grouped-items" *ngIf="formFather.get('FatherIsKnown').value === 'Yes'">
+                    <h3>Father's Living Status</h3>
+    
+                    <mat-radio-group color="primary" aria-label="Pick one" formControlName="FathersLivingStatus">
+                        <mat-radio-button value="Alive">Alive</mat-radio-button>
+                        <mat-radio-button value="Deceased">Deceased</mat-radio-button>
+                    </mat-radio-group>        
+                </div>                 
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Nationality <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzNationality" [matAutocomplete]="autoFatherzNationality">
+                    <mat-autocomplete #autoFatherzNationality="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherNationality | async" [value]="item.Nationality" (click)="FatherzNationalityID = item.CountryID">
+                            {{ item.Nationality }} - {{ item.CountryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formFather.get('FatherzNationality').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                     
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID === 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="FatherzTypeOfID">
+                        <mat-option value="1">National ID Number (NIN)</mat-option>
+                        <mat-option value="2">Application ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formFather.get('FatherzTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID === 259 && formFather.get('FatherzTypeOfID').value === '1'">
+                    <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="FatherzNIN">
+                    <mat-error *ngIf="formFather.get('FatherzNIN').invalid">{{ getNINErrorMessage() }}</mat-error>                    
+                </mat-form-field>                     
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID === 259 && formFather.get('FatherzTypeOfID').value === '2'">
+                    <mat-label>Application ID Number <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="13" formControlName="FatherzAIN">
+                </mat-form-field>                              
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="FatherzTypeOfID">
+                        <mat-option value="3">Passport Number</mat-option>
+                        <mat-option value="4">Refugee ID Number</mat-option>
+                        <mat-option value="5">Alien ID Number</mat-option>
+                        <mat-option value="6">National ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formFather.get('FatherzTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Enter ID Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput maxlength="15" placeholder="" formControlName="FatherzIDNumber">
+                    <mat-error *ngIf="formFather.get('FatherzIDNumber').invalid">{{ getIDNumberErrorMessage() }}</mat-error>
+                </mat-form-field>  
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Occupation <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzOccupation" [matAutocomplete]="autoFatherzOccupation">
+                    <mat-autocomplete #autoFatherzOccupation="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherOccupation | async" [value]="item.Occupation" (click)="FatherzOccupationID = item.OccupationID">
+                            {{ item.Occupation }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>       
+                    <mat-error *ngIf="formFather.get('FatherzOccupation').invalid">{{ getSelectErrorMessage() }}</mat-error>                                      
+                </mat-form-field>  
+
+                <!-- <h3 class="margin-bottom-20">Contact Information</h3>     -->
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherIsKnown').value === 'Yes'">
+                    <span matPrefix>+256 &nbsp;</span>
+                    <mat-label>Phone Number <span class="required-field">required</span></mat-label>
+                    <input appTelephoneFormaterDirective matInput maxlength="11" formControlName="FatherzPhoneNumber">
+                    <mat-error *ngIf="formFather.get('FatherzPhoneNumber').invalid">{{ getFatherzTelephoneNumberErrorMessage() }}</mat-error>
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="FatherzEmailAddress">
+                    <mat-error *ngIf="formFather.get('FatherzEmailAddress').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                </mat-form-field>   
+
+                <h3 class="margin-bottom-20" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && formFather.get('FatherIsKnown').value === 'Yes'">Place of Residence</h3>
+
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzDistrictOfResidence" [matAutocomplete]="autoFatherzDistrictOfResidence">
+                    <mat-autocomplete #autoFatherzDistrictOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherDistrictOfResidence | async" [value]="item.DistrictName" (click)="onFatherzDistrictOfResidence(item.DistrictID); FatherzDistrictOfResidenceID = item.DistrictID">
+                            {{ item.DistrictName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formFather.get('FatherzDistrictOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzCountyOfResidence" [matAutocomplete]="autoFatherzCountyOfResidence">
+                    <mat-autocomplete #autoFatherzCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherCountyOfResidence | async" [value]="item.CountyName" (click)="onFatherzCountyOfResidence(item.CountyID); FatherzCountyOfResidenceID = item.CountyID">
+                            {{ item.CountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                    <mat-error *ngIf="formFather.get('FatherzCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                  
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && formFather.get('FatherIsKnown').value === 'Yes'">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzSubCountyOfResidence" [matAutocomplete]="autoFatherzSubCountyOfResidence">
+                    <mat-autocomplete #autoFatherzSubCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="onFatherzSubCountyOfResidence(item.SubCountyID); FatherzSubCountyOfResidenceID = item.SubCountyID">
+                            {{ item.SubCountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>    
+                    <mat-error *ngIf="formFather.get('FatherzSubCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259">
+                    <mat-label>Parish <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzParishOfResidence" [matAutocomplete]="autoFatherzParishOfResidence">
+                    <mat-autocomplete #autoFatherzParishOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherParish | async" [value]="item.ParishName" (click)="onFatherzParishOfResidence(item.ParishID); FatherzParishOfResidenceID = item.ParishID">
+                            {{ item.ParishName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formFather.get('FatherzParishOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline" *ngIf="formFather.get('FatherzNationality').value && FatherzNationalityID !== 259">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="FatherzVillageOfResidence" [matAutocomplete]="autoFatherzVillageOfResidence">
+                    <mat-autocomplete #autoFatherzVillageOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredFatherVillage | async" [value]="item.VillageName" (click)="FatherzVillageOfResidenceID = item.VillageID">
+                            {{ item.VillageName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>        
+                    <mat-error *ngIf="formFather.get('FatherzVillageOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>                 
+                </mat-form-field>    
+
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-button
+                    [disabled]="(formFather.get('FatherIsKnown').value === 'Yes' && formFather.invalid)
+                    || (formFather.get('FatherzNationality').value && FatherzNationalityID !== 259 && (!FatherzDistrictOfResidenceID || !FatherzCountyOfResidenceID
+                    || !FatherzSubCountyOfResidenceID || !FatherzParishOfResidenceID || !FatherzVillageOfResidenceID))"                      
+                    class="next-btn" 
+                    color="primary" 
+                    matStepperNext>Next</button>                
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>FINAL STEP</h3>
+                <p>The last step</p>                
+            </ng-template>
+
+            <form [formGroup]="formDeclaration">
+                <mat-checkbox
+                    [ngStyle]="{'margin': '8px 15px 0px', 'grid-column': (!lateRegistration && (formNotifier.get('NotifierDeclarationCapacity').value === '2' || formNotifier.get('NotifierDeclarationCapacity').value === '3')) ? '1/-1' : 'span 1'}"
+                    color="primary"
+                    [required]="'false'"
+                    formControlName="DeclarationCheckbox">
+                    I declare that the information above, given by me, is true and correct,
+                    that I know this of my own knowledge
+                </mat-checkbox>    
+
+                <mat-form-field *ngIf="lateRegistration" class="span-2-columns" appearance="outline" hintLabel="Why was the Birth not registered within the prescribed period?">
+                    <mat-label>Reason for late registration<span class="required-field">required</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="DeclarationLateRegistration" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <mat-error *ngIf="formDeclaration.get('DeclarationLateRegistration').invalid">Please enter a value.</mat-error>
+                </mat-form-field>                                
+
+                <mat-form-field 
+                    [ngClass]="{'full-width': lateRegistration, 'span-2-columns': !lateRegistration}"
+                    appearance="outline" 
+                    *ngIf="formNotifier.get('NotifierDeclarationCapacity').value && formNotifier.get('NotifierDeclarationCapacity').value !== '1' && formNotifier.get('NotifierDeclarationCapacity').value !== '2'"
+                    hintLabel="Briefly state your means of knowledge">
+                    <mat-label>Briefly state your means of knowing this<span class="required-field">required</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="DeclarationMeanOfKowning" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <mat-error *ngIf="formDeclaration.get('DeclarationMeanOfKowning').invalid">Please enter a value.</mat-error>
+                </mat-form-field>       
+                
+                <h3 class="margin-bottom-20">Infomation about the Witness </h3>          
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Nationality <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessNationality" [matAutocomplete]="autoWitnessNationality">
+                    <mat-autocomplete #autoWitnessNationality="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessNationality | async" [value]="item.Nationality" (click)="WitnessNationalityID = item.CountryID">
+                            {{ item.Nationality }} - {{ item.CountryName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formDeclaration.get('WitnessNationality').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                  
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID === 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="WitnessTypeOfID">
+                        <mat-option value="1">National ID Number (NIN)</mat-option>
+                        <mat-option value="2">Application ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formDeclaration.get('WitnessTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID === 259 && formDeclaration.get('WitnessTypeOfID').value === '1'">
+                    <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="WitnessNIN">
+                    <mat-error *ngIf="formDeclaration.get('WitnessNIN').invalid">{{ getNINErrorMessage() }}</mat-error>
+                </mat-form-field>                     
+
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID === 259 && formDeclaration.get('WitnessTypeOfID').value === '2'">
+                    <mat-label>Application ID Number <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="13" formControlName="WitnessAIN">
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>Type of ID <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="WitnessTypeOfID">
+                        <mat-option value="3">Passport Number</mat-option>
+                        <mat-option value="4">Refugee ID Number</mat-option>
+                        <mat-option value="5">Alien ID Number</mat-option>
+                        <mat-option value="6">National ID Number</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="formDeclaration.get('WitnessTypeOfID').invalid">{{ getSelectErrorMessage() }}</mat-error>                    
+                </mat-form-field>                   
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>Enter ID Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput maxlength="15" placeholder="" formControlName="WitnessIDNumber">
+                    <mat-error *ngIf="formDeclaration.get('WitnessIDNumber').invalid">{{ getIDNumberErrorMessage() }}</mat-error>
+                </mat-form-field>                        
+
+                <h3 class="margin-bottom-20" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">Place of Residence for the Witness </h3>  
+
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessDistrictOfResidence" [matAutocomplete]="autoWitnessDistrictOfResidence">
+                    <mat-autocomplete #autoWitnessDistrictOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessDistrictOfResidence | async" [value]="item.DistrictName" (click)="onWitnessDistrictOfResidence(item.DistrictID);WitnessDistrictOfResidenceID = item.DistrictID">
+                            {{ item.DistrictName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                    <mat-error *ngIf="formDeclaration.get('WitnessDistrictOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                               
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessCountyOfResidence" [matAutocomplete]="autoWitnessCountyOfResidence">
+                    <mat-autocomplete #autoWitnessCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessCountyOfResidence | async" [value]="item.CountyName" (click)="onWitnessCountyOfResidence(item.CountyID); WitnessCountyOfResidenceID = item.CountyID">
+                            {{ item.CountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formDeclaration.get('WitnessCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessSubCountyOfResidence" [matAutocomplete]="autoWitnessSubCountyOfResidence">
+                    <mat-autocomplete #autoWitnessSubCountyOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="onWitnessSubCountyOfResidence(item.SubCountyID); WitnessSubCountyOfResidenceID = item.SubCountyID">
+                            {{ item.SubCountyName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formDeclaration.get('WitnessSubCountyOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>Parish <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessParishOfResidence" [matAutocomplete]="autoWitnessParishOfResidence">
+                    <mat-autocomplete #autoWitnessParishOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessParishOfResidence | async" [value]="item.ParishName" (click)="onWitnessParishOfResidence(item.ParishID); WitnessParishOfResidenceID = item.ParishID">
+                            {{ item.ParishName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                    <mat-error *ngIf="formDeclaration.get('WitnessParishOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                 
+                
+                <mat-form-field appearance="outline" *ngIf="formDeclaration.get('WitnessNationality').value && WitnessNationalityID !== 259">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="WitnessVillageOfResidence" [matAutocomplete]="autoWitnessVillageOfResidence">
+                    <mat-autocomplete #autoWitnessVillageOfResidence="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredWitnessVillageOfResidence | async" [value]="item.VillageName" (click)="WitnessVillageOfResidenceID = item.VillageID">
+                            {{ item.VillageName }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>  
+                    <mat-error *ngIf="formDeclaration.get('WitnessVillageOfResidence').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                </mat-form-field>                    
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-raised-button 
+                    color="primary" 
+                    [ngClass]="{'inline-processing-btn': processing }" 
+                    [disabled]="processing
+                     || formNotifier.invalid 
+                     || formChild.invalid
+                     || (formNotifier.get('NotifierDeclarationCapacity').value === '1' && formFather.invalid) 
+                     || (formNotifier.get('NotifierDeclarationCapacity').value === '2' && formMother.invalid) 
+                     || (formNotifier.get('NotifierDeclarationCapacity').value !== '1' && formNotifier.get('NotifierDeclarationCapacity').value !== '2' && (formMother.invalid || formFather.invalid)) 
+                     || formDeclaration.invalid
+                     || formDeclaration.get('DeclarationCheckbox').value === false"                      
+                    (click)="onSubmit()">
+                        <div class="btn-label">
+                            <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                        
+                            <span>Submit to NIRA</span>
+                        </div>
+                </button>
+            </div>              
+        </mat-step>
+    </mat-horizontal-stepper>          
+
+</main>

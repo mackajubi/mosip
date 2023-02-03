@@ -1,0 +1,43 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                Ask for your previously captured form information.
+                <!-- Ask for your previously captured partial form information. -->
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to register a NOTIFICATION OF DEATH. 
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <article>
+
+        The Form goes here.
+
+    </article>        
+
+</main>

@@ -1,0 +1,19 @@
+<main>
+
+    <article class="fadeInUp _delay3ms" *ngIf="render">
+        
+        <div class="bg"></div>
+    
+        <section>
+
+            <div>
+                <h1 [innerHTML]="title"></h1>
+    
+                <span *ngIf="subTitle" [innerHTML]="subTitle"></span>                
+            </div>
+
+        </section>
+
+    </article>
+
+</main>

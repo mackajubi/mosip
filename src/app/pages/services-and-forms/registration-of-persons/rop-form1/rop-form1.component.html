@@ -1,0 +1,829 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <!-- <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                Ask for your previously captured form information.
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section> -->
+
+    <section class="top-header-section"></section>    
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to register a NOTIFICATION OF CHANGE / ERROR IN INFORMATION IN THE REGISTER.
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear"
+        [selectedIndex]="selectedIndex"
+        labelPosition="bottom" 
+        #stepper>
+
+        <mat-step [stepControl]="formPart1">
+            <ng-template matStepLabel>
+                <h3>PART 1</h3>
+                <p>Details of Person</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart1" class="form-part1">          
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter Your NIN {{ NINDetails }} {{ NINDetails ? NINDetails.IsValid : '' }} <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="NIN" [disabled]="processing">
+                    <mat-error *ngIf="formPart1.get('NIN').invalid">{{ getNINErrorMessage() }}</mat-error>
+                    <mat-icon *ngIf="NINDetails" [ngClass]="{'valid': NINDetails && NINDetails.IsValid}">{{ NINDetails && NINDetails.IsValid ? 'check' : 'block' }}</mat-icon>
+                </mat-form-field> 
+                               
+                <mat-form-field appearance="outline">
+                    <span matPrefix>+256 &nbsp;</span>
+                    <mat-label>Phone Number <span class="required-field">required</span></mat-label>
+                    <input appTelephoneFormaterDirective maxlength="11" matInput formControlName="PhoneNumber">
+                    <mat-error *ngIf="formPart1.get('PhoneNumber').invalid">{{ getTelephoneNumberErrorMessage() }}</mat-error>            
+                </mat-form-field>   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput placeholder="" formControlName="EmailAddress">
+                    <mat-error *ngIf="formPart1.get('EmailAddress').invalid">{{ getEmailErrorMessage() }}</mat-error>
+                </mat-form-field>                  
+ 
+            </form>
+
+            <div class="button-wrapper single-button">
+                <button 
+                    [disabled]="formPart1.invalid || processing"
+                    mat-button 
+                    class="next-btn" 
+                    (click)="onCheckNIN()"
+                    color="primary">
+                    Next
+                </button>
+            </div>
+        </mat-step>
+
+        <mat-step [stepControl]="formPart2">
+            <ng-template matStepLabel>
+                <h3>PART 2</h3>
+                <p>Notification of Change/Error</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart2">
+                <mat-form-field appearance="outline" class="full-width margin-bottom">
+                    <mat-label>What would you like to do ? <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="DataCategory" multiple>
+                      <mat-select-trigger>
+                        {{formPart2.get('DataCategory').value ? formPart2.get('DataCategory').value[0] : ''}}
+                        <span *ngIf="formPart2.get('DataCategory').value?.length > 1" class="example-additional-selection">
+                          (+{{formPart2.get('DataCategory').value.length - 1}} {{formPart2.get('DataCategory').value?.length === 2 ? 'other' : 'others'}})
+                        </span>
+                      </mat-select-trigger>
+                      <mat-option *ngFor="let category of ropForm3Categories" [value]="category.Name" (click)="onCategorySelection(category)">{{ category.Name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                  
+                <section *ngIf="changeOfNameByOmitting" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Name by Omitting or adopting a New Name</h3>
+
+                    <!-- <div class="grouped-fields">
+                        <h2 class="full-width">From</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingFromSurname">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingFromSurname').invalid">{{ getSurnameErrorMessage('ChangeOfNameByOmittingFromSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingFromGivenName">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingFromGivenName').invalid">{{ getGivenNameErrorMessage('ChangeOfNameByOmittingFromGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingFromOtherName">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingFromOtherName').invalid">{{ getOtherNameErrorMessage('ChangeOfNameByOmittingFromOtherName') }}</mat-error>
+                        </mat-form-field>  
+                    </div>                      -->
+
+                    <!-- <div class="grouped-fields no-top-margin"> -->
+                    <div class="grouped-fields">
+                        <h2 class="full-width">To</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingToSurname">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingToSurname').invalid">{{ getSurnameErrorMessage('ChangeOfNameByOmittingToSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingToGivenName">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingToGivenName').invalid">{{ getGivenNameErrorMessage('ChangeOfNameByOmittingToGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="ChangeOfNameByOmittingToOtherName">
+                            <mat-error *ngIf="formPart2.get('ChangeOfNameByOmittingToOtherName').invalid">{{ getOtherNameErrorMessage('ChangeOfNameByOmittingToOtherName') }}</mat-error>
+                        </mat-form-field>  
+                    </div>                      
+                </section>                
+
+                <section *ngIf="changeOfNameByAdding" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Name by adding Name already appearing on Document</h3>
+
+                    <!-- <div class="grouped-fields">
+                        <h2 class="full-width">From</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingFromSurname">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingFromSurname').invalid">{{ getSurnameErrorMessage('changeOfNameByAddingFromSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingFromGivenName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingFromGivenName').invalid">{{ getGivenNameErrorMessage('changeOfNameByAddingFromGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingFromOtherName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingFromOtherName').invalid">{{ getOtherNameErrorMessage('changeOfNameByAddingFromOtherName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingFromMaidenName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingFromMaidenName').invalid">{{ getMaidenNameErrorMessage('changeOfNameByAddingFromMaidenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingFromPreviousName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingFromPreviousName').invalid">{{ getPreviousNameErrorMessage('changeOfNameByAddingFromPreviousName') }}</mat-error>
+                        </mat-form-field>  
+                    </div>                      -->
+
+                    <!-- <div class="grouped-fields no-top-margin"> -->
+                    <div class="grouped-fields">
+                        <h2 class="full-width">To</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingToSurname">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingToSurname').invalid">{{ getSurnameErrorMessage('changeOfNameByAddingToSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingToGivenName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingToGivenName').invalid">{{ getGivenNameErrorMessage('changeOfNameByAddingToGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingToOtherName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingToOtherName').invalid">{{ getOtherNameErrorMessage('changeOfNameByAddingToOtherName') }}</mat-error>
+                        </mat-form-field>  
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingToMaidenName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingToMaidenName').invalid">{{ getMaidenNameErrorMessage('changeOfNameByAddingToMaidenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByAddingToPreviousName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByAddingToPreviousName').invalid">{{ getPreviousNameErrorMessage('changeOfNameByAddingToPreviousName') }}</mat-error>
+                        </mat-form-field>                          
+                    </div>                      
+                </section>                
+                
+                <section *ngIf="completeChangeOfName" class="expand-section reduced-properties">
+                    <h3 class="full-width">Complete Change of Name</h3>
+
+                    <!-- <div class="grouped-fields">
+                        <h2 class="full-width">From</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameFromSurname">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameFromSurname').invalid">{{ getSurnameErrorMessage('completeChangeOfNameFromSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameFromGivenName">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameFromGivenName').invalid">{{ getGivenNameErrorMessage('completeChangeOfNameFromGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameFromOtherName">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameFromOtherName').invalid">{{ getOtherNameErrorMessage('completeChangeOfNameFromOtherName') }}</mat-error>                            
+                        </mat-form-field>  
+                    </div>                      -->
+
+                    <!-- <div class="grouped-fields no-top-margin"> -->
+                    <div class="grouped-fields">
+                        <h2 class="full-width">To</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameToSurname">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameToSurname').invalid">{{ getSurnameErrorMessage('completeChangeOfNameToSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameToGivenName">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameToGivenName').invalid">{{ getGivenNameErrorMessage('completeChangeOfNameToGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="completeChangeOfNameToOtherName">
+                            <mat-error *ngIf="formPart2.get('completeChangeOfNameToOtherName').invalid">{{ getOtherNameErrorMessage('completeChangeOfNameToOtherName') }}</mat-error>
+                        </mat-form-field>  
+                    </div>                      
+                </section>                
+                
+                <section *ngIf="changeOfNameByDropping" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Name by Dropping Nicknames, Pet Names and/or Titles</h3>
+
+                    <div class="grouped-fields">
+                        <h2 class="full-width"></h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Nicknames <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByDroppingNickname">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByDroppingNickname').invalid">Enter a correct Nickname</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Pet Names <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByDroppingPetName">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByDroppingPetName').invalid">Enter a correct Pet Name</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Titles <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfNameByDroppingTitle">
+                            <mat-error *ngIf="formPart2.get('changeOfNameByDroppingTitle').invalid">Enter a correct title</mat-error>
+                        </mat-form-field>  
+                    </div>                     
+                </section>                
+                
+                <section *ngIf="inclusionOrDeletion" class="expand-section reduced-properties">
+                    <h3 class="full-width">Inclusion or Deletion of Maiden Name</h3>
+
+                    <div class="grouped-fields">
+                        <div class="grouped-items">
+                            <mat-radio-group color="primary" aria-label="Pick one" formControlName="inclusionOrDeletionRadiobtn">
+                                <mat-radio-button value="Inclusion">Inclusion</mat-radio-button>
+                                <mat-radio-button value="Delete">Delete</mat-radio-button>
+                                <!-- <mat-error class="mat-error" *ngIf="formPart2.get('inclusionOrDeletionRadiobtn').invalid">Please choose one.</mat-error> -->
+                            </mat-radio-group>        
+                        </div>                    
+    
+                        <mat-form-field appearance="outline">
+                            <mat-label>Maiden Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="inclusionOrDeletionMaidenName">
+                            <mat-error *ngIf="formPart2.get('inclusionOrDeletionMaidenName').invalid">{{ getSurnameErrorMessage('inclusionOrDeletionMaidenName') }}</mat-error>
+                        </mat-form-field>                       
+                    </div>                    
+                </section>                
+                
+                <section *ngIf="changeOfOrderOfNames" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Order of Names</h3>
+
+                    <!-- <div class="grouped-fields">
+                        <h2 class="full-width">From</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesFromSurname">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesFromSurname').invalid">{{ getSurnameErrorMessage('changeOfOrderOfNamesFromSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesFromGivenName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesFromGivenName').invalid">{{ getGivenNameErrorMessage('changeOfOrderOfNamesFromGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesFromOtherName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesFromOtherName').invalid">{{ getOtherNameErrorMessage('changeOfOrderOfNamesFromOtherName') }}</mat-error>
+                        </mat-form-field>  
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesFromMaidenName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesFromMaidenName').invalid">{{ getMaidenNameErrorMessage('changeOfOrderOfNamesFromMaidenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesFromPreviousName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesFromPreviousName').invalid">{{ getPreviousNameErrorMessage('changeOfOrderOfNamesFromPreviousName') }}</mat-error>
+                        </mat-form-field>                          
+                    </div>                      -->
+
+                    <!-- <div class="grouped-fields no-top-margin"> -->
+                    <div class="grouped-fields">
+                        <h2 class="full-width">To</h2>
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Surname <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesToSurname">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesToSurname').invalid">{{ getSurnameErrorMessage('changeOfOrderOfNamesToSurname') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesToGivenName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesToGivenName').invalid">{{ getGivenNameErrorMessage('changeOfOrderOfNamesToGivenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesToOtherName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesToOtherName').invalid">{{ getOtherNameErrorMessage('changeOfOrderOfNamesToOtherName') }}</mat-error>
+                        </mat-form-field>  
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesToMaidenName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesToMaidenName').invalid">{{ getMaidenNameErrorMessage('changeOfOrderOfNamesToMaidenName') }}</mat-error>
+                        </mat-form-field>  
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfOrderOfNamesToPreviousName">
+                            <mat-error *ngIf="formPart2.get('changeOfOrderOfNamesToPreviousName').invalid">{{ getPreviousNameErrorMessage('changeOfOrderOfNamesToPreviousName') }}</mat-error>
+                        </mat-form-field>                          
+                    </div>                     
+                </section>                
+                
+                <section *ngIf="clarificationOfInitials" class="expand-section reduced-properties">
+                    <h3 class="full-width">Clarification of Initials (add or remove)</h3>
+
+                    <div class="grouped-fields">                        
+                        <div class="grouped-items">
+                            <mat-radio-group color="primary" aria-label="Pick one" formControlName="clarificationOfInitialsRadiobtn">
+                                <mat-radio-button value="Add">Add</mat-radio-button>
+                                <mat-radio-button value="Remove">Remove</mat-radio-button>
+                            </mat-radio-group>        
+                        </div>                        
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Details<span class="required-field">required</span></mat-label>
+                            <textarea #DetailsInput matInput placeholder="Enter them here" formControlName="clarificationOfInitialsDetails" maxlength="255"></textarea>
+                            <mat-hint align="end">{{ DetailsInput.value.length }} / 255</mat-hint>
+                            <mat-error *ngIf="formPart2.get('clarificationOfInitialsDetails').invalid">{{ getClarificationOfInitialsDetailsErrorMessage() }}</mat-error>
+                        </mat-form-field>                          
+                    </div>                      
+                </section>                
+                
+                <section *ngIf="changeOfDateOrMonth" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Date or Month of Birth</h3>
+
+                    <div class="grouped-fields">
+                        <mat-form-field appearance="outline">
+                            <mat-label>From <span class="required-field">required</span></mat-label>
+                            <input matInput [matDatepicker]="dpFrom" disabled formControlName="changeOfDateOrMonthFrom">
+                            <mat-datepicker-toggle matSuffix [for]="dpFrom"></mat-datepicker-toggle>
+                            <mat-datepicker #dpFrom disabled="false"></mat-datepicker>
+                            <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                            <mat-error *ngIf="formPart2.get('changeOfDateOrMonthFrom').invalid">Click the button in the field to choose a date.</mat-error>
+                        </mat-form-field>
+                           
+                        <mat-form-field appearance="outline">
+                            <mat-label>To<span class="required-field">required</span> </mat-label>
+                            <input matInput [matDatepicker]="dpTo" disabled formControlName="changeOfDateOrMonthTo">
+                            <mat-datepicker-toggle matSuffix [for]="dpTo"></mat-datepicker-toggle>
+                            <mat-datepicker #dpTo disabled="false"></mat-datepicker>
+                            <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                            <mat-error *ngIf="formPart2.get('changeOfDateOrMonthTo').invalid">Click the button in the field to choose a date.</mat-error>
+                        </mat-form-field>                   
+                    </div>                     
+                </section>                
+                
+                <section *ngIf="changeOfPlaceOfBirth" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Place of Birth</h3>
+
+                    <!-- <div class="grouped-fields">
+                        <h2 class="full-width">Enter the </h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>District <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfPlaceOfBirthFromDistrict">
+                        </mat-form-field>  
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>County <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfPlaceOfBirthFromCounty">
+                        </mat-form-field>                        
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Sub-County <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfPlaceOfBirthFromSubCounty">
+                        </mat-form-field>                        
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Parish <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfPlaceOfBirthFromParish">
+                        </mat-form-field>                        
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>Village <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="20" formControlName="changeOfPlaceOfBirthFromVillage">
+                        </mat-form-field>                          
+                    </div>                      -->
+
+                    <!-- <div class="grouped-fields no-top-margin"> -->
+                    <div class="grouped-fields">
+                        <h2 class="full-width">To</h2>
+
+                        <mat-form-field appearance="outline">
+                            <mat-label>District <span class="required-field">required</span></mat-label>
+                            <input type="text" placeholder="Pick one" matInput formControlName="changeOfPlaceOfBirthToDistrict" [matAutocomplete]="autoChangeOfPlaceOfBirthToDistrict">
+                            <mat-autocomplete #autoChangeOfPlaceOfBirthToDistrict="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredDistricts | async" [value]="item.DistrictName" (click)="onPlaceOfBirthDistrict(item.DistrictID); DistrictID = item.DistrictID">
+                                    {{ item.DistrictName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Choose from the dropdown.</mat-hint>
+                            <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                            <mat-error *ngIf="formPart2.get('changeOfPlaceOfBirthToDistrict').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                        </mat-form-field>                
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label>County <span class="required-field">required</span></mat-label>
+                            <input type="text" placeholder="Pick one" matInput formControlName="changeOfPlaceOfBirthToCounty" [matAutocomplete]="autoChangeOfPlaceOfBirthToCounty">
+                            <mat-autocomplete #autoChangeOfPlaceOfBirthToCounty="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredCounties | async" [value]="item.CountyName" (click)="onPlaceOfBirthCounty(item.CountyID); CountyID = item.CountyID">
+                                    {{ item.CountyName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Choose from the dropdown.</mat-hint>
+                            <mat-icon matSuffix>arrow_drop_down</mat-icon>   
+                            <mat-error *ngIf="formPart2.get('changeOfPlaceOfBirthToCounty').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                        </mat-form-field>                  
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                            <input type="text" placeholder="Pick one" matInput formControlName="changeOfPlaceOfBirthToSubCounty" [matAutocomplete]="autoChangeOfPlaceOfBirthToSubCounty">
+                            <mat-autocomplete #autoChangeOfPlaceOfBirthToSubCounty="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredSubCounties | async" [value]="item.SubCountyName" (click)="onPlaceOfBirthSubCounty(item.SubCountyID); SubCountyID = item.SubCountyID">
+                                    {{ item.SubCountyName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Choose from the dropdown.</mat-hint>
+                            <mat-icon matSuffix>arrow_drop_down</mat-icon>    
+                            <mat-error *ngIf="formPart2.get('changeOfPlaceOfBirthToSubCounty').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                        </mat-form-field>  
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Parish <span class="required-field">required</span></mat-label>
+                            <input type="text" placeholder="Pick one" matInput formControlName="changeOfPlaceOfBirthToParish" [matAutocomplete]="autoChangeOfPlaceOfBirthToParish">
+                            <mat-autocomplete #autoChangeOfPlaceOfBirthToParish="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredParishes | async" [value]="item.ParishName" (click)="onPlaceOfBirthParish(item.ParishID); ParishID = item.ParishID">
+                                    {{ item.ParishName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Choose from the dropdown.</mat-hint>
+                            <mat-icon matSuffix>arrow_drop_down</mat-icon>     
+                            <mat-error *ngIf="formPart2.get('changeOfPlaceOfBirthToParish').invalid">{{ getSelectErrorMessage() }}</mat-error>
+                        </mat-form-field>                 
+                        
+                        <mat-form-field appearance="outline">
+                            <mat-label>Village <span class="required-field">required</span></mat-label>
+                            <input type="text" placeholder="Pick one" matInput formControlName="changeOfPlaceOfBirthToVillage" [matAutocomplete]="autoChangeOfPlaceOfBirthToVillage">
+                            <mat-autocomplete #autoChangeOfPlaceOfBirthToVillage="matAutocomplete">
+                                <mat-option *ngFor="let item of filteredVillages | async" [value]="item.VillageName" (click)="VillageID = item.VillageID">
+                                    {{ item.VillageName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                            <mat-hint>Choose from the dropdown.</mat-hint>
+                            <mat-icon matSuffix>arrow_drop_down</mat-icon>        
+                            <mat-error *ngIf="formPart2.get('changeOfPlaceOfBirthToVillage').invalid">{{ getSelectErrorMessage() }}</mat-error>                 
+                        </mat-form-field>                        
+                    </div>                        
+                </section>                
+                
+                <section *ngIf="changeOfYearOfBirth" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Year of Birth</h3>
+
+                    <div class="grouped-fields">
+                        <mat-form-field appearance="outline">
+                            <!-- <mat-label>The Year To Change <span class="required-field">required</span></mat-label> -->
+                            <mat-label>From <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="4" placeholder="Ex. 1990" formControlName="changeOfYearOfBirthFrom">
+                            <mat-error *ngIf="formPart2.get('changeOfYearOfBirthFrom').invalid">{{ getChangeOfYearOfBirthErrorMessage('changeOfYearOfBirthFrom') }}</mat-error>
+                        </mat-form-field>  
+
+                        <mat-form-field appearance="outline">
+                            <!-- <mat-label>The Year To Change To <span class="required-field">required</span></mat-label> -->
+                            <mat-label>To <span class="required-field">required</span></mat-label>
+                            <input appRemoveSpaces matInput maxlength="4" placeholder="Ex. 1991" formControlName="changeOfYearOfBirthTo">
+                            <mat-error *ngIf="formPart2.get('changeOfYearOfBirthTo').invalid">{{ getChangeOfYearOfBirthErrorMessage('changeOfYearOfBirthTo') }}</mat-error>
+                        </mat-form-field>                        
+                    </div>                    
+                </section>                
+                
+                <section *ngIf="changeOfSex" class="expand-section reduced-properties">
+                    <h3 class="full-width">Change of Sex</h3>
+
+                    <div class="grouped-fields">
+                        <mat-form-field appearance="outline">
+                            <mat-label>From <span class="required-field">required</span></mat-label>
+                            <mat-select formControlName="changeOfSexFrom">
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formPart2.get('changeOfSexFrom').invalid">{{ getSelectErrorMessage() }}</mat-error>                    
+                        </mat-form-field>                      
+    
+                        <mat-form-field appearance="outline">
+                            <mat-label>To <span class="required-field">required</span></mat-label>
+                            <mat-select formControlName="changeOfSexTo">
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formPart2.get('changeOfSexTo').invalid">{{ getSelectErrorMessage() }}</mat-error>                    
+                        </mat-form-field>                      
+                    </div>
+                </section>                                            
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button [disabled]="processing" class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-button 
+                    [disabled]="formPart2.invalid || processing"
+                    class="next-btn" 
+                    color="primary" 
+                    matStepperNext>
+                    Next
+                </button>                
+            </div>            
+        </mat-step>
+
+        <mat-step *ngIf="showStepAttachemets" [stepControl]="allDocumentsAttached">
+            <ng-template matStepLabel>
+                <h3>DOCUMENTS</h3>
+                <p>Required Attachments</p>
+            </ng-template>
+
+            <form>
+                <section class="expand-section reduced-properties table-wrapper">
+
+                    <!-- <h3>Upload all the required attachments</h3> -->
+                    
+                    <div class="table-wrapper">
+                        <table 
+                            mat-table 
+                            matSortDisableClear="true"
+                            [dataSource]="dataSource"
+                            matSort>
+            
+                            <ng-container matColumnDef="Count">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                            </ng-container>     
+            
+                            <ng-container matColumnDef="Attachment">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Attachment </th>
+                                <td mat-cell *matCellDef="let row">{{ row.Name }}</td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="Priority">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Priority </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <span *ngIf="row.Required" class="required">Must be attached</span>
+                                    <span *ngIf="!row.Required" class="required">One of them</span>
+                                </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="Filename">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Document </th>
+                                <td mat-cell *matCellDef="let row"> 
+                                    <span *ngIf="row.File">{{ row.File.Filename }}</span>
+
+                                    <button *ngIf="!row.File" mat-raised-button (click)="onBrowseForDocument(row)">
+                                        Attach the document
+                                    </button>   
+                                </td>
+                            </ng-container>                    
+            
+                            <!-- Actions Column -->
+                            <ng-container matColumnDef="Actions">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button 
+                                        mat-button 
+                                        class="action-btn"
+                                        [matMenuTriggerFor]="menu" 
+                                        (click)="$event.stopPropagation()"
+                                        matTooltip="See more options">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+            
+                                    <mat-menu yPosition="below" #menu="matMenu" class="more-options-mat-menu">
+            
+                                        <button 
+                                            [disabled]="!row.File"
+                                            mat-menu-item 
+                                            (click)="onReplaceAttachment(row)">
+                                            <mat-icon>swap_horiz</mat-icon>
+                                            <span>Replace Document</span>
+                                        </button>
+                                                
+                                        <hr />
+            
+                                        <button 
+                                            mat-menu-item 
+                                            [disabled]="!row.File"
+                                            (click)="onRemoveAttachment(row)">
+                                            <mat-icon color="warn">delete</mat-icon>
+                                            <span>Remove Document</span>
+                                        </button>
+            
+                                    </mat-menu>                                                  
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-data-row"></tr>
+                        </table>
+
+                        <mat-paginator 
+                            [pageSize]="10"
+                            [pageSizeOptions]="[5, 10]">
+                        </mat-paginator>                    
+                    </div>              
+
+                </section>   
+                
+                <section class="success-message-section fadeInDown _delay4ms" *ngIf="RecievedMessage">
+                   
+                    <p [innerHTML]="RecievedMessage"></p>
+
+                </section>                
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button [disabled]="processing" class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-button 
+                    [disabled]="!allDocumentsAttached || processing"
+                    class="next-btn" 
+                    *ngIf="showStepPayments" 
+                    color="primary" 
+                    matStepperNext>
+                    Next
+                </button>                
+
+                <button 
+                    *ngIf="!showStepPayments"
+                    [disabled]="!allDocumentsAttached || processing || formPart1.invalid || formPart2.invalid"
+                    mat-raised-button 
+                    [ngClass]="{'inline-processing-btn': processing }" 
+                    color="primary" 
+                    (click)="onSubmit()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>
+                    Submit to NIRA
+                </button>
+            </div>             
+        </mat-step>
+
+        <mat-step *ngIf="showStepPayments" [stepControl]="formPRN">
+            <ng-template matStepLabel>
+                <h3>PAYMENT</h3>
+                <p>Process Payment</p>
+            </ng-template>
+
+            <form [formGroup]="formPRN" class="form-payment">
+                
+                <section class="generate-prn-btn-wrapper">
+                    <button 
+                        mat-raised-button 
+                        color="primary" 
+                        [disabled]="processing"
+                        (click)="onGeneratePRN()">
+                        Generate A New PRN
+                    </button>
+
+                    <div *ngIf="PRNDetails" class="prn-reciept">
+
+                        <!-- <button 
+                            color="primary"
+                            mat-raised-button 
+                            (click)="onPrintReceipt()">
+                            Print Receipt
+                        </button> -->
+
+                        <p>
+                            PRN: <b>{{ PRNDetails.PRN }}</b>
+                        </p>                    
+                        
+                        <p>
+                            Amount: <b>{{ PRNDetails.Currency }} {{ PRNDetails.Amount | number: '1.0-0'}}</b>
+                        </p>             
+                        
+                        <p>
+                            Expiry Date: <b>{{ PRNDetails.ExpiryDate }}</b>
+                        </p>
+                    </div>
+
+                </section>
+                
+                <p class="label">
+                    If you have paid for your PRN, please use the field below.
+                </p>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter Your PRN <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces [disabled]="processing" matInput maxlength="13" formControlName="PRN">
+                    <mat-error *ngIf="formPRN.get('PRN').invalid">{{ getPRNErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+                
+                <section class="error-section fadeInDown _delay4ms" *ngIf="PRNErrorMessage">
+                   
+                    <p> {{ PRNErrorMessage }} </p>
+
+                </section>
+
+                <section class="success-message-section fadeInDown _delay4ms" *ngIf="RecievedMessage">
+                   
+                    <p [innerHTML]="RecievedMessage"></p>
+
+                </section>
+                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button [disabled]="processing" class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-raised-button 
+                    [disabled]="processing || formPart1.invalid || formPRN.invalid"
+                    class="next-btn" 
+                    color="primary" 
+                    [ngClass]="{'inline-processing-btn': processing }" 
+                    (click)="onSubmit()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>
+                    Submit to NIRA
+                </button>
+
+                <!-- <button 
+                    mat-raised-button 
+                    [disabled]="!allDocumentsAttached || processing || formPart1.invalid || formPart2.invalid || formPRN.invalid"
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onSubmit()">
+                    Submit to NIRA
+                </button> -->
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>    
+    
+    <!-- <button 
+        *ngIf="showStepPayments"
+        mat-raised-button
+        class="get-prn">
+        
+    </button> -->
+
+</main>

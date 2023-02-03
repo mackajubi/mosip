@@ -1,0 +1,136 @@
+<app-page-banner [title]="title"></app-page-banner>   
+
+<main class="fadeInUp _delay3ms">
+
+    <article>
+
+        <aside>
+
+            <h3>All Procedures</h3>
+                    
+            <ul>         
+                <li class="selected">
+                    Citizen registration (Adults)
+                </li>
+                
+                <li>
+                    Forms for citizen registration (Adults)
+                </li>
+    
+                <li>
+                    Mass registration of pupils and students handbook
+                </li>
+    
+                <li>
+                    Registration of pupils and students
+                </li>
+    
+                <li>
+                    Forms for registration of pupils and students
+                </li>
+    
+                <li>
+                    Alien registration
+                </li>
+    
+                <li>
+                    Birth and Death registration
+                </li>
+    
+                <li>
+                    Adoptions
+                </li>
+            </ul>
+
+        </aside>
+
+        <section class="dynamic">
+            <div *ngIf="selected" class="wrapper">
+                <h2>National ID Registration Requirements for fresh applicants</h2>
+
+                <p>
+                    Applicants must present the following documents for registration:
+                </p>
+
+                <ol class="roman">
+                    <li>
+                        A duly completed NIRA form 3 available at all NIRA offices.
+                    </li>
+                    
+                    <li>
+                        Attach the following supporting documents to prove citizenship.
+                    </li>
+                </ol>
+
+                <ol class="top-margin">
+
+                    <li>
+                        <span>Citizens by birth</span>
+
+                        <p>Citizens of Uganda by birth must present the following requirements:</p>
+                        
+                        <h3>Mandatory</h3>
+
+                        <ol>
+                            <li>
+                                Copy of National ID of both or either parent (if parents are alive)
+                            </li>
+
+                            <li>
+                                A certified copy of a birth certificate
+                            </li>
+                        </ol>
+
+                        <h3 class="top-margin">In the absence of the above, attach the following</h3>
+
+                        <ol class="lower-alpha">
+                            <li>
+                                <span>Recommendation letter from LC 1 chairman stating clearly that applicant is known indicating, </span>
+
+                                <ul>
+                                    <li>Applicant’s names</li>
+                                    <li>Details of parents</li>
+                                    <li>period of stay in LC1 locality</li>
+                                    <li>Tribe and clan</li>
+                                </ul>
+
+                                <p>The letter should be signed with official stamp of LC1 Chairperson (include Telephone contact) and GISO/DISO </p>
+                            </li>
+
+                            <li>Identification bearing applicant’s photo</li>
+                        </ol>
+                    </li>
+
+                    <li class="top-margin">
+                        <span>Dual Citizenship</span>
+
+                        <ol>
+                            <li>Certified copy of certificate of Dual Citizenship</li>
+                            <li>Passport of current country of residence</li>
+                        </ol>
+                    </li>
+
+                    <li class="top-margin">
+                        <span>Citizens by Registration</span>
+
+                        <ol>
+                            <li> Certified copy of Certificate of Citizenship by registration issued by National Citizenship and Immigration Control Board (NCIB)</li>
+                            <li>Identification bearing applicant’s photo</li>
+                        </ol>                        
+                    </li>
+
+                    <li class="top-margin">
+                        <span>Naturalization</span>
+
+                        <ol>
+                            <li>Certified copy of Certificate of Naturalization as Ugandan issued by NCIB </li>
+                            <li>Identification bearing applicant’s photo</li>
+                        </ol>                        
+                    </li>
+                </ol>
+            </div>            
+        </section>
+                
+    </article>
+
+</main>

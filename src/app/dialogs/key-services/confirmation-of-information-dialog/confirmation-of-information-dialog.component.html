@@ -1,0 +1,376 @@
+<main>
+    <div class="mat-progress-bar-container">
+        <mat-progress-bar *ngIf="processing" mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <button mat-button matTooltip="Close preview" *ngIf="!printReceipt" class="close-window-btn" (click)="onClosePreview()">
+        <mat-icon>clear</mat-icon>
+    </button>    
+
+    <header *ngIf="!showPreview && !downloadLetter && !printReceipt">
+        <button mat-button matTooltip="Close window" class="close-window-btn" (click)="onCloseDialog()">
+            <mat-icon>clear</mat-icon>
+        </button>  
+                
+        <h1>Confirmation of Information</h1>
+
+        <p>
+            Please fill in all the fields that are marked required.
+        </p>
+    </header>
+
+    <mat-horizontal-stepper 
+        [selectedIndex]="selectedIndex"
+        *ngIf="!showPreview && !downloadLetter && !printReceipt"
+        [linear]="isLinear"
+        labelPosition="bottom" 
+        #stepper>
+
+        <mat-step [stepControl]="formNIN">
+            <ng-template matStepLabel>
+                <h3>NIN</h3>
+                <p>NIN of Person requesting <br /> for the information</p>
+            </ng-template>
+
+            <form [formGroup]="formNIN" class="form-nin">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter Your NIN <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="14" formControlName="NIN" [disabled]="processing" >
+                    <mat-error *ngIf="formNIN.get('NIN').invalid">{{ getNINErrorMessage() }}</mat-error>                                
+                    <mat-icon *ngIf="NINDetails" [ngClass]="{'valid': NINDetails && NINDetails.IsValid}">{{ NINDetails && NINDetails.IsValid ? 'check' : 'block' }}</mat-icon>
+                </mat-form-field>                
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter Your TIN <span class="optional-field">optional</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput maxlength="10" formControlName="TIN" [disabled]="processing" >
+                    <mat-error *ngIf="formNIN.get('TIN').invalid">{{ getNINErrorMessage() }}</mat-error>                                
+                </mat-form-field>                
+
+                <!-- <p *ngIf="NINDetails && NINDetails.IsValid" class="fadeInDown _delay4ms">
+                    Name: <b>{{ NINDetails.Name }}</b>
+                </p>                 -->
+
+            </form>
+
+            <div class="button-wrapper">                
+                <button
+                    mat-raised-button 
+                    [disabled]="formNIN.invalid || processing" 
+                    class="next-btn" 
+                    (click)="onCheckNIN()"
+                    color="primary">
+                    Send
+                </button>
+
+                <button
+                    mat-raised-button 
+                    [disabled]="!NINDetails || !NINDetails.IsValid || formNIN.invalid || processing" 
+                    class="next-btn" 
+                    matStepperNext
+                    color="primary">
+                    Next
+                </button>
+            </div>             
+        </mat-step>
+
+        <mat-step [stepControl]="formPRN">
+            <ng-template matStepLabel>
+                <h3>PRN</h3>
+                <p>Payment Registration Number.</p>                
+            </ng-template>
+
+            <form [formGroup]="formPRN" class="form-two">
+                
+                <section class="generate-prn-btn-wrapper" [ngStyle]="{'grid-template-columns': PRNDetails ? '260px auto' : 'auto'}">
+                    <button 
+                        mat-raised-button 
+                        color="primary" 
+                        [disabled]="processing"
+                        (click)="onGeneratePRN()">
+                        Generate A New PRN
+                    </button>
+
+                    <div *ngIf="PRNDetails" class="prn-reciept">
+
+                        <button 
+                            color="primary"
+                            mat-raised-button 
+                            (click)="onPrintReceipt()">
+                            Print Receipt
+                        </button>
+
+                        <p>
+                            PRN: <b>{{ PRNDetails.PRN }}</b>
+                        </p>                    
+                        
+                        <p>
+                            Amount: <b>{{ PRNDetails.Currency }} {{ PRNDetails.Amount | number: '1.0-0'}}</b>
+                        </p>             
+                        
+                        <p>
+                            Expiry Date: <b>{{ PRNDetails.ExpiryDate }}</b>
+                        </p>
+                    </div>
+
+                </section>
+                
+                <p class="label">
+                    If you have paid for your PRN, please use the field below.
+                </p>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Enter Your PRN <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces [disabled]="processing" matInput maxlength="13" formControlName="PRN">
+                    <mat-error *ngIf="formPRN.get('PRN').invalid">{{ getPRNErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+                
+                <section class="error-section fadeInDown _delay4ms" *ngIf="PRNErrorMessage">
+                   
+                    <p> {{ PRNErrorMessage }} </p>
+
+                </section>
+                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-raised-button 
+                    [disabled]="processing || formPRN.invalid"
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onCheckPRNStatus()">Next</button>
+            </div>
+        </mat-step>        
+
+        <mat-step [stepControl]="formThree">
+            <ng-template matStepLabel>
+                <h3>SEND TO</h3>
+                <p>The Office you're <br />sending the Letter.</p>                
+            </ng-template>
+
+            <form [formGroup]="formThree">
+
+                <mat-form-field appearance="outline" class="full-width ">
+                    <mat-label>Organisation <span class="required-field">required</span></mat-label>
+                    <input type="text" placeholder="Pick one" matInput formControlName="Organisation" [matAutocomplete]="autoOrganisation">
+                    <mat-autocomplete #autoOrganisation="matAutocomplete">
+                        <mat-option *ngFor="let item of filteredOrganisations | async" [value]="item.OrganisationName" (click)="OrganisationID = item.OrganisationID;onSelectingOrganisation(item)">
+                            {{ item.OrganisationName }}
+                        </mat-option>
+                        <mat-option value="Other">Other</mat-option>
+                    </mat-autocomplete>
+                    <mat-hint>Choose from the dropdown.</mat-hint>
+                    <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline" [hintLabel]="'Enter the name of the organisation/office/person'" *ngIf="formThree.get('Organisation').value === 'Other'">
+                    <mat-label> Please Specify<span class="required-field">required</span></mat-label>
+                    <input matInput placeholder="" maxlength="50" formControlName="OtherOrganisation">
+                    <mat-error *ngIf="formThree.get('Organisation').value === 'Other' && !formThree.get('OtherOrganisation').value && formThree.get('OtherOrganisation').invalid">{{ getOtherOrganisationErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Location <span class="required-field">required</span></mat-label>
+                    <input matInput placeholder="" maxlength="50" formControlName="Location">
+                    <mat-error *ngIf="formThree.get('Location').invalid">{{ getLocationErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Office <span class="required-field">required</span></mat-label>
+                    <input matInput placeholder="" maxlength="50" formControlName="Office">
+                    <mat-error *ngIf="formThree.get('Office').invalid">{{ getOfficeErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+                
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Person <span class="required-field">required</span></mat-label>
+                    <input matInput placeholder="" formControlName="Person">
+                </mat-form-field>                                     -->
+                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-raised-button 
+                    class="preview-btn" 
+                    [disabled]="processing || !formThree.get('Organisation').value"
+                    color="primary" 
+                    (click)="onPreview()">
+                    <div class="btn-label">
+                        <span>Preview Letter</span>
+                        <mat-icon>visibility</mat-icon>
+                    </div>
+                </button>
+
+                <button 
+                    mat-raised-button 
+                    [disabled]="processing || !formThree.get('Organisation').value || formThree.invalid"
+                    class="donwload-btn" 
+                    color="primary" 
+                    (click)="onDownloadLetter()">
+                    <div class="btn-label">
+                        <span>Download Letter</span>
+                        <mat-icon>cloud_download</mat-icon>
+                    </div>                    
+                </button>
+                <!-- <button 
+                    mat-raised-button 
+                    [disabled]="processing"
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onCheckOTPNumber()">Next</button> -->
+            </div>
+        </mat-step>
+    </mat-horizontal-stepper>    
+
+    <article 
+        *ngIf="showPreview || downloadLetter" 
+        style="width: 100%; margin: 30px 0px; position: relative;"
+        id="letterBodyContainer">
+
+        <div class="image-wrapper" style="width: 250px; overflow: hidden; margin: auto; ">
+            <img src="./assets/exports/nira_logo_black@2x.png" style="width: 100%; " alt="">
+        </div>
+        
+        <section class="letter-body" style="padding: 12px 60px 45px;">
+
+            <!-- <p class="our-ref" style="font-size: 18px; font-family: Tahoma;">Our Ref, <strong>NIRA/ADM/2A</strong> </p> -->
+
+            <p class="date" style="font-size: 16px; margin-top: 5px; font-family: Tahoma;">{{ today | date :'d'}}<sup>{{ getDateSuperscript() }}</sup> {{ today | date :'MMMM, yyyy' }} </p>
+
+            <div class="office" style="margin: 35px 0px 15px; display: flex; flex-direction: column; gap: 5px; font-family: Tahoma;">
+                <p style="font-size: 16px; margin: 0px;">{{ formThree.get('Office').value }}</p>
+                
+                <p style="font-size: 16px; margin: 0px;">{{ formThree.get('Organisation').value !== 'Other' ? formThree.get('Organisation').value : formThree.get('OtherOrganisation').value}}</p>
+                
+                <p class="location" style="font-size: 16px; margin: 0px;">{{ formThree.get('Location').value }}</p>
+            </div>
+            
+            <h1 style="font-family: Tahoma; text-transform: uppercase; font-size: 20px; margin: 33px 0px 14px;">Confirmation of Information on the Register</h1>
+
+            <i style="font-family: Tahoma; margin: 21px 0px 0px; line-height: 23px; font-size: 15px; text-align: justify;">
+                Regulation 8(1) of the Registration of Persons Regulations 2015 S.I No. 67 provides 
+                that a ministry, department or agency of Government or any institution or person 
+                may request the Authority to confirm the information provided by a person with the 
+                information contained in the Register in respect of any person.           
+            </i>
+
+            <!-- If the Information has been found -->
+            <p *ngIf="found" class="letter-details" style="margin: 22px 0px; font-size: 16px; text-align: justify; line-height: 25px; font-family: Tahoma;">
+                Following your application for confirmation of information on the National Identification Register (NIR), 
+                this is to confirm that <strong style="border-bottom: 1px dashed; text-transform: uppercase;">{{ NINDetails.Name }}</strong> date of Birth <strong style="border-bottom: 1px dashed;">{{ NINDetails.DOB | date : 'dd/MM/yyyy' }}</strong> bearer
+                of National Identification Number (NIN) <strong style="border-bottom: 1px dashed; text-transform: uppercase;">{{ NINDetails.NIN }}</strong> appears on the NIR.
+            </p>
+
+            <p *ngIf="found" class="letter-details" style="font-size: 16px; text-align: justify; line-height: 25px; font-family: Tahoma;">
+                The information indicated in your application is a true reflection of the information as it appears 
+                on the NIR.                
+            </p>
+
+            <!-- If Information is not found -->
+            <p *ngIf="!found" class="letter-details" style="font-size: 16px; text-align: justify; line-height: 25px; font-family: Tahoma;">
+                Following your application for confirmation of information on the National Identification Register (NIR), 
+                this is to confirm that <strong style="border-bottom: 1px dashed;">{{ NINDetails.Name }}</strong> <i style="margin-left: 10px;font-weight: 600;">does not</i> appear on the NIR.
+            </p>
+
+            <p *ngIf="!found" class="letter-details" style="font-size: 16px; text-align: justify; line-height: 25px; font-family: Tahoma;">
+                NIRA takes no responsibility for spelling mistakes, (Names, Date of Birth) omission or replacement of 
+                characters in the NIN, in the application submitted for confirmation.               
+            </p>
+            
+            <footer 
+                class="footer"
+                style="display: flex; flex-direction: row; align-items: center; justify-content: space-between; margin: 106px 0px 0px;">
+
+                <div style="align-self: flex-start;">
+
+                    <img src="./assets/images/ED Signature.fw.png" style="margin-bottom: -9px;" alt="ED's Signature">
+    
+                    <p class="signatory" style="padding-top: 10px; font-size: 16px; margin: 0px 0px 5px;">Rosemary Kisembo</p>
+        
+                    <h2 class="signatory-role" style="font-size: 16px; text-transform: uppercase; margin: 0px; font-size: 17px;">Executive Director <br /></h2>
+
+                </div>
+
+                <div style="text-align: center;">
+                    <qrcode 
+                        *ngIf="referenceNumber"
+                        [errorCorrectionLevel]="'M'" 
+                        [qrdata]="QRCodeData" 
+                        [margin]="2" 
+                        [width]="130">
+                    </qrcode>
+
+                    <p 
+                        class="tracking-status" 
+                        style="font-size: 13px; margin-top: -2px; font-weight: 600;">
+                        {{ referenceNumber }}
+                    </p>
+                </div>
+
+            </footer>
+
+        </section>
+
+    </article>
+
+    <article 
+        *ngIf="printReceipt"
+        [ngStyle]="{'height': 'calc(100vh - 60px)'}"
+        style="width: 100%; margin: 30px 0px; position: relative;"
+        id="letterBodyContainer">
+
+        <section style="display: flex; flex-direction: row; justify-content: space-between;">
+
+            <div class="image-wrapper" style="width: 190px; overflow: hidden; margin: auto; ">
+                <img src="./assets/exports/nira_logo_black@2x.png" style="width: 100%; " alt="">
+            </div>
+    
+            <div class="image-wrapper" style="width: 150px; overflow: hidden; margin: auto; ">
+                <img src="./assets/images/Uganda-Revenue-Authority.jpg" style="width: 100%; " alt="">
+            </div>
+
+        </section>
+        
+        <h1 style="text-align: center; font-weight: 400; padding: 15px 0px 18px; background-color: #ededed;">Payment Registration Slip</h1>
+
+        <section class="letter-body" style="padding: 12px 60px 15px; display: flex; flex-direction: column; align-content: center; align-items: center;">
+
+            <p style="font-weight: 200; font-size: 20px; display: grid;grid-template-columns: 120px auto; width: 390px; align-items: center; margin-left: 30px;">
+                Name: <b style="font-weight: 500;">{{ NINDetails.Name }}</b>
+            </p>                    
+            
+            <p style="font-weight: 200; font-size: 20px; display: grid;grid-template-columns: 120px auto; width: 390px; align-items: center; margin-left: 30px;">
+                Service: <b style="font-weight: 500;">Confirmation of Information</b>
+            </p>                    
+
+            <p style="font-weight: 200; font-size: 20px;display: grid;grid-template-columns: 120px auto; width: 390px; align-items: center; margin-left: 30px;">
+                PRN: <b style="font-weight: 500;">{{ PRNDetails.PRN }}</b>
+            </p>                    
+            
+            <p style="font-weight: 200; font-size: 20px;display: grid;grid-template-columns: 120px auto; width: 390px; align-items: center; margin-left: 30px;">
+                Amount: <b style="font-weight: 500;">{{ PRNDetails.Currency }} {{ PRNDetails.Amount | number: '1.0-0'}}</b>
+            </p>             
+            
+            <p style="font-weight: 200; font-size: 20px;display: grid;grid-template-columns: 120px auto; width: 390px; align-items: center; margin-left: 30px;">
+                Expiry Date: <b style="font-weight: 500;">{{ PRNDetails.ExpiryDate }}</b>
+            </p>
+            
+        </section>
+        
+    </article>
+
+</main>
+
+<!-- 
+    In process, 
+    Rejected, 
+    Rectification Required, 
+    Approved, 
+    Card ready for issuance, 
+    Card issued.
+-->

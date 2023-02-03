@@ -1,0 +1,30 @@
+<main>
+
+    <h3>Tenders</h3>
+    
+    <section 
+        class="home-page-latest-tenders-section fadeInUp _delay{{ i + 3 }}ms" 
+        (click)="onReadTender(tender)" *ngFor="let tender of tenders; let i = index">
+
+        <h2 [innerHTML]="tender.tenderName | textShortner : textToShow()"></h2>
+
+        <div>
+            <mat-icon>access_alarm</mat-icon>
+
+            <p>{{ tender.datePublished | date : 'EEE, MMMM d, yyyy' }}</p>
+        </div>
+
+    </section>
+
+    <div class="trigger-button-wrapper" *ngIf="tenders.length">
+        
+        <button mat-button routerLink="/tenders">
+            <div class="btn-label">
+                <span>View All Tenders</span>
+                <mat-icon>arrow_forward</mat-icon>
+            </div>
+        </button>
+
+    </div>
+    
+</main>

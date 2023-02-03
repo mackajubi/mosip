@@ -1,0 +1,17 @@
+<main (click)="onClick()" matRipple [ngClass]="{'fixed-height': fixedHeight, 'active': selected === title}">
+
+    <header>
+        <h3 [ngClass]="{'remove-header-margin': removeHeaderMargin}" [innerHTML]="title"></h3>
+
+        <div class="icon-wrapper" [ngStyle]="{'background-color': iconBg}">
+            <mat-icon [ngStyle]="{color: iconColor}">{{ icon }}</mat-icon>
+        </div>
+    </header>
+
+    <section >
+        
+        <ng-content></ng-content>
+
+    </section>
+
+</main>

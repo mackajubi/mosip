@@ -1,0 +1,170 @@
+<main>
+    <div class="mat-progress-bar-container">
+        <mat-progress-bar *ngIf="processing" mode="indeterminate"></mat-progress-bar>
+    </div>
+
+    <header>
+        <button mat-button (click)="onCloseDialog()">
+            <mat-icon>clear</mat-icon>
+        </button>
+
+        <h1>Track Status</h1>
+
+        <p>
+            Please fill in all the fields that are marked required.
+        </p>
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear"
+        labelPosition="bottom" #stepper>
+
+        <mat-step [stepControl]="formOne">
+            <ng-template matStepLabel>
+                <h3>Application ID</h3>
+                <p>The Appl. ID No.</p>
+            </ng-template>
+
+            <form [formGroup]="formOne">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Application ID Number <span class="required-field">required</span></mat-label>
+                    <input appUppercase appRemoveSpaces matInput placeholder="" maxlength="13" formControlName="ApplicationID">
+                    <mat-error *ngIf="formOne.get('ApplicationID').invalid">{{ getApplicationIDErrorMessage() }}</mat-error>                                
+                </mat-form-field>    
+                
+                <!-- <mat-form-field appearance="outline">
+                    <mat-label>Phone Number <span class="required-field">required</span></mat-label>
+                    <span matPrefix>+256 &nbsp;</span>
+                    <input matInput appTelephoneFormaterDirective maxlength="11" formControlName="PhoneNumber" placeholder="Ex. 701 101 101">
+                    <mat-error *ngIf="formOne.get('PhoneNumber').invalid">{{ getTelephoneNumberErrorMessage() }}</mat-error>            
+                </mat-form-field>   -->
+                
+                <div class="recapture">
+                    <re-captcha
+                        *ngIf="renderRecapture"
+                        (resolved)="resolved($event)" 
+                        (expire)="handleExpire()"
+                        formControlName="recaptchaReactive"
+                        [siteKey]="recaptcha2SiteKey">
+                    </re-captcha>            
+                </div>                
+
+            </form>
+
+            <div class="button-wrapper single-button-end">                
+                <button 
+                    mat-raised-button 
+                    [disabled]="formOne.invalid || processing" 
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onCheckStatus()">
+                    Send
+                </button>
+                <!-- <button 
+                    mat-raised-button 
+                    [disabled]="processing" 
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onCheckApplicationIDNumber()">Send</button> -->
+            </div>             
+        </mat-step>
+
+        <!-- <mat-step [stepControl]="formTwo">
+            <ng-template matStepLabel>
+                <h3>OTP</h3>
+                <p>6 digits sent via sms.</p>                
+            </ng-template>
+
+            <form [formGroup]="formTwo" class="otp">
+                
+                <mat-form-field appearance="outline">
+                    <input type="digit" NextInputId="digit_2" appMoveToNextInput [maxlength]="1" matInput formControlName="DigitOne">
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <input type="digit" id="digit_2" appMoveToNextInput NextInputId="digit_3" [maxlength]="1" matInput formControlName="DigitTwo">
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <input type="digit" id="digit_3" appMoveToNextInput NextInputId="digit_4" [maxlength]="1" matInput formControlName="DigitThree">
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <input type="digit" id="digit_4" appMoveToNextInput NextInputId="digit_5" [maxlength]="1" matInput formControlName="DigitFour">
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <input type="digit" id="digit_5" appMoveToNextInput NextInputId="digit_6" [maxlength]="1" matInput formControlName="DigitFive">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <input type="digit" id="digit_6" [maxlength]="1" matInput formControlName="DigitSix">
+                </mat-form-field>                                    
+                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    mat-raised-button 
+                    [disabled]="processing || formTwo.invalid"
+                    class="next-btn" 
+                    color="primary" 
+                    (click)="onCheckOTPNumber()">
+                    Next
+                </button>
+            </div>
+        </mat-step> -->
+
+        <mat-step [stepControl]="isValid">
+            <ng-template matStepLabel>
+                <h3>Status</h3>
+                <p>Last Step</p>                
+            </ng-template>
+
+            <article class="application-status" *ngIf="ApplicationStatus">
+
+                <div>
+                    <span>Application Number:</span>
+                    <b>{{ ApplicationStatus.ApplicantID }}</b>
+                </div>
+
+                <div>
+                    <span>Applicant Name:</span>
+                    <b>{{ ApplicationStatus.ApplicantName }}</b>
+                </div>
+
+                <div class="status">
+                    <span>Status:</span>
+                    <b [ngClass]="{'in-process': ApplicationStatus.ApplicantStatus === 'In process', 
+                        'rejected': ApplicationStatus.ApplicantStatus === 'Rejected' || ApplicationStatus.ApplicantStatus === 'Rectification Required',
+                        'approved': ApplicationStatus.ApplicantStatus === 'Approved' || ApplicationStatus.ApplicantStatus === 'Card issued' || ApplicationStatus.ApplicantStatus === 'Card ready for issuing'}">
+                        {{ ApplicationStatus.ApplicantStatus }}
+                    </b>
+                </div>
+
+                <div>
+                    <span>District of Registration:</span>
+                    <b>{{ ApplicationStatus.District }}</b>
+                </div>
+
+            </article>
+
+            <div class="button-wrapper single-button-start">
+                <button mat-button (click)="onPreviousStep()" class="back-btn" matStepperPrevious>Back</button>            
+            </div>            
+        </mat-step>
+    </mat-horizontal-stepper>    
+
+</main>
+
+<!-- 
+    In process, 
+    Rejected, 
+    Rectification Required, 
+    Approved, 
+    Card ready for issuance, 
+    Card issued.
+-->

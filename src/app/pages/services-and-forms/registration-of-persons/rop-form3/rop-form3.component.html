@@ -1,0 +1,1735 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                <!-- Ask for your previously captured partial form information. -->
+                Ask for your previously captured form information.
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button 
+                [ngClass]="{'inline-processing-btn': processing}" 
+                mat-raised-button 
+                [disabled]="processing" 
+                (click)="onGetSavedDraft()">
+                <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                <span> Send </span>                
+            </button> 
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to register and apply for the National Identification Card. 
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear"
+        labelPosition="bottom" #stepper>
+
+        <!-- <mat-step [stepControl]="firstFormGroup">
+            <form [formGroup]="firstFormGroup"> -->
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>PART A</h3>
+                <p>Personal Information</p>                
+            </ng-template>
+
+            <form [formGroup]="formPartA">
+
+                <!-- <mat-form-field>
+                    <mat-label>Enrolment Location <span class="optional-field">optional</span></mat-label>
+                    <input matInputformControlName="firstCtrl">
+                </mat-form-field> -->
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ApplicantSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ApplicantGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ApplicantOtherNames">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ApplicantMaidenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="ApplicantPreviousName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Sex <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="SexOfApplicant">
+                        <mat-option value="Male">Male</mat-option>
+                        <mat-option value="Female">Female</mat-option>
+                    </mat-select>
+                </mat-form-field>    
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Birth <span class="required-field">required</span></mat-label>
+                    <input color="accent" matInput [max]="maxDate" placeholder="Enter your date of birth" formControlName="DateOfBirth" [matDatepicker]="dob">
+                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                    <mat-datepicker #dob disabled="false"></mat-datepicker>
+                    <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>                
+
+                <mat-checkbox
+                    color="primary"
+                    [required]="'false'"
+                    [checked]="AgeIsEstimated">
+                    Click the box if the Date of Birth is estimated
+                </mat-checkbox> 
+                
+                <mat-form-field appearance="outline" hintLabel="Maximum of 50.">
+                    <mat-label>Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appLowercase matInput #EmailAddressInput formControlName="EMail" maxlength="50" placeholder="">
+                    <!-- <mat-error *ngIf="form.get('EmailAddress').invalid">{{ getEmailAddressErrorMessage() }}</mat-error> -->
+                    <mat-hint align="end">{{ EmailAddressInput.value.length }} / 50</mat-hint>
+                </mat-form-field>       
+                
+                <mat-form-field appearance="outline" hintLabel="Maximum of 11.">
+                    <mat-label>Home Phone No. <span class="optional-field">optional</span></mat-label>
+                    <span matPrefix>+256 &nbsp;</span>
+                    <input matInput #TelephoneNumberInput appTelephoneFormaterDirective maxlength="11" formControlName="Phone1" placeholder="Ex. 701 000 000">
+                    <!-- <mat-error *ngIf="form.get('TelephoneNumber').invalid">{{ getTelephoneNumberErrorMessage() }}</mat-error>             -->
+                    <mat-hint align="end">{{ TelephoneNumberInput.value.length }} / 11</mat-hint>
+                </mat-form-field>                
+                
+                <mat-form-field appearance="outline" hintLabel="Maximum of 11.">
+                    <mat-label>Mobile No. <span class="required-field">required</span></mat-label>
+                    <span matPrefix>+256 &nbsp;</span>
+                    <input matInput #TelephoneNumberInput appTelephoneFormaterDirective maxlength="11" formControlName="Phone2" placeholder="Ex. 701 000 000">
+                    <!-- <mat-error *ngIf="form.get('TelephoneNumber').invalid">{{ getTelephoneNumberErrorMessage() }}</mat-error>             -->
+                    <mat-hint align="end">{{ TelephoneNumberInput.value.length }} / 11</mat-hint>
+                </mat-form-field>                
+                
+                <mat-form-field appearance="outline" hintLabel="Choose an option.">
+                    <mat-label>Highest Level of Education <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HighestLevelOfEducation">
+                        <mat-option value="1">primary</mat-option>
+                        <mat-option value="2">secondary</mat-option>
+                        <mat-option value="3">tertiary</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Profession <span class="optional-field">optional</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="Profession" placeholder="For Example: Doctor" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>                 
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Occupation <span class="optional-field">optional</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="Occupation" placeholder="For Example: Surgeon" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>      
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Religion <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="Religion">
+                        <mat-option value="Anglican">Christian</mat-option>
+                        <mat-option value="Muslim">Muslim</mat-option>
+                        <mat-option value="Other">Other</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Disabilities <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="Disabilities">
+                        <mat-option *ngFor="let item of Disabilities" [value]="item.DisabilityID">{{ item.Disability }}</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+
+                <header 
+                    class="no-top-margin"
+                    matRipple
+                    (click)="showPlaceOfOrigin = !showPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfOrigin }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="CountryOfOrigin" [matAutocomplete]="autoCountryOfOrigin">
+                        <mat-autocomplete #autoCountryOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountryOfOrigin | async" [value]="item.CountryName" (click)="CountryOfOriginCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="DistrictOfOrigin" [matAutocomplete]="autoDistrictOfOrigin">
+                        <mat-autocomplete #autoDistrictOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredDistrictOfOrigin | async" [value]="item.DistrictName" (click)="DistrictOfOriginDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>    
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="CountyOfOrigin" [matAutocomplete]="autoCountyOfOrigin">
+                        <mat-autocomplete #autoCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountyOfOrigin | async" [value]="item.CountyName" (click)="onCountyOfOrigin(item.CountyID); CountyOfOriginCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="SubCountyOfOrigin" [matAutocomplete]="autoSubCountyOfOrigin">
+                        <mat-autocomplete #autoSubCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredSubCountyOfOrigin | async" [value]="item.SubCountyName" (click)="SubCountyOfOriginSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                          
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ParishOfOrigin">
+                    </mat-form-field>  
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfOrigin">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Indigenous Community / Tribe <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="IndigenousCommunityOrTribe">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Clan <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="Clan">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Type<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CitizenshipType">
+                            <mat-option value="1">By Birth</mat-option>
+                            <mat-option value="2">By Registration</mat-option>
+                            <mat-option value="3">By Naturalization</mat-option>
+                            <mat-option value="4">Dual Citizenship</mat-option>
+                            <mat-option value="5">Citizenship acquired before 1995 Constitution other than the above stated</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Certificate Number <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="CitizenshipCertificateNumber">
+                    </mat-form-field>                      
+                    
+                    <!-- Question: When I select Dual Citizenship. Doesn't that impy one of them is for Uganda... which -->
+                    <!-- means we only need to ask for the second one. -->
+                    <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+                        <mat-label>State Other CitizenShip <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="StateOtherCitizenShip">
+                    </mat-form-field>                      
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showPlaceOfResidence = !showPlaceOfResidence"
+                    [ngClass]="{'expand-section': showPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3 class="section-divider">Place of Residence</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfResidence }">
+                    <!-- We do not need this field... Once you select Uganda, we know it's local. -->
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>Place of Residence <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="PlaceOfResidence">
+                            <mat-option value="Local">Local</mat-option>
+                            <mat-option value="Foreign">Foreign</mat-option>
+                        </mat-select>
+                    </mat-form-field>                   -->
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="ApplicantPlaceOfResidenceCountry" [matAutocomplete]="autoCountryOfResidence">
+                        <mat-autocomplete #autoCountryOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountryOfResidence | async" [value]="item.CountryName" (click)="ApplicantPlaceOfResidenceCountryCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="ApplicantPlaceOfResidenceDistrict" [matAutocomplete]="autoDistrictOfResidence">
+                        <mat-autocomplete #autoDistrictOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredDistrictOfResidence | async" [value]="item.DistrictName" (click)="ApplicantPlaceOfResidenceDistrictDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="ApplicantPlaceOfResidenceCounty" [matAutocomplete]="autoCountyOfResidence">
+                        <mat-autocomplete #autoCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountyOfResidence | async" [value]="item.CountyName" (click)="onApplicantPlaceOfResidenceCounty(item.CountyID); ApplicantPlaceOfResidenceCountyCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="ApplicantPlaceOfResidenceSubcounty" [matAutocomplete]="autoSubCountyOfResidence">
+                        <mat-autocomplete #autoSubCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="ApplicantPlaceOfResidenceSubcountySubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>            
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ParishOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfResidence">
+                    </mat-form-field>                
+                    
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>Street <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="StreetOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Plot / House No. <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="PlotOfResidence">
+                    </mat-form-field>                 -->
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Number of years at this address. <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="NumberOfYearsAtAddress">
+                    </mat-form-field>     
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Previous District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="PreviousDistrictOfResidence" [matAutocomplete]="autoPreviousDistrictOfResidence">
+                        <mat-autocomplete #autoPreviousDistrictOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredPreviousDistrictOfResidence | async" [value]="item.DistrictName">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                            
+                    </mat-form-field>   
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Postal Address <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PostalAddress">
+                    </mat-form-field>                       
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showPlaceOfBirth = !showPlaceOfBirth"
+                    [ngClass]="{'expand-section': showPlaceOfBirth }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Place of Birth (<span>Which place were you born ?</span>)</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showPlaceOfBirth }">    
+                    <!-- <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="CountryOfBirth">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>   -->
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="CountryOfBirth" [matAutocomplete]="autoCountryOfBirth">
+                        <mat-autocomplete #autoCountryOfBirth="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountryOfBirth | async" [value]="item.CountryName" (click)="CountryOfBirthCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                         
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="DistrictOfBirth" [matAutocomplete]="autoDistrictOfBirth">
+                        <mat-autocomplete #autoDistrictOfBirth="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredDistrictOfBirth | async" [value]="item.DistrictName"  (click)="DistrictOfBirthDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                     
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="CountyOfBirth" [matAutocomplete]="autoCountyOfBirth">
+                        <mat-autocomplete #autoCountyOfBirth="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredCountyOfBirth | async" [value]="item.CountyName" (click)="onCountyOfBirth(item.CountyID); CountyOfBirthCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                              
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="SubCountyOfBirth" [matAutocomplete]="autoSubCountyOfBirth">
+                        <mat-autocomplete #autoSubCountyOfBirth="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredSubCountyOfBirth | async" [value]="item.SubCountyName" (click)="SubCountyOfBirthSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>   
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ParishOfBirth">
+                    </mat-form-field>                         
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="VillageOfBirth">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>City / Town <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="CityOfBirth">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Health Facility <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="HealthFacility">
+                    </mat-form-field>     
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Weight at Birth <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="WeightAtBirth">
+                    </mat-form-field>    
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Time of Birth <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="TimeOfBirth">
+                    </mat-form-field>    
+                    
+                    <mat-form-field appearance="outline" hintLabel="In regard to Mother">
+                        <mat-label>Parity of Child<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ParityOfChild">
+                            <mat-option value="1">1st born</mat-option>
+                            <mat-option value="2">2nd born</mat-option>
+                            <mat-option value="3">3rd born</mat-option>
+                            <mat-option value="4">4th born</mat-option>
+                            <mat-option value="5">5th born</mat-option>
+                            <mat-option value="6">6th born</mat-option>
+                            <mat-option value="7">7th born</mat-option>
+                            <mat-option value="8">8th born</mat-option>
+                        </mat-select>
+                    </mat-form-field>                     
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showPassportInformation = !showPassportInformation"
+                    [ngClass]="{'expand-section': showPassportInformation }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Passport Information</h3>
+                </header>
+
+                <section class="no-bottom-border" [ngClass]="{'expand-section': showPassportInformation }">             
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Passport Number <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PassportNumber">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>File Number <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="PassportFileNumber">
+                    </mat-form-field>                
+                                          
+                </section>
+
+            </form>
+
+            <div class="button-wrapper">
+                <button 
+                    [ngClass]="{'inline-processing-btn': processing}" 
+                    mat-raised-button 
+                    color="primary" 
+                    [disabled]="formPartA.invalid || processing" 
+                    (click)="onSaveDraft()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                    <span> Save Draft </span>
+                </button>
+
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step optional>
+            <ng-template matStepLabel>
+                <h3>PART B</h3>
+                <p matTooltip="To be filled for Adult registration only">To be filled for Adult registration only</p>                
+            </ng-template>
+
+            <form [formGroup]="formPartB">
+
+                <h3 class="margin-bottom-20">Voter's Information</h3>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Preferred Polling Station <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="PreferredPollingStation">
+                        <mat-option value="1">Place of Residence</mat-option>
+                        <mat-option value="2">Place of Origin</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Polling Station Name <span class="required-field">required</span></mat-label>
+                    <input matInput formControlName="PollingStationName">
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Marital Status <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="MaritalStatus">
+                        <mat-option value="1">Married</mat-option>
+                        <mat-option value="2">Single</mat-option>
+                        <mat-option value="3">Divorced</mat-option>
+                        <mat-option value="4">Widowed</mat-option>
+                        <mat-option value="5">Separeted</mat-option>
+                    </mat-select>
+                </mat-form-field>       
+
+                <h3 class="margin-bottom-20">Spouse Details</h3>
+                
+                <section class="expand-section reduced-properties table-wrapper">
+                    <button 
+                        mat-raised-button
+                        [disabled]="processing"
+                        class="add-item-button"
+                        (click)="onAddASpouse()">
+                        <div class="button-label">
+                            <mat-icon>add</mat-icon>                            
+                            <span>Add A Spouse</span>
+                        </div>
+                    </button>
+                    
+                    <div class="table-wrapper">
+                        <table 
+                            mat-table 
+                            #spousesMatSort="matSort"
+                            matSortDisableClear="true"
+                            [dataSource]="spouseDataSource"
+                            matSort>
+            
+                            <ng-container matColumnDef="Count">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let row"> <b>
+                                    {{ row.Surname }} &nbsp; 
+                                    {{ row.GivenName ? ' ' + row.GivenName : '' }} 
+                                    {{ row.OtherName ? ' ' + row.OtherName : '' }} 
+                                    {{ row.MaidenName ? ' ' + row.MaidenName : '' }} 
+                                </b> </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PreviousName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Previous Name </th>
+                                <td mat-cell *matCellDef="let row">{{ row.PreviousName }}</td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="NIN">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> NIN / Applcation ID </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.NIN ? row.NIN : row.ApplicationID }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="CitizenshipTypeName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Citizenship </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.CitizenshipTypeName }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="CitizenshipCertificateNumber">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Citizenship Cert. No. </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.CitizenshipCertificateNumber }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="OtherCitizenship">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Other Citizenship</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.OtherCitizenship }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PlaceOfMarriage">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Place Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.PlaceOfMarriage }} </td>
+                            </ng-container>       
+            
+                            <ng-container matColumnDef="DateOfMarriage">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.DateOfMarriage | date : 'EEE, MMM d, y' }} </td>
+                            </ng-container>       
+            
+                            <ng-container matColumnDef="TypeOfMarriageName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Type Of Marriage</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.TypeOfMarriageName }} </td>
+                            </ng-container>       
+            
+                            <!-- Actions Column -->
+                            <ng-container matColumnDef="Actions">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row; let index = index">
+                                    <button 
+                                        mat-button 
+                                        class="action-btn"
+                                        [matMenuTriggerFor]="menu" 
+                                        (click)="$event.stopPropagation()"
+                                        matTooltip="See more options">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+            
+                                    <mat-menu yPosition="below" #menu="matMenu" class="more-options-mat-menu">
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onChangeSpouseInformation(row)">
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Make Changes</span>
+                                        </button>
+                                              
+                                        <hr />
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onRemoveSpouse(row)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Remove</span>
+                                        </button>
+            
+                                    </mat-menu>                                                  
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="spouseDisplayedColumns"></tr>
+                            <!-- <tr mat-row *matRowDef="let row; columns: spouseDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedCaseFile === row}" class="mat-data-row"></tr> -->
+                            <tr mat-row *matRowDef="let row; columns: spouseDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedSpouse === row}" class="mat-data-row"></tr>
+                        </table>
+
+                        <mat-paginator 
+                            #spousesPaginator
+                            [pageSize]="10"
+                            [pageSizeOptions]="[5, 10]">
+                        </mat-paginator>                    
+                    </div>                
+                </section>                
+                                       
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    [ngClass]="{'inline-processing-btn': processing}" 
+                    mat-raised-button 
+                    color="primary" 
+                    [disabled]="formPartA.invalid || processing" 
+                    (click)="onSaveDraft()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                    <span> Save Draft </span>
+                </button>
+
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>                
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>PART C</h3>
+                <p>Parents' Information</p>
+            </ng-template>
+
+            <form [formGroup]="formPartC">
+                <header 
+                    class="no-top-margin"
+                    matRipple
+                    (click)="showFathersDetails = !showFathersDetails"
+                    [ngClass]="{'expand-section': showFathersDetails }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Father's Details</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showFathersDetails }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzOtherName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzMaidenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzPreviousName">
+                    </mat-form-field>    
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzNIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Card Number <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzCardNumber">
+                    </mat-form-field>    
+                                           
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Type<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzCitizenshipType">
+                            <mat-option value="1">By Birth</mat-option>
+                            <mat-option value="2">By Registration</mat-option>
+                            <mat-option value="3">By Naturalization</mat-option>
+                            <mat-option value="4">Dual Citizenship</mat-option>
+                            <mat-option value="5">Citizenship acquired before 1995 Constitution other than the above stated</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Certificate Number <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="FatherzCitizenshipCertificateNumber">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+                        <mat-label>State Other CitizenShip <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="FatherzStateOtherCitizenShip">
+                    </mat-form-field>   
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Living Status<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="FatherzLivingStatus">
+                            <mat-option value="1">Alive</mat-option>
+                            <mat-option value="2">Deceased</mat-option>
+                            <mat-option value="3">Unknown</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+
+                    <!-- <mat-form-field appearance="outline" class="full-width"> -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Occupation <span class="optional-field">optional</span></mat-label>
+                        <textarea #CaseTitleInput matInput formControlName="FatherzOccupation" placeholder="For Example: Surgeon" maxlength="1000"></textarea>
+                        <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                        <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                    </mat-form-field>                                         
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showFatherzPlaceOfResidence = !showFatherzPlaceOfResidence"
+                    [ngClass]="{'expand-section': showFatherzPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Father's Place of Residence</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showFatherzPlaceOfResidence }">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzCountryOfResidence" [matAutocomplete]="autoFatherzCountryOfResidence">
+                        <mat-autocomplete #autoFatherzCountryOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherCountryOfResidence | async" [value]="item.CountryName" (click)="FatherzCountryOfResidenceCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzDistrictOfResidence" [matAutocomplete]="autoFatherzDistrictOfResidence">
+                        <mat-autocomplete #autoFatherzDistrictOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherDistrictOfResidence | async" [value]="item.DistrictName" (click)="FatherzDistrictOfResidenceDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzCountyOfResidence" [matAutocomplete]="autoFatherzCountyOfResidence">
+                        <mat-autocomplete #autoFatherzCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherCountyOfResidence | async" [value]="item.CountyName" (click)="onFatherzCountyOfResidence(item.CountyID); FatherzCountyOfResidenceCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                                 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzSubCountyOfResidence" [matAutocomplete]="autoFatherzSubCountyOfResidence">
+                        <mat-autocomplete #autoFatherzSubCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="FatherzSubCountyOfResidenceSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>            
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzParishOfResidence">
+                    </mat-form-field>                        
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzVillageOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Street <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzStreetOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Plot No. <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="FatherzHouseNoOfResidence">
+                    </mat-form-field>                                    
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showFatherzPlaceOfOrigin = !showFatherzPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showFatherzPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Father's Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showFatherzPlaceOfOrigin }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzCountryOfOrigin" [matAutocomplete]="autoFatherzCountryOfOrigin">
+                        <mat-autocomplete #autoFatherzCountryOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherCountryOfOrigin | async" [value]="item.CountryName" (click)="FatherzCountryOfOriginCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzDistrictOfOrigin" [matAutocomplete]="autoFatherzDistrictOfOrigin">
+                        <mat-autocomplete #autoFatherzDistrictOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherDistrictOfOrigin | async" [value]="item.DistrictName" (click)="FatherzDistrictOfOriginDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzCountyOfOrigin" [matAutocomplete]="autoFatherzCountyOfOrigin">
+                        <mat-autocomplete #autoFatherzCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherCountyOfOrigin | async" [value]="item.CountyName" (click)="onFatherzCountyOfOrigin(item.CountyID); FatherzCountyOfOriginCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                                 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="FatherzSubCountyOfOrigin" [matAutocomplete]="autoFatherzSubCountyOfOrigin">
+                        <mat-autocomplete #autoFatherzSubCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredFatherSubCountyOfOrigin | async" [value]="item.SubCountyName" (click)="FatherzSubCountyOfOriginSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                               
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzParishOfOrigin">
+                    </mat-form-field>  
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="FatherzVillageOfOrigin">
+                    </mat-form-field>                
+                </section>
+
+                <header
+                    matRipple
+                    (click)="showMotherzDetails = !showMotherzDetails"
+                    [ngClass]="{'expand-section': showMotherzDetails }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Mother's Details</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showMotherzDetails }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzOtherName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzMaidenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzPreviousName">
+                    </mat-form-field>    
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzNIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Card Number <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzCardNumber">
+                    </mat-form-field>    
+                                           
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Type<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzCitizenshipType">
+                            <mat-option value="1">By Birth</mat-option>
+                            <mat-option value="2">By Registration</mat-option>
+                            <mat-option value="3">By Naturalization</mat-option>
+                            <mat-option value="4">Dual Citizenship</mat-option>
+                            <mat-option value="5">Citizenship acquired before 1995 Constitution other than the above stated</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Certificate Number <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="MotherzCitizenshipCertificateNumber">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+                        <mat-label>State Other CitizenShip <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="MotherzStateOtherCitizenShip">
+                    </mat-form-field>   
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Living Status<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="MotherzLivingStatus">
+                            <mat-option value="1">Alive</mat-option>
+                            <mat-option value="2">Deceased</mat-option>
+                            <mat-option value="3">Unknown</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+
+                    <!-- <mat-form-field appearance="outline" class="full-width"> -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Occupation <span class="optional-field">optional</span></mat-label>
+                        <textarea #CaseTitleInput matInput formControlName="MotherzOccupation" placeholder="For Example: Surgeon" maxlength="1000"></textarea>
+                        <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                        <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                    </mat-form-field>                                         
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showMotherzPlaceOfResidence = !showMotherzPlaceOfResidence"
+                    [ngClass]="{'expand-section': showMotherzPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Mother's Place of Residence</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showMotherzPlaceOfResidence }">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzCountryOfResidence" [matAutocomplete]="autoMotherzCountryOfResidence">
+                        <mat-autocomplete #autoMotherzCountryOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherCountryOfResidence | async" [value]="item.CountryName" (click)="MotherzCountryOfResidenceCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzDistrictOfResidence" [matAutocomplete]="autoMotherzDistrictOfResidence">
+                        <mat-autocomplete #autoMotherzDistrictOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherDistrictOfResidence | async" [value]="item.DistrictName" (click)="MotherzDistrictOfResidenceDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzCountyOfResidence" [matAutocomplete]="autoMotherzCountyOfResidence">
+                        <mat-autocomplete #autoMotherzCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherCountyOfResidence | async" [value]="item.CountyName" (click)="onMotherzCountyOfResidence(item.CountyID); MotherzCountyOfResidenceCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                                 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzSubCountyOfResidence" [matAutocomplete]="autoMotherzSubCountyOfResidence">
+                        <mat-autocomplete #autoMotherzSubCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="MotherzSubCountyOfResidenceSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzParishOfResidence">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzVillageOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Street <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzStreetOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Plot No. <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="MotherzHouseNoOfResidence">
+                    </mat-form-field>                                    
+                </section>
+
+                <header 
+                    matRipple
+                    (click)="showMotherzPlaceOfOrigin = !showMotherzPlaceOfOrigin"
+                    [ngClass]="{'expand-section': showMotherzPlaceOfOrigin }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Mother's Place of Origin</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showMotherzPlaceOfOrigin }"> 
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzCountryOfOrigin" [matAutocomplete]="autoMotherzCountryOfOrigin">
+                        <mat-autocomplete #autoMotherzCountryOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherCountryOfOrigin | async" [value]="item.CountryName" (click)="MotherzCountryOfOriginCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzDistrictOfOrigin" [matAutocomplete]="autoMotherzDistrictOfOrigin">
+                        <mat-autocomplete #autoMotherzDistrictOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherDistrictOfOrigin | async" [value]="item.DistrictName" (click)="MotherzDistrictOfOriginDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzCountyOfOrigin" [matAutocomplete]="autoMotherzCountyOfOrigin">
+                        <mat-autocomplete #autoMotherzCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherCountyOfOrigin | async" [value]="item.CountyName" (click)="onMotherzCountyOfOrigin(item.CountyID); MotherzCountyOfOriginCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                                 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="MotherzSubCountyOfOrigin" [matAutocomplete]="autoMotherzSubCountyOfOrigin">
+                        <mat-autocomplete #autoMotherzSubCountyOfOrigin="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredMotherSubCountyOfOrigin | async" [value]="item.SubCountyName" (click)="MotherzSubCountyOfOriginSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                               
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzParishOfOrigin">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="MotherzVillageOfOrigin">
+                    </mat-form-field>                
+                </section>
+
+                <header
+                    matRipple
+                    (click)="showGuardianzDetails = !showGuardianzDetails"
+                    [ngClass]="{'expand-section': showGuardianzDetails }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>1st Adoptive / Guardian's Details</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showGuardianzDetails }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzOtherName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Occupation <span class="optional-field">optional</span></mat-label>
+                        <textarea #CaseTitleInput matInput formControlName="GuardianzOccupation" placeholder="For Example: Surgeon" maxlength="1000"></textarea>
+                        <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                        <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                    </mat-form-field>                     
+    
+                    <mat-form-field appearance="outline" hintLabel="A must for Foreigners">
+                        <mat-label>Passport Number <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzPassportNumber">
+                    </mat-form-field>    
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzNIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Alien ID Number (AIN) <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzAIN">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>ID Card Number <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzCardNumber">
+                    </mat-form-field>    
+                                           
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Type<span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="GuardianzCitizenshipType">
+                            <mat-option value="1">By Birth</mat-option>
+                            <mat-option value="2">By Registration</mat-option>
+                            <mat-option value="3">By Naturalization</mat-option>
+                            <mat-option value="4">Dual Citizenship</mat-option>
+                            <mat-option value="5">Citizenship acquired before 1995 Constitution other than the above stated</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Citizenship Certificate Number <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="GuardianzCitizenshipCertificateNumber">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline" hintLabel="If Dual, state the other Nationality ">
+                        <mat-label>State Other CitizenShip <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="GuardianzStateOtherCitizenShip">
+                    </mat-form-field>   
+                </section> 
+
+                <header 
+                    matRipple
+                    (click)="showGuardianzPlaceOfResidence = !showGuardianzPlaceOfResidence"
+                    [ngClass]="{'expand-section': showGuardianzPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Guardian's Place of Residence</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showGuardianzPlaceOfResidence }">             
+                    <mat-form-field appearance="outline">
+                        <mat-label>Country <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="GuardianzCountryOfResidence" [matAutocomplete]="autoGuardianzCountryOfResidence">
+                        <mat-autocomplete #autoGuardianzCountryOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredGuardianCountryOfResidence | async" [value]="item.CountryName" (click)="GuardianzCountryOfResidenceCountryID = item.CountryID">
+                                {{ item.CountryName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                        
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="GuardianzDistrictOfResidence" [matAutocomplete]="autoGuardianzDistrictOfResidence">
+                        <mat-autocomplete #autoGuardianzDistrictOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredGuardianDistrictOfResidence | async" [value]="item.DistrictName" (click)="GuardianzDistrictOfResidenceDistrictID = item.DistrictID">
+                                {{ item.DistrictName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="GuardianzCountyOfResidence" [matAutocomplete]="autoGuardianzCountyOfResidence">
+                        <mat-autocomplete #autoGuardianzCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredGuardianCountyOfResidence | async" [value]="item.CountyName" (click)="onGuardianzCountyOfResidence(item.CountyID); GuardianzCountyOfResidenceCountyID = item.CountyID">
+                                {{ item.CountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>                                 
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <input type="text" placeholder="Pick one" matInput formControlName="GuardianzSubCountyOfResidence" [matAutocomplete]="autoGuardianzSubCountyOfResidence">
+                        <mat-autocomplete #autoGuardianzSubCountyOfResidence="matAutocomplete">
+                            <mat-option *ngFor="let item of filteredGuardianSubCountyOfResidence | async" [value]="item.SubCountyName" (click)="GuardianzSubCountyOfResidenceSubCountyID = item.SubCountyID">
+                                {{ item.SubCountyName }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <mat-error *ngIf="form.get('HearingCourtID').invalid">{{ getSelectErrorMessage() }}</mat-error> -->
+                        <mat-hint>Choose from the dropdown.</mat-hint>
+                        <mat-icon matSuffix>arrow_drop_down</mat-icon>                         
+                    </mat-form-field>      
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzParishOfResidence">
+                    </mat-form-field>                      
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzVillageOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Street <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="GuardianzStreetOfResidence">
+                    </mat-form-field>                
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Plot No. <span class="optional-field">optional</span></mat-label>
+                        <input matInput formControlName="GuardianzHouseNoOfResidence">
+                    </mat-form-field>                                    
+                </section>                               
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    [ngClass]="{'inline-processing-btn': processing}" 
+                    mat-raised-button 
+                    color="primary" 
+                    [disabled]="formPartA.invalid || processing" 
+                    (click)="onSaveDraft()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                    <span> Save Draft </span>
+                </button>                
+
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>             
+        </mat-step>
+
+        <mat-step optional>
+            <ng-template matStepLabel>
+                <h3>PART D</h3>
+                <p>Children Registration.</p>                
+            </ng-template>
+
+            <form>
+
+                <h3 class="margin-bottom-20">Personal Information (Child being registered)</h3>
+                
+                <section class="expand-section reduced-properties table-wrapper">
+                    
+                    <button 
+                        mat-raised-button
+                        [disabled]="processing"
+                        class="add-item-button"
+                        (click)="onAddAChild()">
+                        <div class="button-label">
+                            <mat-icon>add</mat-icon>                            
+                            <span>Add A Child</span>
+                        </div>
+                    </button>
+                    
+                    <div class="table-wrapper">
+                        <table 
+                            mat-table 
+                            #childrenMatSort="matSort"
+                            matSortDisableClear="true"
+                            [dataSource]="childrenDataSource"
+                            matSort>
+            
+                            <ng-container matColumnDef="Count">
+                                <th mat-header-cell *matHeaderCellDef> # </th>
+                                <td mat-cell *matCellDef="let index = index"> {{ index + 1 }} </td>
+                            </ng-container>
+            
+                            <ng-container matColumnDef="Name">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+                                <td mat-cell *matCellDef="let row"> <b>
+                                    {{ row.Surname }} &nbsp; 
+                                    {{ row.GivenName ? ' ' + row.GivenName : '' }} 
+                                    {{ row.OtherName ? ' ' + row.OtherName : '' }} 
+                                    {{ row.MaidenName ? ' ' + row.MaidenName : '' }} 
+                                </b> </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="PreviousName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Previous Name </th>
+                                <td mat-cell *matCellDef="let row">{{ row.PreviousName }}</td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="ApplicationID">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Applcation ID </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.ApplicationID }} </td>
+                            </ng-container>          
+            
+                            <ng-container matColumnDef="Sex">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Sex </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.Sex }} </td>
+                            </ng-container>          
+
+                            <ng-container matColumnDef="DateOfBirth">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Date Of Birth</th>
+                                <td mat-cell *matCellDef="let row"> {{ row.DateOfBirth | date : 'EEE, MMM d, y' }} </td>
+                            </ng-container>                             
+            
+                            <ng-container matColumnDef="PlaceOfBirth">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Place of Birth </th>
+                                <td mat-cell *matCellDef="let row"> {{ row.PlaceOfBirth }} </td>
+                            </ng-container>          
+            
+                            <!-- Actions Column -->
+                            <ng-container matColumnDef="Actions">
+                                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <button 
+                                        mat-button 
+                                        class="action-btn"
+                                        [matMenuTriggerFor]="menu" 
+                                        (click)="$event.stopPropagation()"
+                                        matTooltip="See more options">
+                                        <mat-icon>more_vert</mat-icon>
+                                    </button>
+            
+                                    <mat-menu yPosition="below" #menu="matMenu" class="more-options-mat-menu">
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onChangeChildInformation(row)">
+                                            <mat-icon>edit</mat-icon>
+                                            <span>Make Changes</span>
+                                        </button>
+                                              
+                                        <hr />
+            
+                                        <button 
+                                            mat-menu-item 
+                                            (click)="$event.stopPropagation();onRemoveChild(row)">
+                                            <mat-icon>delete</mat-icon>
+                                            <span>Remove</span>
+                                        </button>
+            
+                                    </mat-menu>                                                  
+                                </td>
+                            </ng-container>
+            
+                            <tr mat-header-row *matHeaderRowDef="childrenDisplayedColumns"></tr>
+                            <!-- <tr mat-row *matRowDef="let row; columns: childrenDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedCaseFile === row}" class="mat-data-row"></tr> -->
+                            <tr mat-row *matRowDef="let row; columns: childrenDisplayedColumns;" [ngClass]="{'selected-mat-data-row': selectedSpouse === row}" class="mat-data-row"></tr>
+                        </table>
+
+                        <mat-paginator 
+                            #childrenPaginator
+                            [pageSize]="10"
+                            [pageSizeOptions]="[5, 10]">
+                        </mat-paginator>                    
+                    </div>                     
+                                    
+                </section>                
+
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+
+                <button 
+                    [ngClass]="{'inline-processing-btn': processing}" 
+                    mat-raised-button 
+                    color="primary" 
+                    [disabled]="formPartA.invalid || processing" 
+                    (click)="onSaveDraft()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                    <span> Save Draft </span>
+                </button>  
+
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>              
+        </mat-step>
+
+        <mat-step label="PART E" optional>
+            <ng-template matStepLabel>
+                <h3>PART E</h3>
+                <p>Declaration of Birth & Child Particulars</p>                
+            </ng-template>
+
+            <form [formGroup]="formPartE">
+
+                <section [ngStyle]="{'padding': '5px 15px 20px'}" class="no-bottom-border expand-section two-columns">
+
+                    <mat-checkbox
+                        class="full-width"
+                        color="primary"
+                        [required]="'false'"
+                        formControlName="DeclarationCheckbox"
+                        [checked]="estimatedDOB">
+                        I declare that the information above to the birth of the child / applicant
+                        and particulars above is true and correct and that I know this of my 
+                        own knowledge.
+                    </mat-checkbox> 
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Name of Declarant <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="DeclarationName">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date of Declaration <span class="required-field">required</span></mat-label>
+                        <input color="accent" matInput [max]="maxDate" placeholder="Enter the date of declaration" formControlName="DeclarationDate" [matDatepicker]="dobDeclaration">
+                        <mat-datepicker-toggle matSuffix [for]="dobDeclaration"></mat-datepicker-toggle>
+                        <mat-datepicker #dobDeclaration disabled="false"></mat-datepicker>
+                        <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                        <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                    </mat-form-field>                      
+
+                </section>
+
+                <header 
+                    class="no-top-margin"
+                    matRipple
+                    (click)="showApplicantzPersonalInformation = !showApplicantzPersonalInformation"
+                    [ngClass]="{'expand-section': showApplicantzPersonalInformation }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Applicant's Personal Information (<span>If Child, Person registering the Child</span>)</h3>
+                </header>
+
+                <section class="no-bottom-border" [ngClass]="{'expand-section': showApplicantzPersonalInformation }">    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Surname <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantSurname">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantGivenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantOtherName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Maiden Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantMaidenName">
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Previous Name <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantPreviousName">
+                    </mat-form-field>    
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Nationality <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantNationality">
+                    </mat-form-field>             
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label> Residence Status <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ApplicantResidenceStatus">
+                            <mat-option value="1">Citizen</mat-option>
+                            <mat-option value="2">Alien Residenct</mat-option>
+                            <mat-option value="3">Foreigner</mat-option>
+                        </mat-select>
+                    </mat-form-field>    
+    
+                    <!-- Allow multiple selection -->
+                    <mat-form-field appearance="outline">
+                        <mat-label> Support Documents <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ApplicantSupportDocuments" multiple>
+                            <mat-option value="1">Passport</mat-option>
+                            <mat-option value="2">National ID Card</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>National ID <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantNIN">
+                    </mat-form-field>          
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Alien ID <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantAIN">
+                    </mat-form-field>                      
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sex <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ApplicantSex">
+                            <mat-option value="1">Male</mat-option>
+                            <mat-option value="2">Female</mat-option>
+                        </mat-select>
+                    </mat-form-field>           
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Date of Birth <span class="required-field">required</span></mat-label>
+                        <input color="accent" matInput [max]="maxDate" placeholder="Enter your date of marriage" formControlName="ApplicantDateOfBirth" [matDatepicker]="dobApplicant">
+                        <mat-datepicker-toggle matSuffix [for]="dobApplicant"></mat-datepicker-toggle>
+                        <mat-datepicker #dobApplicant disabled="false"></mat-datepicker>
+                        <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                        <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                    </mat-form-field>                                          
+                
+                    <mat-form-field appearance="outline">
+                        <mat-label>Applicant's Role/Capacity <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="ApplicantRole">
+                            <mat-option value="1">Mother</mat-option>
+                            <mat-option value="2">Father</mat-option>
+                            <mat-option value="3">Guardian</mat-option>
+                            <mat-option value="3">Others</mat-option>
+                        </mat-select>
+                    </mat-form-field> 
+
+                    <mat-form-field appearance="outline">
+                        <mat-label>If Others, Please specify <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantRoleOtherSpecify">
+                    </mat-form-field>                    
+
+                    <mat-form-field appearance="outline" hintLabel="Where the child is being registered from.">
+                        <mat-label>Name of the School <span class="optional-field">optional</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="ApplicantSchoolName">
+                    </mat-form-field>                                                            
+                </section>
+
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                
+                <button 
+                    [ngClass]="{'inline-processing-btn': processing}" 
+                    mat-raised-button 
+                    color="primary" 
+                    [disabled]="formPartA.invalid || processing" 
+                    (click)="onSaveDraft()">
+                    <app-inline-mat-spinner *ngIf="processing"></app-inline-mat-spinner>                  
+                    <span> Save Draft </span>
+                </button>  
+
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>              
+        </mat-step>
+
+        <!-- <mat-step>
+            <ng-template matStepLabel>
+                <h3>Last Step</h3>
+            </ng-template>
+
+            <p>You are now done.</p>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+            </div>              
+        </mat-step> -->
+
+    </mat-horizontal-stepper>          
+
+</main>

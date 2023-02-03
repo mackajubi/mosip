@@ -1,0 +1,153 @@
+<footer>
+
+    <article>
+
+        <section class="about-nira">
+    
+            <h3>About NIRA</h3>
+    
+            <div class="wrapper">
+    
+                <img src="./assets/exports/nira_logo_white@2x.png" />
+    
+                <p>
+                    The Mandate of NIRA is to create, manage, maintain & operationeralise the National Identification Register by registering all citizens of Uganda,
+                    registering non-citizens of Uganda who are lawfully residents in Uganda, registering births and deaths, assigning a unique 
+                    National Identification Number to every person registered.
+                </p>
+    
+                <div class="social-media">
+                    <ul>
+                        <li>
+                            <a href="https://www.facebook.com/NIRAUGANDA/" target="_blank">
+                                <img src="./assets/exports/facebook.png" alt="">
+                            </a>
+                        </li>
+    
+                        <li>
+                            <a href="https://twitter.com/NIRA_Ug" target="_blank">
+                                <img src="./assets/exports/twitter.png" alt="">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+    
+            </div>
+    
+        </section>
+    
+        <section class="quick-links">
+    
+            <h3>Services & Forms</h3>
+    
+            <ul class="footer-list">
+                <li>
+                    <a 
+                        target="_blank"
+                        href="{{ mediaProxy }}/2021/05/FORM2-Request-to-Confirm-Information-in-the-register.pdf">
+                        Form 2: Request to confirm information in the Register
+                    </a>
+                </li>
+                
+                <li>
+                    <a 
+                        href="{{ mediaProxy }}/2021/05/FORM3-NOTICE-OF-BIRTH-OF-A-CHILD-2.pdf"
+                        target="_blank">
+                        Notice of Birth of a Child.
+                    </a>
+                </li>
+                
+                <li>
+                    <a 
+                        href="{{ mediaProxy }}/2021/05/Form-11-Application-to-Register-Presumed-Death_Form-111.pdf"
+                        target="_blank">
+                        Form 11: Application to register presumed death
+                    </a>
+                </li>
+                
+                <li>
+                    <a 
+                        href="{{ mediaProxy }}/2021/05/Form-12-Notification-of-Death1.pdf"
+                        target="_blank">
+                        Form 12: Notification of Death.
+                    </a>
+                </li>
+                
+                <li>
+                    <a 
+                        href="{{ mediaProxy }}/2021/05/Form-13-Certificate-of-Cause-of-Death1.pdf"
+                        target="_blank">
+                        Form 13: Certificate of cause of Death
+                    </a>
+                </li>
+                
+                <li>
+                    <a 
+                        href="{{ mediaProxy }}/2021/05/Form-5-Notice-of-Intention-of-Change-of-Name-of-Adult-2.pdf"
+                        target="_blank">
+                        Form 5: Notice of Intention of Change of Name of Adult
+                    </a>
+                </li>
+                             
+            </ul>        
+    
+        </section>
+    
+        <section class="latest-news">
+    
+            <h3>Latest News</h3>
+    
+            <div class="wrapper">
+    
+                <div 
+                    matRipple
+                    (click)="onReadMore(news)" 
+                    *ngFor="let news of latestNews" 
+                    class="latest-news-post">
+                    <div>
+                        <img [src]="news.imageSrc" alt="" />
+                    </div>
+    
+                    <span>{{ news.datePublished | date : 'MMMM dd, y'}}</span>
+    
+                    <h2 [innerHTML]="news.title | textShortner : 80"></h2>
+                </div>
+    
+            </div>
+    
+        </section>
+    
+        <section class="explore">
+    
+            <h3>Explore</h3>
+    
+            <div class="wrapper">
+                <a routerLink="/publications" (click)="onScrollToTop()" mat-raised-button>Publications</a>
+    
+                <a routerLink="/fees" (click)="onScrollToTop()" mat-raised-button>Fees</a>
+    
+                <a routerLink="/news" (click)="onScrollToTop()" mat-raised-button>News</a>
+    
+                <a routerLink="/tenders" (click)="onScrollToTop()" mat-raised-button>Tenders</a>
+    
+                <a routerLink="/about-nira/edz-message" (click)="onScrollToTop()" mat-raised-button>Eds Message</a>
+    
+                <a routerLink="/careers" (click)="onScrollToTop()" mat-raised-button>Careers</a>
+    
+                <a href="http://mia.go.ug" target="_blank" mat-raised-button>Ministry Of Internal Affairs</a>
+    
+                <a href="https://ursb.go.ug" target="_blank" mat-raised-button>URSB</a>
+            </div>        
+    
+        </section>
+
+    </article>
+
+    <!-- <div class="copy-right" [ngClass]="{'in-mobile-browser': inMobileBrowser}"> -->
+    <div class="copy-right">
+        <p>
+            Copyright &copy; 2015 - {{ currentYear }} National Identification & Registration Authority.
+        </p>          
+    </div>    
+
+</footer>

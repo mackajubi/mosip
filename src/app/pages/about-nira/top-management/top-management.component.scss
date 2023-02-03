@@ -1,0 +1,77 @@
+main {
+    max-width: 100%;
+    width: 1170px;
+    margin: auto;
+    padding: 60px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+
+    article {
+        // display: grid;
+        // grid-template-columns: repeat(auto-fit, minmax(216px, 1fr));
+        // gap: 20px;
+        // justify-content: center;
+        // justify-items: center;
+        justify-content: center;
+        display: flex;
+        gap: 50px;        
+
+        section {
+            background-color: #fff;
+            padding: 7px;
+            box-shadow: 0px 2px 2px -1px #000000a1;
+
+            div.image-wrapper {
+                background-color: #DFDFDF;
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                justify-content: flex-start;
+                padding-top: 30px;
+                overflow: hidden;
+                height: 190px;
+                height: 200px;
+                border-radius: 4px;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            div.name-role {
+                display: flex;
+                flex-direction: column;
+                gap: 7px;
+                align-content: center;
+                align-items: center;
+                width: 106%;
+                margin-left: -7px;
+                padding: 22px 0px 12px;            
+
+                h1 {
+                    color: #111111;
+                    font-size: 17px;
+                    margin: 0px;
+                    font-weight: lighter;
+                    text-align: center;
+                    padding: 0px 5px;
+                }
+
+                p {
+                    color: #C8424E;
+                    text-transform: uppercase;
+                    font-size: 13px;
+                    font-weight: 500;
+                    margin: 0px;
+                }
+            }
+        }
+    }
+
+    // article.chairperson {
+    //     display: flex;
+    //     flex-direction: row;
+    //     justify-content: center;
+    // }
+}

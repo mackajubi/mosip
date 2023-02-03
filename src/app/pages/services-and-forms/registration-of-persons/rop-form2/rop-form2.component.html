@@ -1,0 +1,296 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                <!-- Ask for your previously captured partial form information. -->
+                Ask for your previously captured form information.
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to submit a REQUEST TO CONFIRM INFORMATION IN THE REGISTER.
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper 
+        [linear]="isLinear" 
+        labelPosition="bottom" #stepper>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>APPLICANT</h3>
+                <p>In what capacity are you applying ?</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart1">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Type of Applicant <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="TypeOfApplicant">
+                        <mat-option value="2">Individual</mat-option>
+                        <mat-option value="1">Insitution</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <!-- Activate the correct step based on the applicant. -->
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>INDIVIDUAL</h3>
+                <p>Information about the individual.</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart2">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="IndividualSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="IndividualGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="IndividualOtherName">
+                </mat-form-field>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>National ID Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="IndividualNIN">
+                </mat-form-field>                                                  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="IndividualCardNumber">
+                </mat-form-field>      
+                
+                <header 
+                    matRipple
+                    (click)="showIndividualPlaceOfResidence = !showIndividualPlaceOfResidence"
+                    [ngClass]="{'expand-section': showIndividualPlaceOfResidence }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Place of Residence (Where do you stay ?)</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showIndividualPlaceOfResidence }">                
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="IndividualDistrictOfResidence">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="IndividualCountyOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="IndividualSubCountyOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="IndividualParishOfResidence">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="IndividualVillageOfResidence">
+                    </mat-form-field>                    
+                </section>                
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>INSTITUTION</h3>
+                <p>Information about the institution.</p>                
+            </ng-template>
+
+            <form [formGroup]="formPart3">
+                <mat-form-field appearance="outline">
+                    <mat-label>Name of the Institution <span class="required-field">required</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="InstitutionName" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>                   
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Official Telephone Number <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="InstitutionTelephoneNumber">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Official Email Address <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="InstitutionEmailAddress">
+                </mat-form-field>
+                
+                <header 
+                    matRipple
+                    (click)="showInstitutionLocation = !showInstitutionLocation"
+                    [ngClass]="{'expand-section': showInstitutionLocation }">
+                    <div>
+                        <mat-icon>arrow_right</mat-icon>
+                    </div>
+
+                    <h3>Location of the Institution (Where can we find the Institution ?)</h3>
+                </header>
+
+                <section [ngClass]="{'expand-section': showInstitutionLocation }">
+                    <mat-form-field appearance="outline">
+                        <mat-label>District <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="InstitutionDistrictOfAddress">
+                            <mat-option value="1">Kampala</mat-option>
+                            <mat-option value="2">Wakiso</mat-option>
+                            <mat-option value="3">Entebbe</mat-option>
+                            <mat-option value="4">Jinja</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="InstitutionCountyOfAddress">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>                  
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="InstitutionSubCountyOfAddress">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                        <mat-select formControlName="InstitutionParishOfAddress">
+                            <mat-option value="1">Uganda</mat-option>
+                            <mat-option value="2">Kenya</mat-option>
+                            <mat-option value="3">Tanzania</mat-option>
+                            <mat-option value="4">England</mat-option>
+                        </mat-select>
+                    </mat-form-field>            
+                    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Village <span class="required-field">required</span></mat-label>
+                        <input appRemoveSpaces matInput formControlName="InstitutionVillageOfAddress">
+                    </mat-form-field>                    
+                </section>                
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>                
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>REQUEST</h3>
+                <p>Information required to be confirmed.</p>
+            </ng-template>
+
+            <form [formGroup]="formPart3">                
+                <mat-form-field appearance="outline">
+                    <mat-label>Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="Name">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Birth <span class="optional-field">optional</span></mat-label>
+                    <input color="accent" matInput [max]="maxDate" placeholder="Enter the date of birth" formControlName="DateOfBirth" [matDatepicker]="dob">
+                    <mat-datepicker-toggle matSuffix [for]="dob"></mat-datepicker-toggle>
+                    <mat-datepicker #dob disabled="false"></mat-datepicker>
+                    <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="NationalIdentificationNumber">
+                </mat-form-field>       
+                
+                <mat-form-field appearance="outline" class="full-width" hintLabel="State why you need to confirm the information in respect of the persons' list">
+                    <mat-label>Reason <span class="optional-field">optional</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="Reason" placeholder="Enter the reason for request" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>                  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>             
+        </mat-step>
+    </mat-horizontal-stepper>          
+
+</main>

@@ -1,0 +1,225 @@
+<app-page-banner [title]="title" [subTitle]="subTitle"></app-page-banner> 
+
+<main>
+
+    <section class="top-header-section">
+
+        <div>
+
+            <h3>
+                Ask for your previously captured form information.
+                <!-- Ask for your previously captured partial form information. -->
+            </h3>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Draft Reference Number <span class="required-field">required</span></mat-label>
+                <input appRemoveSpaces matInput [formControl]="DraftReferenceNumber">
+            </mat-form-field>  
+            
+            <button mat-raised-button (click)="onGetSavedDraft()">
+                Send
+            </button>
+
+        </div>
+
+    </section>
+
+    <header class="main-header">
+
+        <p>
+            Please use the form below to register for the CERTIFICATE OF CAUSE OF DEATH. 
+            Fill in all the fields that are marked required. In-case you captured some of your information and you
+            saved a draft. Please enter your draft reference number above to retrieve the information.
+        </p>
+
+    </header>
+
+    <mat-horizontal-stepper [linear]="isLinear" labelPosition="bottom" #stepper>
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>MEDICAL OFFICER</h3>
+                <p>Information about the Medical Officer</p>                
+            </ng-template>
+
+            <form [formGroup]="formMedicalOfficer">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerOtherName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerNIN">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number<span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerCardNumber">
+                </mat-form-field>                 
+
+                <mat-form-field appearance="outline" hintLabel="The name of your Hospital.">
+                    <mat-label>Name of Hospital <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="MedicalOfficerHospital">
+                </mat-form-field>            
+            </form>
+
+            <div class="button-wrapper single-button">
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>HOSPITAL'S ADDRESS</h3>
+                <p>Where can we find the Hospital ?</p>                
+            </ng-template>
+
+            <form [formGroup]="formHospital">
+                <mat-form-field appearance="outline">
+                    <mat-label>District <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HospitalDistrictOfLocation">
+                        <mat-option value="1">Kampala</mat-option>
+                        <mat-option value="2">Wakiso</mat-option>
+                        <mat-option value="3">Entebbe</mat-option>
+                        <mat-option value="4">Jinja</mat-option>
+                    </mat-select>
+                </mat-form-field>  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>County <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HospitalCountyOfLocation">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Sub County <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HospitalSubCountyOfLocation">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>                  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Parish / Ward <span class="required-field">required</span></mat-label>
+                    <mat-select formControlName="HospitalParishOfLocation">
+                        <mat-option value="1">Uganda</mat-option>
+                        <mat-option value="2">Kenya</mat-option>
+                        <mat-option value="3">Tanzania</mat-option>
+                        <mat-option value="4">England</mat-option>
+                    </mat-select>
+                </mat-form-field>            
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Village <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="HospitalVillageOfLocation">
+                </mat-form-field>  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>                
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>DECEASED</h3>
+                <p>Information about the Deceased.</p> 
+            </ng-template>
+
+            <form [formGroup]="formDeceased">
+                <mat-form-field appearance="outline">
+                    <mat-label>Surname <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedSurname">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Given Name <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedGivenName">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Other Name <span class="optional-field">optional</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedOtherName">
+                </mat-form-field>    
+
+                <mat-form-field appearance="outline">
+                    <mat-label>National Identification Number (NIN) <span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedNIN">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Card Number<span class="required-field">required</span></mat-label>
+                    <input appRemoveSpaces matInput formControlName="DeceasedCardNumber">
+                </mat-form-field>    
+                
+                <h3 class="margin-bottom-20">When did you start attending to the Deceased ? </h3>
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Started On <span class="required-field">required</span></mat-label>
+                    <input color="accent" matInput [max]="maxDate" formControlName="StartDate" [matDatepicker]="sd">
+                    <mat-datepicker-toggle matSuffix [for]="sd"></mat-datepicker-toggle>
+                    <mat-datepicker #sd disabled="false"></mat-datepicker>
+                    <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>  
+                
+                <mat-form-field appearance="outline">
+                    <mat-label>Date of Death <span class="required-field">required</span></mat-label>
+                    <input color="accent" matInput [max]="maxDate" formControlName="DateOfDeath" [matDatepicker]="dod">
+                    <mat-datepicker-toggle matSuffix [for]="dod"></mat-datepicker-toggle>
+                    <mat-datepicker #dod disabled="false"></mat-datepicker>
+                    <!-- <mat-error *ngIf="step2FormGroup.get('dateOfBirth').invalid">{{ getDateOfBirthErrorMessage() }}</mat-error>     -->
+                    <mat-hint align="end">Use the icon above to choose a date</mat-hint>
+                </mat-form-field>  
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>                
+                <button mat-button class="next-btn" color="primary" matStepperNext>Next</button>
+            </div>            
+        </mat-step>
+
+        <mat-step>
+            <ng-template matStepLabel>
+                <h3>CAUSE OF DEATH</h3>
+                <p>An explanation about the cause of death.</p> 
+            </ng-template>
+
+            <form [formGroup]="formCauseOfDeath">
+                <mat-form-field appearance="outline" class="span-2-columns">
+                    <mat-label>Cause of Death <span class="required-field">required</span></mat-label>
+                    <textarea #CaseTitleInput matInput formControlName="CauseOfDeath" maxlength="1000"></textarea>
+                    <mat-hint align="end">{{ CaseTitleInput.value.length }} / 1000</mat-hint>
+                    <!-- <mat-error *ngIf="form.get('CaseTitle').invalid">{{ getCaseTitleErrorMessage() }}</mat-error>      -->
+                </mat-form-field>   
+            </form>
+
+            <div class="button-wrapper">
+                <button mat-button class="back-btn" matStepperPrevious>Back</button>
+                <button mat-raised-button color="primary" (click)="onSaveDraft()">Save Draft</button>                
+                <button mat-raised-button color="primary" (click)="onSubmit()">Submit to NIRA</button>
+            </div>            
+        </mat-step>               
+
+    </mat-horizontal-stepper>          
+
+</main>

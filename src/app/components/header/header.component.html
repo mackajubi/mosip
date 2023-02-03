@@ -50,38 +50,6 @@
                     Home
             </button>            
         </li>
-
-        <li>
-            <button
-                mat-button
-                [ngClass]="{'active-route': activeDropdown === 'about-nira'}"
-                routerLinkActive="active-route">
-                <div class="btn-label">
-                    <span>About NIRA</span>
-                    <mat-icon>arrow_drop_down</mat-icon>
-                </div>
-            </button>      
-            
-            <ul role="menu" class="dropdown-menu fadeInUp _delay5ms">
-                <li class="menu-item">
-                    <a (click)="onGoToTop('about-nira')" routerLink="/about-nira/board-of-directors" routerLinkActive="active-route">
-                        Board Of Directors
-                    </a>
-                </li>
-
-                <!-- <li class="menu-item">
-                    <a (click)="onGoToTop('about-nira')" routerLink="/about-nira/chairmanz-message-board-of-directors" routerLinkActive="active-route">
-                        Chairman's Message
-                    </a>
-                </li> -->
-
-                <li class="menu-item">
-                    <a (click)="onGoToTop('about-nira')" routerLink="/about-nira/edz-message" routerLinkActive="active-route">
-                        ED's Message
-                    </a>
-                </li>                  
-            </ul>            
-        </li>
         
         <li class="services-and-forms-li">
             <button
@@ -101,20 +69,20 @@
                         <h3>Registration of Persons</h3>
     
                         <ul>          
-                            <!-- <li>
+                            <li>
                                 <button 
                                     mat-button
                                     matTooltip="Fill in this form online."
-                                    routerLink="/services-and-forms/registration-of-persons-form-1" 
+                                    routerLink="/services-and-forms/registration-of-persons-form-3" 
                                     routerLinkActive="active-route"
                                     (click)="onGoToTop('services-and-forms')">
                                     <div class="btn-label">
                                         <mat-icon class="online">edit</mat-icon>
-                                        <h4>Form 1</h4>
-                                        <span>Notification of Change / Error in Information in the Register</span>
+                                        <h4>Form 3</h4>
+                                        <span>Registration of persons</span>
                                     </div>
                                 </button>
-                            </li> -->
+                            </li>
 
                             <li>
                                 <button mat-button>
@@ -126,58 +94,6 @@
                                         <h4>Form 1</h4>
                                         <span>Notification of Change / Error in Information in the Register</span>
                                     </a>
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/FORM2-Request-to-Confirm-Information-in-the-register.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 2: Request to Confirm Information in the Register">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 2</h4>
-                                        <span>Request to Confirm Information in the Register</span>
-                                    </a>
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2022/04/FORM-8-Authorization-form.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 8: Authorization Form">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 8</h4>
-                                        <span>Authorization Form</span>
-                                    </a>                                  
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/FORM11-Application-for-replacement-of-lost-defaced-or-damaged-National-ID-card.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 11: Application for Replacement of Lost Defaced or Damaged National ID Card">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 11</h4>
-                                        <span>Application for Replacement of Lost Defaced or Damaged National ID Card</span>
-                                    </a>                                  
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2023/01/Citizenship-Review-Form.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 11: Application for Replacement of Lost Defaced or Damaged National ID Card">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Citizenship Verification Review Form</h4>
-                                        <span>Application for Citizenship Verification Review</span>
-                                    </a>                                  
                                 </button>
                             </li>
                         </ul>
@@ -202,32 +118,6 @@
                                 </button>
                             </li>
 
-                            <!-- <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/FORM3-NOTICE-OF-BIRTH-OF-A-CHILD-2.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 3: Notice of Birth of a Child">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 3</h4>
-                                        <span>Notice of Birth of a Child</span>
-                                    </a>  
-                                </button>
-                            </li> -->
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-5-Notice-of-Intention-of-Change-of-Name-of-Adult-2.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 5: Notice of Intention of Change of Name of Adult">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 5</h4>
-                                        <span>Notice of Intention of Change of Name of Adult</span>
-                                    </a>  
-                                </button>
-                            </li>
-                            
                             <li>
                                 <button mat-button>
                                     <a href="{{ baseURL }}/2021/05/Form-6-Application-to-the-Change-a-Name-of-Child-3.pdf"
@@ -241,31 +131,6 @@
                                 </button>
                             </li>
 
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-7-Application-to-Change-Name-of-a-Child1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 7: Application to change Name of a Child">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 7</h4>
-                                        <span>Application to change Name of a Child</span>
-                                    </a>                                  
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-8-Application-to-Update-Register-After-Operation-of-Hermaphrodite1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 8: Application to update register after operation of Hermaphrodite">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 8</h4>
-                                        <span>Application to update register after operation of Hermaphrodite</span>
-                                    </a>                                  
-                                </button>
-                            </li>
                         </ul>
                     </div>
     
@@ -286,19 +151,6 @@
                                 </button>
                             </li>
 
-                            <!-- <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-12-Notification-of-Death1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 12: Notification of Death">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 12</h4>
-                                        <span>Notification of Death</span>
-                                        </a>  
-                                </button>
-                            </li> -->
-
                             <li>
                                 <button 
                                     mat-button
@@ -313,147 +165,11 @@
                                         </div>
                                 </button>
                             </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-13-Certificate-of-Cause-of-Death1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 13: Certificate of cause of Death">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 13</h4>
-                                        <span>Certificate of cause of Death</span>
-                                    </a>                                  
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-15-Application-for-a-Certified-Copy-of-Entry-in-the-Register-of-Birth-and-Death1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 15: Application For A Certified Copy Of Entry In The Register Of Birth And Death">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 15</h4>
-                                        <span>Application For A Certified Copy Of Entry In The Register Of Birth And Death</span>
-                                    </a>                                  
-                                </button>
-                            </li>
-
-                            <li>
-                                <button mat-button>
-                                    <a href="{{ baseURL }}/2021/05/Form-16-Application-to-Inspect-Register-Obtain-a-Copy-of-Entry-In-Register1.pdf"
-                                        target="_blank"
-                                        matTooltip="Download the form"
-                                        download="Form 16: Application To Inspect Register Obtain A Copy Of Entry In Register">
-                                        <mat-icon>cloud_download</mat-icon>
-                                        <h4>Form 16</h4>
-                                        <span>Application To Inspect Register Obtain A Copy Of Entry In Register</span>
-                                        </a>                                  
-                                </button>
-                            </li>
                         </ul>
                     </div>
                 </nav>
             </section>
-        </li>  
-
-        <li class="fees-li">
-            <button
-                mat-button
-                routerLink="/fees" 
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Fees
-            </button>            
-        </li>             
-        
-        <li class="news-li">
-            <button
-                mat-button
-                routerLink="/news" 
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    News
-            </button>            
-        </li>      
-        
-        <!-- <li class="gallery-li disabled">
-            <button
-                mat-button
-                disabled="true"
-                routerLink="/gallery-photos" 
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Gallery
-            </button>            
-        </li>       -->
-        
-        <!-- <li>
-            <button
-                mat-button
-                routerLinkActive="active-route">
-                    <div class="btn-label">
-                        <span>Gallery</span>
-                        <mat-icon>arrow_drop_down</mat-icon>
-                    </div>
-            </button>      
-            
-            <ul role="menu" class="dropdown-menu fadeInUp _delay5ms">
-                <li class="menu-item">
-                    <a (click)="onGoToTop()" routerLink="/gallery-photos" routerLinkActive="active-route">
-                        Photos
-                    </a>
-                </li>
-
-                <li class="menu-item">
-                    <a (click)="onGoToTop()" routerLink="/gallery-videos" routerLinkActive="active-route">
-                        Videos
-                    </a>
-                </li>                   
-            </ul>            
-        </li>           -->
-        
-        <li class="tenders-li">
-            <button
-                mat-button
-                routerLink="/tenders"
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Tenders
-            </button>            
-        </li>      
-        
-        <li class="publications-li">
-            <button
-                mat-button
-                routerLink="/publications" 
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Publications
-            </button>            
-        </li>    
-
-        <li class="careers-li">
-            <button
-                mat-button
-                routerLink="/careers"
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Careers
-            </button>            
-        </li>            
-
-        <!-- <li class="disabled">
-            <button
-                mat-button
-                disabled="true"
-                routerLink="/procedures" 
-                (click)="onGoToTop()"
-                routerLinkActive="active-route">
-                    Procedures
-            </button>            
-        </li>    -->            
+        </li>                    
         
         <li class="contact-us-li">
             <button
@@ -487,61 +203,9 @@
 
     <button
         mat-menu-item 
-        class="about-us-li main-menu-btn"
-        [matMenuTriggerFor]="aboutUsMenu">
-        <span>About NIRA</span>
-    </button>
-
-    <button
-        mat-menu-item 
         (click)="onGoToTop()"
         class="services-and-forms-li main-menu-btn">
         <span>Services & Forms</span>
-    </button>
-
-    <button
-        mat-menu-item 
-        (click)="onGoToTop()"
-        class="fees-li main-menu-btn"
-        routerLink="/fees" 
-        routerLinkActive="active-route">
-        <span>Fees</span>
-    </button>
-
-    <button
-        mat-menu-item 
-        (click)="onGoToTop()"
-        class="news-li main-menu-btn"
-        routerLink="/news" 
-        routerLinkActive="active-route">
-        <span>News</span>
-    </button>
-
-    <button
-        mat-menu-item 
-        (click)="onGoToTop()"
-        class="tenders-li main-menu-btn"
-        routerLink="/tenders" 
-        routerLinkActive="active-route">
-        <span>Tenders</span>
-    </button>
-
-    <button
-        mat-menu-item 
-        (click)="onGoToTop()"
-        class="publications-li main-menu-btn"
-        routerLink="/publications" 
-        routerLinkActive="active-route">
-        <span>Publications</span>
-    </button>
-
-    <button
-        mat-menu-item 
-        (click)="onGoToTop()"
-        class="careers-li main-menu-btn"
-        routerLink="/careers" 
-        routerLinkActive="active-route">
-        <span>Careers</span>
     </button>
 
     <button
@@ -552,24 +216,4 @@
         routerLinkActive="active-route">
         <span>Contact Us</span>
     </button>
-</mat-menu> 
-
-<mat-menu yPosition="below" xPosition="before" #aboutUsMenu="matMenu" class="nira-header-mat-menu">
-    <button 
-        title="Board Of Directors" 
-        routerLink="/about-nira/board-of-directors" 
-        (click)="onGoToTop()"
-        routerLinkActive="active-route"  
-        mat-menu-item>
-        <span>Board Of Directors</span>
-    </button>
-
-    <!-- <button
-        title="Directorates"
-        (click)="onGoToTop()"
-        routerLinkActive="active-route"
-        [matMenuTriggerFor]="directoratesMenu"
-        mat-menu-item>
-        <span>Directorates</span>
-    </button> -->
 </mat-menu> 

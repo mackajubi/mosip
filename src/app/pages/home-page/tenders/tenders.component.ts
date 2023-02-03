@@ -5,7 +5,15 @@ import { Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { ApiEndpointsService } from 'src/app/services/api-endpoints.service';
 import { ApiService } from 'src/app/services/api.service';
-import { Tender } from '../../tenders/tenders.component';
+
+export interface Tender {
+  id: number;
+  tenderName: string;
+  datePublished: Date;
+  tags?: string[],
+  url: string;
+  slug: string; 
+}
 
 @Component({
   selector: 'app-tenders',
